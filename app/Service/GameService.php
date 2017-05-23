@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Connector\WolniFarmerzyConnector;
+use App\Field;
 use App\Player;
 use App\Space;
 
@@ -53,8 +54,36 @@ class GameService
                         $space->save();
                     }
                     $this->spaces[] = $space;
+
+                    $fieldsData = $this->connector->getSpaceFields($space);
+                    $fields = $fieldsData['datablock'][1];
+
+                    if ($fields == 0) {
+                        continue;
+                    }
+                    foreach ($fields as $key => $fieldData) {
+                        if (!is_numeric($key)) {
+                            continue;
+                        }
+                        $field = Field::where('space', $space->id)
+                            ->where('position_id', $fieldData['teil_nr'])
+                            ->first();
+                        if (!$field) {
+                            $field = new Field();
+                            $field->space = $space->id;
+                            $field->position_id = $fieldData['teil_nr'];
+                            $field->plant_type = $fieldData['inhalt'];
+                            $field->offset_x = $fieldData['x'];
+                            $field->offset_y = $fieldData['y'];
+                            $field->planted = $fieldData['gepflanzt'];
+                            $field->time = $fieldData['zeit'];
+                            $field->save();
+                        }
+                    }
                 }
             }
         }
+
+        // try to collect everything
     }
 }

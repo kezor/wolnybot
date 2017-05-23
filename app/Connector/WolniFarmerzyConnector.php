@@ -10,6 +10,7 @@ namespace App\Connector;
 
 
 use App\Player;
+use App\Space;
 use GuzzleHttp\Client;
 
 class WolniFarmerzyConnector
@@ -62,7 +63,14 @@ class WolniFarmerzyConnector
 
     public function getDashboardData()
     {
-        $allDataUrl = 'http://s'.$this->player->server_id.'.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getfarms&farm=1&position=0';
+        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getfarms&farm=1&position=0';
+        $res = $this->client->request('GET', $allDataUrl);
+        return json_decode($res->getBody()->__toString(), true);
+    }
+
+    public function getSpaceFields(Space $space)
+    {
+        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=gardeninit&farm=1&position='.$space->position;
         $res = $this->client->request('GET', $allDataUrl);
         return json_decode($res->getBody()->__toString(), true);
     }
