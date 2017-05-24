@@ -34,7 +34,10 @@ class TestBot extends Command
         foreach ($players as $player){
             $gameService = new GameService($player);
 
-            $gameService->update();
+            $gameService->updateFields();
+            $gameService->collectReady();
+            $gameService->updateStock();
+            $gameService->seed();
         }
     }
 }

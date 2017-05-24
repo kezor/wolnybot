@@ -12,6 +12,9 @@ namespace App\Service;
 use App\Connector\WolniFarmerzyConnector;
 use App\Field;
 use App\Player;
+use App\Repository\FieldRepository;
+use App\Repository\SpaceRepository;
+use App\Repository\StockRepository;
 use App\Space;
 use App\Stock;
 
@@ -39,9 +42,12 @@ class GameService
         $this->connector = new WolniFarmerzyConnector();
         $this->player    = $player;
         $this->connector->login($player);
+        $this->spaceRepository = new SpaceRepository();
+        $this->fieldRepository = new FieldRepository();
+        $this->stockRepository = new StockRepository();
     }
 
-    public function update()
+    public function updateFields()
     {
         $dashboardData = $this->connector->getDashboardData();
 
@@ -51,14 +57,7 @@ class GameService
         foreach ($farms as $farm) {
             foreach ($farm as $spaceData) {
                 if ($spaceData['status'] == 1 && $spaceData['buildingid'] != 0) {
-                    $space = Space::where('player', $this->player->id)
-                        ->where('farm', $spaceData['farm'])
-                        ->where('position', $spaceData['position'])
-                        ->first();
-                    if (!$space) {
-                        $space = new Space();
-                    }
-                    $space->player   = $this->player->id;
+                    $space           = $this->spaceRepository->getSpace($spaceData, $this->player);
                     $space->farm     = $spaceData['farm'];
                     $space->position = $spaceData['position'];
                     $space->save();
@@ -88,12 +87,7 @@ class GameService
                         if (!is_numeric($key)) {
                             continue;
                         }
-                        $field = Field::where('space', $space->id)
-                            ->where('index', $fieldData['teil_nr'])
-                            ->first();
-                        if (!$field) {
-                            $field = new Field();
-                        }
+                        $field             = $this->fieldRepository->getField($fieldData, $space);
                         $field->plant_type = $fieldData['inhalt'];
                         $field->offset_x   = $fieldData['x'];
                         $field->offset_y   = $fieldData['y'];
@@ -107,7 +101,10 @@ class GameService
                 }
             }
         }
+    }
 
+    public function collectReady()
+    {
         // try to collect
 
         $fieldsToCollect = Field::where('offset_x', 1)
@@ -117,15 +114,10 @@ class GameService
             ->get();
 
         echo "Ready to collect: " . count($fieldsToCollect) . PHP_EOL;
+
         /** @var Field $field */
         foreach ($fieldsToCollect as $field) {
-            if (!in_array($field->plant_type, [
-                Field::FIELD_COCKROACHES,
-                Field::FIELD_WEEDS,
-                Field::FIELD_STONES,
-                Field::FIELD_STUMPS,
-            ])
-            ) {
+            if ($field->canCollect()) {
                 $this->connector->collect($field);
                 $field->plant_type = Field::FIELD_EMPTY;
                 $field->time       = 0;
@@ -133,7 +125,10 @@ class GameService
                 $field->save();
             }
         }
+    }
 
+    public function updateStock()
+    {
         $dashboardData = $this->connector->getDashboardData();
 
         //update stock
@@ -148,17 +143,21 @@ class GameService
                         $stock            = new Stock();
                         $stock->plant_pid = $level2['pid'];
                     }
+                    $stock = $this->stockRepository->getStock($level2);
                     $stock->amount   = $level2['amount'];
                     $stock->duration = $level2['duration'];
                     $stock->save();
                 }
             }
         }
+    }
 
+    public function seed()
+    {
         // try to seed
 
         $availablePlants = Stock::where('amount', '>', 0)
-            ->where('plant_pid', 17) //take only carrots
+            ->where('plant_pid', 17)//take only carrots
             ->first();
 
         $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
