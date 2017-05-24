@@ -78,15 +78,15 @@ class WolniFarmerzyConnector
 
     public function collect(Field $field)
     {
-        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]='.$field->plant_type.'&feld[]='.$field->offset_x.'&felder[]='.$field->offset_x;
-        $res = $this->client->request('GET', $allDataUrl);
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]='.$field->plant_type.'&feld[]='.$field->index.'&felder[]='.$field->index;
+        $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }
 
     public function seed(Field $field, $plantType)
     {
-        echo 'Try to seed on field'.$field->id.PHP_EOL;
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]='.$plantType.'&feld[]=' . $field->offset_x . '&felder[]=' . $field->offset_x . '&cid=15';
+
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]='.$plantType.'&feld[]=' . $field->index . '&felder[]=' . $field->index . '&cid=15';
         return $this->client->request('GET', $url);
     }
 }
