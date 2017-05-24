@@ -18,6 +18,7 @@ class CreateSpacesTable extends Migration
             $table->integer('player');
             $table->integer('farm');
             $table->integer('position');
+            $table->boolean('fields_in_database')->default(false);
             $table->timestamps();
         });
     }

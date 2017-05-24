@@ -9,6 +9,7 @@
 namespace App\Connector;
 
 
+use App\Field;
 use App\Player;
 use App\Space;
 use GuzzleHttp\Client;
@@ -70,8 +71,22 @@ class WolniFarmerzyConnector
 
     public function getSpaceFields(Space $space)
     {
-        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=gardeninit&farm=1&position='.$space->position;
+        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=gardeninit&farm=1&position=' . $space->position;
         $res = $this->client->request('GET', $allDataUrl);
         return json_decode($res->getBody()->__toString(), true);
+    }
+
+    public function collect(Field $field)
+    {
+        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]='.$field->plant_type.'&feld[]='.$field->offset_x.'&felder[]='.$field->offset_x;
+        $res = $this->client->request('GET', $allDataUrl);
+        return json_decode($res->getBody()->__toString(), true);
+    }
+
+    public function seed(Field $field, $plantType)
+    {
+        echo 'Try to seed on field'.$field->id.PHP_EOL;
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]='.$plantType.'&feld[]=' . $field->offset_x . '&felder[]=' . $field->offset_x . '&cid=15';
+        return $this->client->request('GET', $url);
     }
 }

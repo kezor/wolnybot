@@ -37,16 +37,4 @@ class TestBot extends Command
             $gameService->update();
         }
     }
-
-    private function seedCarrot($position)
-    {
-        $url = 'http://s15.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=' . $position . '&felder[]=' . $position . '&cid=15';
-        return $this->client->request('GET', $url);
-    }
-
-    private function collect($position)
-    {
-        $url = 'http://s15.wolnifarmerzy.pl/ajax/farm.php?rid='.$this->token.'&mode=garden_harvest&farm=1&position=1&pflanze[]=17&feld[]='.$position.'&felder[]='.$position;
-        return $this->client->request('GET', $url);
-    }
 }
