@@ -32,6 +32,7 @@ class TestBot extends Command
         $players = Player::where('active', true)->get();
 
         foreach ($players as $player){
+            echo 'Working with player"'.$player->username.'" on server id: '.$player->server_id.PHP_EOL;
             $gameService = new GameService($player);
 
             $gameService->updateFields();

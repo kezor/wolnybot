@@ -21,6 +21,7 @@ class FieldRepository
             ->first();
         if (!$field) {
             $field = new Field();
+            $field->space = $space->id;
         }
         return $field;
     }

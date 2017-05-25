@@ -203,17 +203,38 @@ class GameService
             ->where('plant_pid', 17)//take only carrots
             ->first();
 
+        if(!$availablePlants){
+            echo 'There is no available plants'.PHP_EOL;
+            return;
+        }
+
         echo "Available carrot seeds: " . $availablePlants->amount . PHP_EOL;
 
-        $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
-            ->limit($availablePlants->amount)
+        $userSpaces = Space::where('player', $this->player->id)
             ->get();
 
-
-        echo "Available fields to seeds: " . count($fieldsToSeed) . PHP_EOL;
-
-        foreach ($fieldsToSeed as $field) {
-            $this->connector->seed($field, 17);
+        if(!$userSpaces){
+            echo 'There is no available spaces for user'.PHP_EOL;
+            return;
         }
+
+        foreach ($userSpaces as $userSpace){
+            $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
+                ->where('space', $userSpace->id)
+                ->limit($availablePlants->amount)
+                ->get();
+
+            if(!$fieldsToSeed){
+                echo 'There is no available fields for this space'.PHP_EOL;
+                return;
+            }
+
+            echo "Available fields to seeds: " . count($fieldsToSeed) . PHP_EOL;
+
+            foreach ($fieldsToSeed as $field) {
+                $this->connector->seed($field, 17);
+            }
+        }
+
     }
 }
