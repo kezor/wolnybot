@@ -11,5 +11,15 @@ namespace App\Plant;
 
 class Carrot extends AbstractPlant
 {
+    protected $length = 1;
+
+    protected $height =1;
+
+    protected $name = 'Marchew';
+
+    public function getType()
+    {
+        return self::PLANT_TYPE_CARROT;
+    }
 
 }

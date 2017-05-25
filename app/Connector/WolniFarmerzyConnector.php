@@ -10,6 +10,7 @@ namespace App\Connector;
 
 
 use App\Field;
+use App\Plant\AbstractPlant;
 use App\Player;
 use App\Space;
 use GuzzleHttp\Client;
@@ -76,9 +77,9 @@ class WolniFarmerzyConnector
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function collect(Field $field)
+    public function collect(AbstractPlant $plant)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]='.$field->plant_type.'&feld[]='.$field->index.'&felder[]='.$field->index;
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]='.$plant->getType().'&feld[]='.$plant->getIndex().'&felder[]='.$plant->getFields();
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }

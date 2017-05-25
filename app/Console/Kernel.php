@@ -2,7 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CollectPlants;
+use App\Console\Commands\SeedPlants;
 use App\Console\Commands\TestBot;
+use App\Console\Commands\UpdateStock;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,7 +17,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        TestBot::class
+        TestBot::class,
+        UpdateStock::class,
+        SeedPlants::class,
+        CollectPlants::class
     ];
 
     /**

@@ -11,6 +11,9 @@ namespace App\Service;
 
 use App\Connector\WolniFarmerzyConnector;
 use App\Field;
+use App\Plant\AbstractPlant;
+use App\Plant\Carrot;
+use App\Plant\Wheat;
 use App\Player;
 use App\Repository\FieldRepository;
 use App\Repository\SpaceRepository;
@@ -26,11 +29,6 @@ class GameService
      * @var Space[]
      */
     private $spaces = [];
-
-    /**
-     * @var Field[]
-     */
-    private $fields = [];
 
     /**
      * @var Player
@@ -83,6 +81,7 @@ class GameService
                     if ($fields == 0) {
                         continue;
                     }
+                    $updatedFieldIds = [];
                     foreach ($fields as $key => $fieldData) {
                         if (!is_numeric($key)) {
                             continue;
@@ -94,9 +93,24 @@ class GameService
                         $field->planted    = $fieldData['gepflanzt'];
                         $field->time       = $fieldData['zeit'];
                         $field->save();
+                        $updatedFieldIds[] = $field->index;
+                    }
 
-                        $this->fields[] = $field;
+                    $values        = range(1, 120);
+                    $restFieldI0ds = array_combine($values, $values);
 
+                    $restFieldI0ds = array_diff($restFieldI0ds, $updatedFieldIds);
+
+                    $festFields = Field::whereIn('index', $restFieldI0ds)
+                        ->where('space', $space->id)
+                        ->get();
+                    foreach ($festFields as $field) {
+                        $field->plant_type = Field::FIELD_EMPTY;
+                        $field->offset_x   = 0;
+                        $field->offset_y   = 0;
+                        $field->planted    = 0;
+                        $field->time       = 0;
+                        $field->save();
                     }
                 }
             }
@@ -107,24 +121,74 @@ class GameService
     {
         // try to collect
 
-        $fieldsToCollect = Field::where('offset_x', 1)
-            ->where('offset_y', 1)
-            ->where('time', '<', time())
+        $fieldsToCollect = Field::where('time', '<', time())
             ->where('time', '!=', 0)
             ->get();
 
-        echo "Ready to collect: " . count($fieldsToCollect) . PHP_EOL;
+        $fields = [];
+        foreach ($fieldsToCollect as $item) {
+            $fields[$item->index] = $item;
+        }
 
-        /** @var Field $field */
-        foreach ($fieldsToCollect as $field) {
-            if ($field->canCollect()) {
-                $this->connector->collect($field);
-                $field->plant_type = Field::FIELD_EMPTY;
-                $field->time       = 0;
-                $field->planted    = 0;
-                $field->save();
+        /** @var Field $finalFieldToReset */
+        foreach ($fields as $key => &$finalFieldToReset) {
+//            echo 'checking '.$key.PHP_EOL;
+            if ($finalFieldToReset->offset_x > 1) {
+                for ($i = 1; $i < $finalFieldToReset->offset_x; $i++) {
+                    $indexToRemove = $i + $finalFieldToReset->index;
+//                    echo 'Removing index(1): '.$indexToRemove.PHP_EOL;
+                    unset($fields[$indexToRemove]);
+
+                    if ($finalFieldToReset->offset_y > 1) {
+                        for ($j = 1; $j < $finalFieldToReset->offset_y; $j++) {
+                            $indexToRemove = $i + $finalFieldToReset->index + ($j * 12);
+//                            echo 'Removing index(2): '.$indexToRemove.PHP_EOL;
+                            unset($fields[$indexToRemove]);
+                        }
+                    }
+                }
+            }
+
+            // remove fields under main index
+            if ($finalFieldToReset->offset_y > 1) {
+                for ($j = 1; $j < $finalFieldToReset->offset_y; $j++) {
+                    $indexToRemove = $finalFieldToReset->index + ($j * 12);
+//                    echo 'Removing index(2): '.$indexToRemove.PHP_EOL;
+                    unset($fields[$indexToRemove]);
+                }
             }
         }
+
+        echo "Ready to collect: " . count($fields) . ' fields.' . PHP_EOL;
+
+        $plants = $this->convertFieldToPlants($fields);
+
+        /** @var AbstractPlant $field */
+        foreach ($plants as $plant) {
+            if ($plant->canCollect()) {
+                $this->connector->collect($plant);
+                $plant->setAsEmpty();
+            }
+        }
+    }
+
+    private function convertFieldToPlants($fields)
+    {
+        $plants = [];
+
+        /** @var Field $field */
+        foreach ($fields as $field) {
+            switch ($field->plant_type){
+                case 17: //carrot
+                    $plants[] = new Carrot($field);
+                    break;
+                case 1: //wheat
+                    $plants[] = new Wheat($field);
+                    break;
+            }
+
+        }
+        return $plants;
     }
 
     public function updateStock()
@@ -137,13 +201,7 @@ class GameService
         foreach ($stocks as $stock) {
             foreach ($stock as $level1) {
                 foreach ($level1 as $level2) {
-                    $stock = Stock::where('plant_pid', $level2['pid'])
-                        ->first();
-                    if (!$stock) {
-                        $stock            = new Stock();
-                        $stock->plant_pid = $level2['pid'];
-                    }
-                    $stock = $this->stockRepository->getStock($level2);
+                    $stock           = $this->stockRepository->getStock($level2, $this->player);
                     $stock->amount   = $level2['amount'];
                     $stock->duration = $level2['duration'];
                     $stock->save();
@@ -160,9 +218,13 @@ class GameService
             ->where('plant_pid', 17)//take only carrots
             ->first();
 
+        echo "Available carrot seeds: " . count($availablePlants) . PHP_EOL;
+
         $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
             ->limit($availablePlants->amount)
             ->get();
+
+        echo "Available fields to seeds: " . count($fieldsToSeed) . PHP_EOL;
 
         foreach ($fieldsToSeed as $field) {
             $this->connector->seed($field, 17);

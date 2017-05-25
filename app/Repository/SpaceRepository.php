@@ -22,7 +22,7 @@ class SpaceRepository
             ->first();
         if (!$space) {
             $space = new Space();
-            $space->player   = $this->player->id;
+            $space->player   = $player->id;
         }
 
         return $space;
