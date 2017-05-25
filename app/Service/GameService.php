@@ -96,6 +96,7 @@ class GameService
                         $updatedFieldIds[] = $field->index;
                     }
 
+
                     $values        = range(1, 120);
                     $restFieldI0ds = array_combine($values, $values);
 
@@ -132,29 +133,12 @@ class GameService
 
         /** @var Field $finalFieldToReset */
         foreach ($fields as $key => &$finalFieldToReset) {
-//            echo 'checking '.$key.PHP_EOL;
-            if ($finalFieldToReset->offset_x > 1) {
-                for ($i = 1; $i < $finalFieldToReset->offset_x; $i++) {
-                    $indexToRemove = $i + $finalFieldToReset->index;
-//                    echo 'Removing index(1): '.$indexToRemove.PHP_EOL;
-                    unset($fields[$indexToRemove]);
-
-                    if ($finalFieldToReset->offset_y > 1) {
-                        for ($j = 1; $j < $finalFieldToReset->offset_y; $j++) {
-                            $indexToRemove = $i + $finalFieldToReset->index + ($j * 12);
-//                            echo 'Removing index(2): '.$indexToRemove.PHP_EOL;
-                            unset($fields[$indexToRemove]);
-                        }
+            for ($i = 0; $i < $finalFieldToReset->offset_x; $i++) {
+                for ($j = 0; $j < $finalFieldToReset->offset_y; $j++) {
+                    $indexToRemove = $i + $finalFieldToReset->index + ($j * 12);
+                    if($indexToRemove !== $finalFieldToReset->index){
+                        unset($fields[$indexToRemove]);
                     }
-                }
-            }
-
-            // remove fields under main index
-            if ($finalFieldToReset->offset_y > 1) {
-                for ($j = 1; $j < $finalFieldToReset->offset_y; $j++) {
-                    $indexToRemove = $finalFieldToReset->index + ($j * 12);
-//                    echo 'Removing index(2): '.$indexToRemove.PHP_EOL;
-                    unset($fields[$indexToRemove]);
                 }
             }
         }
