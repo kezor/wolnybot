@@ -199,14 +199,16 @@ class GameService
         // try to seed
 
         $availablePlants = Stock::where('amount', '>', 0)
+            ->where('player', $this->player->id)
             ->where('plant_pid', 17)//take only carrots
             ->first();
 
-        echo "Available carrot seeds: " . count($availablePlants) . PHP_EOL;
+        echo "Available carrot seeds: " . $availablePlants->amount . PHP_EOL;
 
         $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
             ->limit($availablePlants->amount)
             ->get();
+
 
         echo "Available fields to seeds: " . count($fieldsToSeed) . PHP_EOL;
 

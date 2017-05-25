@@ -87,7 +87,7 @@ class WolniFarmerzyConnector
     public function seed(Field $field, $plantType)
     {
 
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]='.$plantType.'&feld[]=' . $field->index . '&felder[]=' . $field->index . '&cid=15';
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]='.$plantType.'&feld[]=' . $field->index . '&felder[]=' . $field->index;
         return $this->client->request('GET', $url);
     }
 }

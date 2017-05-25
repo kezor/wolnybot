@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Player;
+use App\Service\GameService;
 use Illuminate\Console\Command;
 
 class SeedPlants extends Command
@@ -37,6 +39,11 @@ class SeedPlants extends Command
      */
     public function handle()
     {
-        //
+        $players = Player::where('active', true)->get();
+
+        foreach ($players as $player){
+            $gameService = new GameService($player);
+            $gameService->seed();
+        }
     }
 }
