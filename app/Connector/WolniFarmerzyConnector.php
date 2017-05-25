@@ -79,15 +79,36 @@ class WolniFarmerzyConnector
 
     public function collect(AbstractPlant $plant)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]='.$plant->getType().'&feld[]='.$plant->getIndex().'&felder[]='.$plant->getFields();
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]=' . $plant->getType() . '&feld[]=' . $plant->getIndex() . '&felder[]=' . $plant->getFields();
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }
 
     public function seed(Field $field, $plantType)
     {
-
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]='.$plantType.'&feld[]=' . $field->index . '&felder[]=' . $field->index;
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $plantType . '&feld[]=' . $field->index . '&felder[]=' . $field->index;
         return $this->client->request('GET', $url);
     }
+
+    public function disableTutorial()
+    {
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/main.php?rid=' . $this->token . '&action=closetutorial';
+        return $this->client->request('GET', $url);
+    }
+
+    public function increaseTutorialStep()
+    {
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/main.php?rid=' . $this->token . '&action=increasetutorialstep';
+        return $this->client->request('GET', $url);
+    }
+
+    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=getbuildingoptions&farm=1&position=1
+    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=buybuilding&farm=1&position=1&id=1&buildingid=1
+    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=gardeninit&farm=1&position=1
+    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3&cid=12
+    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_water&farm=1&position=1&feld[]=3&felder[]=3
+    //wait 15-20 sec
+    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_harvest&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3
+    //increate
+    //closetutorial
 }

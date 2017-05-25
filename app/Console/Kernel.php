@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CollectPlants;
+use App\Console\Commands\DisableTutorial;
 use App\Console\Commands\SeedPlants;
 use App\Console\Commands\TestBot;
 use App\Console\Commands\UpdateFields;
@@ -22,7 +23,8 @@ class Kernel extends ConsoleKernel
         UpdateStock::class,
         SeedPlants::class,
         CollectPlants::class,
-        UpdateFields::class
+        UpdateFields::class,
+        DisableTutorial::class
     ];
 
     /**

@@ -38,7 +38,7 @@ class GameService
     public function __construct(Player $player)
     {
         $this->connector = new WolniFarmerzyConnector();
-        $this->player    = $player;
+        $this->player = $player;
         $this->connector->login($player);
         $this->spaceRepository = new SpaceRepository();
         $this->fieldRepository = new FieldRepository();
@@ -55,20 +55,20 @@ class GameService
         foreach ($farms as $farm) {
             foreach ($farm as $spaceData) {
                 if ($spaceData['status'] == 1 && $spaceData['buildingid'] != 0) {
-                    $space           = $this->spaceRepository->getSpace($spaceData, $this->player);
-                    $space->farm     = $spaceData['farm'];
+                    $space = $this->spaceRepository->getSpace($spaceData, $this->player);
+                    $space->farm = $spaceData['farm'];
                     $space->position = $spaceData['position'];
                     $space->save();
                     $this->spaces[] = $space;
 
                     if (!$space->isFieldsInDatabase()) {
                         for ($i = 1; $i <= 120; $i++) {
-                            $field             = new Field();
-                            $field->space      = $space->id;
-                            $field->index      = $i;
+                            $field = new Field();
+                            $field->space = $space->id;
+                            $field->index = $i;
                             $field->plant_type = Field::FIELD_EMPTY;
-                            $field->offset_x   = 0;
-                            $field->offset_y   = 0;
+                            $field->offset_x = 0;
+                            $field->offset_y = 0;
                             $field->save();
                         }
                         $space->fields_in_database = true;
@@ -76,7 +76,7 @@ class GameService
                     }
 
                     $fieldsData = $this->connector->getSpaceFields($space);
-                    $fields     = $fieldsData['datablock'][1];
+                    $fields = $fieldsData['datablock'][1];
 
                     if ($fields == 0) {
                         continue;
@@ -86,18 +86,18 @@ class GameService
                         if (!is_numeric($key)) {
                             continue;
                         }
-                        $field             = $this->fieldRepository->getField($fieldData, $space);
+                        $field = $this->fieldRepository->getField($fieldData, $space);
                         $field->plant_type = $fieldData['inhalt'];
-                        $field->offset_x   = $fieldData['x'];
-                        $field->offset_y   = $fieldData['y'];
-                        $field->planted    = $fieldData['gepflanzt'];
-                        $field->time       = $fieldData['zeit'];
+                        $field->offset_x = $fieldData['x'];
+                        $field->offset_y = $fieldData['y'];
+                        $field->planted = $fieldData['gepflanzt'];
+                        $field->time = $fieldData['zeit'];
                         $field->save();
                         $updatedFieldIds[] = $field->index;
                     }
 
 
-                    $values        = range(1, 120);
+                    $values = range(1, 120);
                     $restFieldI0ds = array_combine($values, $values);
 
                     $restFieldI0ds = array_diff($restFieldI0ds, $updatedFieldIds);
@@ -107,10 +107,10 @@ class GameService
                         ->get();
                     foreach ($festFields as $field) {
                         $field->plant_type = Field::FIELD_EMPTY;
-                        $field->offset_x   = 0;
-                        $field->offset_y   = 0;
-                        $field->planted    = 0;
-                        $field->time       = 0;
+                        $field->offset_x = 0;
+                        $field->offset_y = 0;
+                        $field->planted = 0;
+                        $field->time = 0;
                         $field->save();
                     }
                 }
@@ -136,7 +136,7 @@ class GameService
             for ($i = 0; $i < $finalFieldToReset->offset_x; $i++) {
                 for ($j = 0; $j < $finalFieldToReset->offset_y; $j++) {
                     $indexToRemove = $i + $finalFieldToReset->index + ($j * 12);
-                    if($indexToRemove !== $finalFieldToReset->index){
+                    if ($indexToRemove !== $finalFieldToReset->index) {
                         unset($fields[$indexToRemove]);
                     }
                 }
@@ -162,7 +162,7 @@ class GameService
 
         /** @var Field $field */
         foreach ($fields as $field) {
-            switch ($field->plant_type){
+            switch ($field->plant_type) {
                 case 17: //carrot
                     $plants[] = new Carrot($field);
                     break;
@@ -185,8 +185,8 @@ class GameService
         foreach ($stocks as $stock) {
             foreach ($stock as $level1) {
                 foreach ($level1 as $level2) {
-                    $stock           = $this->stockRepository->getStock($level2, $this->player);
-                    $stock->amount   = $level2['amount'];
+                    $stock = $this->stockRepository->getStock($level2, $this->player);
+                    $stock->amount = $level2['amount'];
                     $stock->duration = $level2['duration'];
                     $stock->save();
                 }
@@ -203,8 +203,8 @@ class GameService
             ->where('plant_pid', 17)//take only carrots
             ->first();
 
-        if(!$availablePlants){
-            echo 'There is no available plants'.PHP_EOL;
+        if (!$availablePlants) {
+            echo 'There is no available plants' . PHP_EOL;
             return;
         }
 
@@ -213,19 +213,19 @@ class GameService
         $userSpaces = Space::where('player', $this->player->id)
             ->get();
 
-        if(!$userSpaces){
-            echo 'There is no available spaces for user'.PHP_EOL;
+        if (!$userSpaces) {
+            echo 'There is no available spaces for user' . PHP_EOL;
             return;
         }
 
-        foreach ($userSpaces as $userSpace){
+        foreach ($userSpaces as $userSpace) {
             $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
                 ->where('space', $userSpace->id)
                 ->limit($availablePlants->amount)
                 ->get();
 
-            if(!$fieldsToSeed){
-                echo 'There is no available fields for this space'.PHP_EOL;
+            if (!$fieldsToSeed) {
+                echo 'There is no available fields for this space' . PHP_EOL;
                 return;
             }
 
@@ -236,5 +236,21 @@ class GameService
             }
         }
 
+    }
+
+    public function disableTutorial()
+    {
+        // first step tutorial
+        $this->connector->increaseTutorialStep();
+        $this->connector->disableTutorial();
+
+        //second step tutorial
+        for($i=0; $i<3; $i++){
+            $this->connector->increaseTutorialStep();
+        }
+
+        $this->connector->disableTutorial();
+        $this->player->active = true;
+        $this->player->save();
     }
 }
