@@ -90,7 +90,7 @@ class WolniFarmerzyConnector
         return $this->client->request('GET', $url);
     }
 
-    public function disableTutorial()
+    public function closeTutorial()
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/main.php?rid=' . $this->token . '&action=closetutorial';
         return $this->client->request('GET', $url);
@@ -102,13 +102,23 @@ class WolniFarmerzyConnector
         return $this->client->request('GET', $url);
     }
 
-    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=getbuildingoptions&farm=1&position=1
-    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=buybuilding&farm=1&position=1&id=1&buildingid=1
-    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=gardeninit&farm=1&position=1
-    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3&cid=12
-    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_water&farm=1&position=1&feld[]=3&felder[]=3
-    //wait 15-20 sec
-    //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_harvest&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3
-    //increate
-    //closetutorial
+    public function getGuildingsOptions(Space $space){
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getbuildingoptions&farm='.$space->farm.'&position='.$space->position;
+        return $this->client->request('GET', $url);
+    }
+
+    public function buyBuilding(Space $space, $building)
+    {
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=buybuilding&farm='.$space->farm.'&position='.$space->position.'&id=1&buildingid='.$building->getType();
+        return $this->client->request('GET', $url);
+    }
+
+    public function watered(Field $field)
+    {
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]='.$field->index.'&felder[]='.$field->index;
+        return $this->client->request('GET', $url);
+    }
+
+    //remove weed
+    //http://s13.wolnifarmerzy.pl/ajax/farm.php?rid=03785d313df41243d7811e9385b0f288&mode=garden_removeweed&farm=1&position=1&id=38&tile=38
 }
