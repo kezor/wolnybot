@@ -9,6 +9,7 @@
 namespace App\Repository;
 
 
+use App\Player;
 use App\Space;
 
 class SpaceRepository
@@ -26,5 +27,9 @@ class SpaceRepository
         }
 
         return $space;
+    }
+
+    public function getPlayerSpaces(Player $player){
+        return Space::where('player', $player->id)->get();
     }
 }

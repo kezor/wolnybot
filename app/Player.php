@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Repository\SpaceRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,5 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Player extends Model
 {
-    //
+    public function getSpaces()
+    {
+        $spaceRepository = new SpaceRepository();
+        return $spaceRepository->getPlayerSpaces($this);
+    }
 }

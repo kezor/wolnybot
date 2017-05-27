@@ -33,9 +33,15 @@ class UpdateFields extends Command
 
         /** @var Player $player */
         foreach ($players as $player){
+            echo 'Working with player on server: ' . $player->server_id . PHP_EOL;
+
             $gameService = new GameService($player);
 
             $gameService->updateFields();
+
+            foreach ($player->getSpaces() as $space){
+                $gameService->drawSpace($space);
+            }
         }
     }
 }

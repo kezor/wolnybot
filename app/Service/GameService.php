@@ -39,7 +39,7 @@ class GameService
     public function __construct(Player $player)
     {
         $this->connector = new WolniFarmerzyConnector();
-        $this->player    = $player;
+        $this->player = $player;
         $this->connector->login($player);
         $this->spaceRepository = new SpaceRepository();
         $this->fieldRepository = new FieldRepository();
@@ -56,28 +56,18 @@ class GameService
         foreach ($farms as $farm) {
             foreach ($farm as $spaceData) {
                 if ($spaceData['status'] == 1 && $spaceData['buildingid'] != 0) {
-                    $space           = $this->spaceRepository->getSpace($spaceData, $this->player);
-                    $space->farm     = $spaceData['farm'];
+                    $space = $this->spaceRepository->getSpace($spaceData, $this->player);
+                    $space->farm = $spaceData['farm'];
                     $space->position = $spaceData['position'];
                     $space->save();
                     $this->spaces[] = $space;
 
                     if (!$space->isFieldsInDatabase()) {
-                        for ($i = 1; $i <= 120; $i++) {
-                            $field             = new Field();
-                            $field->space      = $space->id;
-                            $field->index      = $i;
-                            $field->plant_type = Field::FIELD_EMPTY;
-                            $field->offset_x   = 0;
-                            $field->offset_y   = 0;
-                            $field->save();
-                        }
-                        $space->fields_in_database = true;
-                        $space->save();
+                        $this->fillDatabaseWithEmptyFields($space);
                     }
 
                     $fieldsData = $this->connector->getSpaceFields($space);
-                    $fields     = $fieldsData['datablock'][1];
+                    $fields = $fieldsData['datablock'][1];
 
                     if ($fields == 0) {
                         continue;
@@ -87,18 +77,19 @@ class GameService
                         if (!is_numeric($key)) {
                             continue;
                         }
-                        $field             = $this->fieldRepository->getField($fieldData, $space);
+                        $field = $this->fieldRepository->getField($fieldData, $space);
                         $field->plant_type = $fieldData['inhalt'];
-                        $field->offset_x   = $fieldData['x'];
-                        $field->offset_y   = $fieldData['y'];
-                        $field->planted    = $fieldData['gepflanzt'];
-                        $field->time       = $fieldData['zeit'];
+                        $field->offset_x = $fieldData['x'];
+                        $field->offset_y = $fieldData['y'];
+                        $field->phase = $fieldData['phase'];
+                        $field->planted = $fieldData['gepflanzt'];
+                        $field->time = $fieldData['zeit'];
                         $field->save();
                         $updatedFieldIds[] = $field->index;
                     }
 
 
-                    $values        = range(1, 120);
+                    $values = range(1, 120);
                     $restFieldI0ds = array_combine($values, $values);
 
                     $restFieldI0ds = array_diff($restFieldI0ds, $updatedFieldIds);
@@ -108,10 +99,10 @@ class GameService
                         ->get();
                     foreach ($festFields as $field) {
                         $field->plant_type = Field::FIELD_EMPTY;
-                        $field->offset_x   = 0;
-                        $field->offset_y   = 0;
-                        $field->planted    = 0;
-                        $field->time       = 0;
+                        $field->offset_x = 0;
+                        $field->offset_y = 0;
+                        $field->planted = 0;
+                        $field->time = 0;
                         $field->save();
                     }
                 }
@@ -119,18 +110,48 @@ class GameService
         }
     }
 
+    public function drawSpace(Space $space)
+    {
+        foreach ($space->getFields() as $key => $field) {
+            echo $field->drawField();
+            if ((($key + 1) % 12) == 0) {
+                echo PHP_EOL;
+            }
+        }
+    }
+
+    private function fillDatabaseWithEmptyFields(Space $space)
+    {
+        for ($i = 1; $i <= 120; $i++) {
+            $field = new Field();
+            $field->space = $space->id;
+            $field->index = $i;
+            $field->plant_type = Field::FIELD_EMPTY;
+            $field->offset_x = 0;
+            $field->offset_y = 0;
+            $field->phase = 4;
+            $field->save();
+        }
+        $space->fields_in_database = true;
+        $space->save();
+    }
+
     public function collectReady()
     {
         // try to collect
 
-        $fieldsToCollect = Field::where('time', '<', time())
+        $fieldsToCollect = Field::where('phase', 4)
             ->where('time', '!=', 0)
             ->get();
 
         $fields = [];
         foreach ($fieldsToCollect as $item) {
+//            echo "Field ready to collect: ".$item->index.PHP_EOL;
             $fields[$item->index] = $item;
         }
+
+//        $this->drawFieldsToCollect($fields);
+//        die();
 
         /** @var Field $finalFieldToReset */
         foreach ($fields as $key => &$finalFieldToReset) {
@@ -147,12 +168,25 @@ class GameService
         echo "Ready to collect: " . count($fields) . ' fields.' . PHP_EOL;
 
         $plants = $this->convertFieldToPlants($fields);
-
+//die();
         /** @var AbstractPlant $field */
         foreach ($plants as $plant) {
-            if ($plant->canCollect()) {
+//            if ($plant->canCollect()) {
                 $this->connector->collect($plant);
                 $plant->setAsEmpty();
+//            }
+        }
+    }
+
+    /**
+     * @param Field[] $fields
+     */
+    private function drawFieldsToCollect($fields)
+    {
+        for ($i = 1; $i <= 120; $i++) {
+            echo '['.(isset($fields[$i])?'X':'O').']';
+            if($i % 12 == 0){
+                echo PHP_EOL;
             }
         }
     }
@@ -165,13 +199,14 @@ class GameService
         foreach ($fields as $field) {
             switch ($field->plant_type) {
                 case 17: //carrot
-                    $plants[] = new Carrot($field);
+                    $plant = new Carrot($field);
                     break;
                 case 1: //wheat
-                    $plants[] = new Wheat($field);
+                    $plant = new Wheat($field);
                     break;
             }
-
+//            echo 'Plant index '.$plant->getIndex().' will be collected.'.PHP_EOL;
+            $plants[] = $plant;
         }
 
         return $plants;
@@ -187,10 +222,11 @@ class GameService
         foreach ($stocks as $stock) {
             foreach ($stock as $level1) {
                 foreach ($level1 as $level2) {
-                    $stock           = $this->stockRepository->getStock($level2, $this->player);
-                    $stock->amount   = $level2['amount'];
+                    $stock = $this->stockRepository->getStock($level2, $this->player);
+                    $stock->amount = $level2['amount'];
                     $stock->duration = $level2['duration'];
                     $stock->save();
+                    echo 'plant id: ' . $stock->plant_pid . ', amount: ' . $stock->amount . PHP_EOL;
                 }
             }
         }
@@ -246,8 +282,8 @@ class GameService
 
     public function disableTutorial()
     {
-        $space           = new Space();
-        $space->farm     = 1;
+        $space = new Space();
+        $space->farm = 1;
         $space->position = 1;
         //OK http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=getbuildingoptions&farm=1&position=1
         $this->connector->getGuildingsOptions($space);
@@ -261,9 +297,9 @@ class GameService
         $this->connector->getSpaceFields($space);
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3&cid=12
-        $firstField        = new Field();
+        $firstField = new Field();
         $firstField->index = 1;
-        $carrot            = new Carrot($firstField);
+        $carrot = new Carrot($firstField);
         $this->connector->seed($firstField, $carrot->getType());
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_water&farm=1&position=1&feld[]=3&felder[]=3
@@ -272,7 +308,7 @@ class GameService
         //wait 15-20 sec
         echo 'Sleep for 20 seconds' . PHP_EOL;
         for ($i = 0; $i < 20; $i++) {
-            echo 20-$i.' ';
+            echo 20 - $i . ' ';
             sleep(1);
         }
         echo PHP_EOL;

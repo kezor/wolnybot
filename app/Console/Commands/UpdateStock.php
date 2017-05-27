@@ -32,7 +32,8 @@ class UpdateStock extends Command
         $players = Player::where('active', true)->get();
 
         /** @var Player $player */
-        foreach ($players as $player){
+        foreach ($players as $player) {
+            echo 'Working with player on server: ' . $player->server_id . PHP_EOL;
             $gameService = new GameService($player);
             $gameService->updateStock();
         }

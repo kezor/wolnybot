@@ -19,4 +19,8 @@ class Space extends Model
     public function isFieldsInDatabase(){
         return $this->fields_in_database;
     }
+
+    public function getFields(){
+        return Field::where('space', $this->id)->get();
+    }
 }
