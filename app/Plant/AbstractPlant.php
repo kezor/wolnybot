@@ -20,13 +20,15 @@ abstract class AbstractPlant
 
     const PLANT_TYPE_WHEAT  = 1;
     const PLANT_TYPE_CARROT = 17;
+    const PLANT_TYPE_CORN = 88;
+    const PLANT_TYPE_FAKE_PLANT = 77;
 
     /**
      * @var Field
      */
     protected $field;
 
-    public function __construct(Field $field)
+    public function __construct(Field $field = null)
     {
         $this->field = $field;
     }

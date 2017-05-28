@@ -14,6 +14,8 @@ use App\Connector\WolniFarmerzyConnector;
 use App\Field;
 use App\Plant\AbstractPlant;
 use App\Plant\Carrot;
+use App\Plant\Corn;
+use App\Plant\FakeBigPlant5x3;
 use App\Plant\Wheat;
 use App\Player;
 use App\Repository\FieldRepository;
@@ -21,6 +23,7 @@ use App\Repository\SpaceRepository;
 use App\Repository\StockRepository;
 use App\Space;
 use App\Stock;
+use Illuminate\Database\Eloquent\Collection;
 
 class GameService
 {
@@ -30,6 +33,7 @@ class GameService
      * @var Space[]
      */
     private $spaces = [];
+    private $usedSeeds = [];
 
     /**
      * @var Player
@@ -50,7 +54,6 @@ class GameService
     {
         $dashboardData = $this->connector->getDashboardData();
 
-        //first update farms
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
         foreach ($farms as $farm) {
@@ -138,20 +141,14 @@ class GameService
 
     public function collectReady()
     {
-        // try to collect
-
         $fieldsToCollect = Field::where('phase', 4)
             ->where('time', '!=', 0)
             ->get();
 
         $fields = [];
         foreach ($fieldsToCollect as $item) {
-//            echo "Field ready to collect: ".$item->index.PHP_EOL;
             $fields[$item->index] = $item;
         }
-
-//        $this->drawFieldsToCollect($fields);
-//        die();
 
         /** @var Field $finalFieldToReset */
         foreach ($fields as $key => &$finalFieldToReset) {
@@ -165,16 +162,12 @@ class GameService
             }
         }
 
-        echo "Ready to collect: " . count($fields) . ' fields.' . PHP_EOL;
-
         $plants = $this->convertFieldToPlants($fields);
-//die();
+
         /** @var AbstractPlant $field */
         foreach ($plants as $plant) {
-//            if ($plant->canCollect()) {
-                $this->connector->collect($plant);
-                $plant->setAsEmpty();
-//            }
+            $this->connector->collect($plant);
+            $plant->setAsEmpty();
         }
     }
 
@@ -184,8 +177,8 @@ class GameService
     private function drawFieldsToCollect($fields)
     {
         for ($i = 1; $i <= 120; $i++) {
-            echo '['.(isset($fields[$i])?'X':'O').']';
-            if($i % 12 == 0){
+            echo '[' . (isset($fields[$i]) ? $i : 'O') . ']';
+            if ($i % 12 == 0) {
                 echo PHP_EOL;
             }
         }
@@ -205,7 +198,6 @@ class GameService
                     $plant = new Wheat($field);
                     break;
             }
-//            echo 'Plant index '.$plant->getIndex().' will be collected.'.PHP_EOL;
             $plants[] = $plant;
         }
 
@@ -234,50 +226,157 @@ class GameService
 
     public function seed()
     {
-        // try to seed
-
-        $availablePlants = Stock::where('amount', '>', 0)
-            ->where('player', $this->player->id)
-            ->where('plant_pid', 17)//take only carrots
-            ->first();
-
-        if (!$availablePlants) {
-            echo 'There is no available plants' . PHP_EOL;
-
-            return;
-        }
-
-        echo "Available carrot seeds: " . $availablePlants->amount . PHP_EOL;
-
         $userSpaces = Space::where('player', $this->player->id)
             ->get();
+        foreach ($userSpaces as $space) {
+            echo 'working wit space: '.$space->position.PHP_EOL;
+            $this->updateFields();
+            while ($this->isPossibleToSeed($space)) {
+                $plant = $this->getSeedToSeed();
+                echo 'Try to seed'.$plant->getName().PHP_EOL;
+                $fieldsToSeed = $this->getFieldsToSeed($space, $plant);
 
-        if (!$userSpaces) {
-            echo 'There is no available spaces for user' . PHP_EOL;
+                foreach ($fieldsToSeed as $field) {
+                    $this->connector->seed($field, $plant->getType());
+                }
 
-            return;
+                $this->updateFields();
+            }
+//            foreach ($fieldsToSeed as $field) {
+//                $this->connector->watered($field);
+//            }
+        }
+    }
+
+    /**
+     * @return Carrot|Wheat
+     */
+    private function getSeedToSeed()
+    {
+        /** @var Stock $seedFromStock */
+        $seedFromStock = Stock::where('player', $this->player->id)
+            ->where('amount', '>', 0)
+            ->whereNotIn('plant_pid', $this->usedSeeds)
+            ->orderBy('amount', 'ASC')
+            ->first();
+        $this->usedSeeds[] = $seedFromStock->plant_pid;
+
+        switch ($seedFromStock->plant_pid) {
+            case 17:
+                return new Carrot();
+            case 1:
+                return new Wheat();
         }
 
-        foreach ($userSpaces as $userSpace) {
-            $fieldsToSeed = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
-                ->where('space', $userSpace->id)
-                ->limit($availablePlants->amount)
-                ->get();
+    }
 
-            if (!$fieldsToSeed) {
-                echo 'There is no available fields for this space' . PHP_EOL;
+    private function isPossibleToSeed(Space $space)
+    {
+        return $this->haveEnoughSeeds() && $this->haveFreeFields($space);
+    }
 
-                return;
-            }
 
-            echo "Available fields to seeds: " . count($fieldsToSeed) . PHP_EOL;
+    private function haveEnoughSeeds()
+    {
+        /** @var Collection $availablePlants */
+        $availablePlants = Stock::where('amount', '>', 0)
+            ->where('player', $this->player->id)
+            ->whereNotIn('plant_pid', $this->usedSeeds)
+            ->get();
+        return $availablePlants->isNotEmpty();
+    }
 
-            foreach ($fieldsToSeed as $field) {
-                $this->connector->seed($field, 17);
-                $this->connector->watered($field);
-            }
+    private function haveFreeFields(Space $space)
+    {
+        /** @var Collection $availablePlants */
+        $fields = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
+            ->where('space', $space->id)
+            ->get();
+        return $fields->isNotEmpty();
+
+    }
+
+
+    private function getFieldsToSeed(Space $space, AbstractPlant $plant)
+    {
+        $fieldsCollection = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
+            ->where('space', $space->id)
+            ->get();
+
+        $fields = [];
+        foreach ($fieldsCollection as $field) {
+            $fields[$field->index] = $field;
         }
 
+        /** @var Field $field */
+
+        reset($fields);
+        $index = key($fields);
+
+        $finalFieldsAvailableToSeed = [];
+
+        while (isset($fields[$index])) {
+            /** @var Field $field */
+            $field = $fields[$index];
+            $removeIndex = false;
+
+            for ($xIndex = 1; $xIndex < $plant->getLength(); $xIndex++) {
+                $nextIndex = $field->index + $xIndex;
+                if (!isset($fields[$nextIndex]) || $this->isNextIndexInNextRow($index, $nextIndex)) {
+                    $removeIndex = true;
+                }
+            }
+            if (!$removeIndex) {
+                for ($yIndex = 1; $yIndex < $plant->getLength(); $yIndex++) {
+                    $nextIndex = $field->index + $yIndex + 12;
+                    if (!isset($fields[$nextIndex]) || $this->isNextIndexInNextRow($index, $nextIndex)) {
+                        $removeIndex = true;
+                    }
+                }
+            }
+            if ($removeIndex) {
+                unset($fields[$index]);
+            } else {
+                $finalFieldsAvailableToSeed[$index] = $fields[$index];
+                $indexesToRemove = $this->getIndexesToRemove($index, $plant);
+                foreach ($indexesToRemove as $indexToRemove) {
+                    unset($fields[$indexToRemove]);
+                }
+            }
+            reset($fields);
+            $index = key($fields);
+        }
+        return $finalFieldsAvailableToSeed;
+    }
+
+    private function getIndexesToRemove($currentIndex, AbstractPlant $plant)
+    {
+        $indexes = [];
+
+        for ($i = 0; $i < $plant->getLength(); $i++) {
+            for ($j = 0; $j < $plant->getHeight(); $j++) {
+                $indexToRemove = $currentIndex + $i + (12 * $j);
+                $indexes[$indexToRemove] = $indexToRemove;
+            }
+        }
+        return $indexes;
+    }
+
+    protected function getColumn($index)
+    {
+        $column = $index % 12;
+        if ($column == 0) {
+            $column = 12;
+        }
+        return $column;
+    }
+
+    protected function isNextIndexInNextRow($index, $nextIndex)
+    {
+        $currentColumn = $this->getColumn($index);
+        $nextColumn = $this->getColumn($nextIndex);
+
+        return $nextColumn < $currentColumn;
     }
 
     public function disableTutorial()

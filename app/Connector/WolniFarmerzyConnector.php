@@ -121,4 +121,7 @@ class WolniFarmerzyConnector
 
     //remove weed
     //http://s13.wolnifarmerzy.pl/ajax/farm.php?rid=03785d313df41243d7811e9385b0f288&mode=garden_removeweed&farm=1&position=1&id=38&tile=38
+
+    // sell customer
+    //http://s15.wolnifarmerzy.pl/ajax/farm.php?rid=f7f4f87f2bdf63ad0e04109334963e3d&mode=sellfarmi&farm=1&position=1&id=52621097&farmi=52621097&status=1
 }
