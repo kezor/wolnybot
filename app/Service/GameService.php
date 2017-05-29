@@ -58,7 +58,7 @@ class GameService
 
         foreach ($farms as $farm) {
             foreach ($farm as $spaceData) {
-                if ($spaceData['status'] == 1 && $spaceData['buildingid'] != 0) {
+                if ($spaceData['status'] == 1 && $spaceData['buildingid'] == 1) { // @TODO temporary only for plant spaces
                     $space = $this->spaceRepository->getSpace($spaceData, $this->player);
                     $space->farm = $spaceData['farm'];
                     $space->position = $spaceData['position'];
