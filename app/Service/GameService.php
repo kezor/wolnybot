@@ -14,9 +14,8 @@ use App\Connector\WolniFarmerzyConnector;
 use App\Field;
 use App\Plant\AbstractPlant;
 use App\Plant\Carrot;
-use App\Plant\Corn;
 use App\Plant\Cucumber;
-use App\Plant\FakeBigPlant5x3;
+use App\Plant\Strawberry;
 use App\Plant\Wheat;
 use App\Player;
 use App\Repository\FieldRepository;
@@ -202,6 +201,9 @@ class GameService
                 case AbstractPlant::PLANT_TYPE_CUCUMBER:
                     $plant = new Cucumber($field);
                     break;
+                case AbstractPlant::PLANT_TYPE_STRAWBERRY:
+                    $plant = new Strawberry($field);
+                    break;
             }
             $plants[] = $plant;
         }
@@ -285,6 +287,8 @@ class GameService
                 return new Wheat();
             case AbstractPlant::PLANT_TYPE_CUCUMBER:
                 return new Cucumber();
+            case AbstractPlant::PLANT_TYPE_STRAWBERRY:
+                return new Strawberry();
         }
 
     }
