@@ -15,7 +15,7 @@ class FieldTableAddPhaseColumn extends Migration
         Schema::table('fields', function($table) {
             $table->integer('phase');
         });
-    }offset_y
+    }
 
     /**
      * Reverse the migrations.
