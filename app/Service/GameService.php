@@ -15,6 +15,7 @@ use App\Field;
 use App\Plant\AbstractPlant;
 use App\Plant\Carrot;
 use App\Plant\Corn;
+use App\Plant\Cucumber;
 use App\Plant\FakeBigPlant5x3;
 use App\Plant\Wheat;
 use App\Player;
@@ -191,11 +192,14 @@ class GameService
         /** @var Field $field */
         foreach ($fields as $field) {
             switch ($field->plant_type) {
-                case 17: //carrot
+                case AbstractPlant::PLANT_TYPE_CARROT:
                     $plant = new Carrot($field);
                     break;
-                case 1: //wheat
+                case AbstractPlant::PLANT_TYPE_WHEAT:
                     $plant = new Wheat($field);
+                    break;
+                case AbstractPlant::PLANT_TYPE_CUCUMBER:
+                    $plant = new Cucumber($field);
                     break;
             }
             $plants[] = $plant;
@@ -249,7 +253,7 @@ class GameService
     }
 
     /**
-     * @return Carrot|Wheat
+     * @return AbstractPlant
      */
     private function getSeedToSeed()
     {
@@ -262,10 +266,12 @@ class GameService
         $this->usedSeeds[] = $seedFromStock->plant_pid;
 
         switch ($seedFromStock->plant_pid) {
-            case 17:
+            case AbstractPlant::PLANT_TYPE_CARROT:
                 return new Carrot();
-            case 1:
+            case AbstractPlant::PLANT_TYPE_WHEAT:
                 return new Wheat();
+            case AbstractPlant::PLANT_TYPE_CUCUMBER:
+                return new Cucumber();
         }
 
     }
