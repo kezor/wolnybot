@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FieldTableAddPhaseColumn extends Migration
+class SpaceTableAddBuildingTypeColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +13,8 @@ class FieldTableAddPhaseColumn extends Migration
      */
     public function up()
     {
-        Schema::table('fields', function($table) {
-            $table->integer('phase');
+        Schema::table('spaces', function($table) {
+            $table->integer('building_type')->after('position');
         });
     }
 
@@ -24,8 +25,8 @@ class FieldTableAddPhaseColumn extends Migration
      */
     public function down()
     {
-        Schema::table('fields', function($table) {
-            $table->dropColumn('phase');
+        Schema::table('spaces', function($table) {
+            $table->dropColumn('building_type');
         });
     }
 }
