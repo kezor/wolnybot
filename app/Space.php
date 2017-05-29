@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer player
  * @property integer farm
  * @property integer position
+ * @property integer building_type
  * @property boolean fields_in_database
  */
 class Space extends Model

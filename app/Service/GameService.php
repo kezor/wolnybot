@@ -63,6 +63,7 @@ class GameService
                     $space = $this->spaceRepository->getSpace($spaceData, $this->player);
                     $space->farm = $spaceData['farm'];
                     $space->position = $spaceData['position'];
+                    $space->building_type = $spaceData['buildingid'];
                     $space->save();
                     $this->spaces[] = $space;
 
@@ -215,6 +216,8 @@ class GameService
         //update stock
         $stocks = $dashboardData['updateblock']['stock']['stock'];
 
+        $updatedItemsInStock = [];
+
         foreach ($stocks as $stock) {
             foreach ($stock as $level1) {
                 foreach ($level1 as $level2) {
@@ -222,9 +225,18 @@ class GameService
                     $stock->amount = $level2['amount'];
                     $stock->duration = $level2['duration'];
                     $stock->save();
+                    $updatedItemsInStock[] = $stock->id;
                     echo 'plant id: ' . $stock->plant_pid . ', amount: ' . $stock->amount . PHP_EOL;
                 }
             }
+        }
+
+        $emptyItemsInStock = $this->stockRepository->getEmptyItems($updatedItemsInStock, $this->player);
+
+        /** @var Stock $item */
+        foreach ($emptyItemsInStock as $item) {
+            $item->amount = 0;
+            $item->save();
         }
     }
 
@@ -234,6 +246,7 @@ class GameService
             ->get();
         foreach ($userSpaces as $space) {
             echo 'working wit space: '.$space->position.PHP_EOL;
+            $this->updateStock();
             $this->updateFields();
             while ($this->isPossibleToSeed($space)) {
                 $plant = $this->getSeedToSeed();

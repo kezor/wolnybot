@@ -25,4 +25,10 @@ class StockRepository
         }
         return $stock;
     }
+
+    public function getEmptyItems($ids, Player $player){
+        return Stock::whereNotIn('id', $ids)
+            ->where('player', $player->id)
+            ->get();
+    }
 }
