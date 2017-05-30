@@ -18,7 +18,9 @@ abstract class AbstractPlant
 
     protected $name = 'BRAK';
 
-    const PLANT_TYPE_WHEAT  = 1;
+    protected $amount = null;
+
+    const PLANT_TYPE_WHEAT = 1;
     const PLANT_TYPE_CARROT = 17;
     const PLANT_TYPE_CUCUMBER = 18;
     const PLANT_TYPE_STRAWBERRY = 20;
@@ -46,6 +48,21 @@ abstract class AbstractPlant
         return $this->height;
     }
 
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    public function decreaseAmount()
+    {
+        $this->amount--;
+    }
+
     public function canCollect()
     {
         return $this->field->canCollect();
@@ -54,8 +71,8 @@ abstract class AbstractPlant
     public function setAsEmpty()
     {
         $this->field->plant_type = Field::FIELD_EMPTY;
-        $this->field->time       = 0;
-        $this->field->planted    = 0;
+        $this->field->time = 0;
+        $this->field->planted = 0;
         $this->field->save();
     }
 
@@ -72,14 +89,15 @@ abstract class AbstractPlant
 
         for ($i = 0; $i < $this->getLength(); $i++) {
             for ($j = 0; $j < $this->getHeight(); $j++) {
-                $fields[] = $this->getIndex()+$i+(12*$j);
+                $fields[] = $this->getIndex() + $i + (12 * $j);
             }
         }
 
         return implode(',', $fields);
     }
 
-    public function getName(){
+    public function getName()
+    {
         return $this->name;
     }
 }

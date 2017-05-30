@@ -23,13 +23,16 @@ class SpaceRepository
             ->first();
         if (!$space) {
             $space = new Space();
-            $space->player   = $player->id;
+            $space->player = $player->id;
+            $space->farm = $spaceData['farm'];
+            $space->position = $spaceData['position'];
         }
 
         return $space;
     }
 
-    public function getPlayerSpaces(Player $player){
+    public function getPlayerSpaces(Player $player)
+    {
         return Space::where('player', $player->id)->get();
     }
 }

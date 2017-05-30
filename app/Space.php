@@ -17,11 +17,21 @@ use Illuminate\Database\Eloquent\Model;
 class Space extends Model
 {
 
-    public function isFieldsInDatabase(){
+    public function isFieldsInDatabase()
+    {
         return $this->fields_in_database;
     }
 
-    public function getFields(){
+    public function getFields()
+    {
         return Field::where('space', $this->id)->get();
+    }
+
+    public function getFieldsToCollect()
+    {
+        return Field::where('phase', 4)
+            ->where('space', $this->id)
+            ->where('time', '!=', 0)
+            ->get();
     }
 }

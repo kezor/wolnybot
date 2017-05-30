@@ -60,8 +60,6 @@ class GameService
             foreach ($farm as $spaceData) {
                 if ($spaceData['status'] == 1 && $spaceData['buildingid'] == 1) { // @TODO temporary only for plant spaces
                     $space = $this->spaceRepository->getSpace($spaceData, $this->player);
-                    $space->farm = $spaceData['farm'];
-                    $space->position = $spaceData['position'];
                     $space->building_type = $spaceData['buildingid'];
                     $space->save();
                     $this->spaces[] = $space;
@@ -142,11 +140,19 @@ class GameService
 
     public function collectReady()
     {
-        $fieldsToCollect = Field::where('phase', 4)
-            ->where('time', '!=', 0)
-            ->get();
+        $spaces = $this->player->getSpaces();
+        /** @var Space $space */
+        foreach ($spaces as $space) {
+            $this->collectFromSpace($space);
+        }
+    }
+
+    private function collectFromSpace(Space $space)
+    {
+        $fieldsToCollect = $space->getFieldsToCollect();
 
         $fields = [];
+        /** @var Field $item */
         foreach ($fieldsToCollect as $item) {
             $fields[$item->index] = $item;
         }
@@ -244,21 +250,24 @@ class GameService
 
     public function seed()
     {
-        $userSpaces = Space::where('player', $this->player->id)
-            ->get();
+        $userSpaces = $this->player->getSpaces();
         foreach ($userSpaces as $space) {
-            echo 'working wit space: '.$space->position.PHP_EOL;
+            echo 'working with space: ' . $space->position . PHP_EOL;
             $this->updateStock();
             $this->updateFields();
             while ($this->isPossibleToSeed($space)) {
-                $plant = $this->getSeedToSeed();
-                echo 'Try to seed'.$plant->getName().PHP_EOL;
-                $fieldsToSeed = $this->getFieldsToSeed($space, $plant);
+                $seed = $this->getSeedToSeed();
+                echo 'Try to seed ' . $seed->getName() . PHP_EOL;
+                $fieldsToSeed = $this->getFieldsToSeed($space, $seed);
 
                 foreach ($fieldsToSeed as $field) {
-                    $this->connector->seed($field, $plant->getType());
+                    if ($seed->getAmount() > 0) {
+                        $this->connector->seed($field, $seed->getType());
+                        $seed->decreaseAmount();
+                    }
                 }
 
+                $this->updateStock();
                 $this->updateFields();
             }
 //            foreach ($fieldsToSeed as $field) {
@@ -282,15 +291,22 @@ class GameService
 
         switch ($seedFromStock->plant_pid) {
             case AbstractPlant::PLANT_TYPE_CARROT:
-                return new Carrot();
+                $plant = new Carrot();
+                break;
             case AbstractPlant::PLANT_TYPE_WHEAT:
-                return new Wheat();
+                $plant = new Wheat();
+                break;
             case AbstractPlant::PLANT_TYPE_CUCUMBER:
-                return new Cucumber();
+                $plant = new Cucumber();
+                break;
             case AbstractPlant::PLANT_TYPE_STRAWBERRY:
-                return new Strawberry();
+                $plant = new Strawberry();
+                break;
         }
+        /** @var AbstractPlant $plant */
+        $plant->setAmount($seedFromStock->amount);
 
+        return $plant;
     }
 
     private function isPossibleToSeed(Space $space)
@@ -327,11 +343,11 @@ class GameService
             ->get();
 
         $fields = [];
+        /** @var Field $field */
         foreach ($fieldsCollection as $field) {
             $fields[$field->index] = $field;
         }
 
-        /** @var Field $field */
 
         reset($fields);
         $index = key($fields);
@@ -350,7 +366,7 @@ class GameService
                 }
             }
             if (!$removeIndex) {
-                for ($yIndex = 1; $yIndex < $plant->getLength(); $yIndex++) {
+                for ($yIndex = 1; $yIndex < $plant->getHeight(); $yIndex++) {
                     $nextIndex = $field->index + $yIndex + 12;
                     if (!isset($fields[$nextIndex]) || $this->isNextIndexInNextRow($index, $nextIndex)) {
                         $removeIndex = true;
