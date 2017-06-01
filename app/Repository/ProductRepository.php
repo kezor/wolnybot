@@ -9,25 +9,26 @@
 namespace App\Repository;
 
 use App\Player;
-use App\Stock;
+use App\Product;
 
-class StockRepository
+class ProductRepository
 {
     public function getStock($stockData, Player $player)
     {
-        $stock = Stock::where('plant_pid', $stockData['pid'])
+        $stock = Product::where('pid', $stockData['pid'])
             ->where('player', $player->id)
             ->first();
         if (!$stock) {
-            $stock            = new Stock();
-            $stock->plant_pid = $stockData['pid'];
+            $stock = new Product();
+            $stock->pid = $stockData['pid'];
             $stock->player = $player->id;
         }
         return $stock;
     }
 
-    public function getEmptyItems($ids, Player $player){
-        return Stock::whereNotIn('id', $ids)
+    public function getEmptyItems($ids, Player $player)
+    {
+        return Product::whereNotIn('id', $ids)
             ->where('player', $player->id)
             ->get();
     }

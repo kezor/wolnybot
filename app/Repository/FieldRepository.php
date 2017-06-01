@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciej
- * Date: 24.05.17
- * Time: 13:26
- */
 
 namespace App\Repository;
 
@@ -22,6 +16,7 @@ class FieldRepository
         if (!$field) {
             $field = new Field();
             $field->space = $space->id;
+            $field->index = $fieldData['teil_nr'];
         }
         return $field;
     }

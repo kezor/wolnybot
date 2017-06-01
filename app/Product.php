@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @property integer id
  * @property integer player
- * @property integer plant_pid
+ * @property integer pid
  * @property integer amount
- * @property integer time
+ * @property integer duration
+ * @property integer size
  */
-class Stock extends Model
+class Product extends Model
 {
 
 }

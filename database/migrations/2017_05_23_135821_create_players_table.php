@@ -18,6 +18,7 @@ class CreatePlayersTable extends Migration
             $table->string('username');
             $table->string('password');
             $table->integer('server_id');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

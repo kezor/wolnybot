@@ -17,7 +17,7 @@ class CreateFieldsTable extends Migration
             $table->increments('id');
             $table->integer('space');
             $table->integer('index');
-            $table->integer('plant_type');
+            $table->integer('product_pid')->nullable();
             $table->string('planted')->nullable();
             $table->string('time')->nullable();
             $table->integer('offset_x');

@@ -1,32 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciej
- * Date: 23.05.17
- * Time: 21:17
- */
 
-namespace App\Plant;
+namespace App\Product;
 
 
 use App\Field;
 
-abstract class AbstractPlant
+abstract class AbstractProduct
 {
     protected $length = null;
     protected $height = null;
 
-    protected $name = 'BRAK';
+    protected $name = null;
 
     protected $amount = null;
 
-    const PLANT_TYPE_WHEAT = 1;
-    const PLANT_TYPE_CARROT = 17;
-    const PLANT_TYPE_CUCUMBER = 18;
-    const PLANT_TYPE_STRAWBERRY = 20;
+    protected $size = 1;
 
-    const PLANT_TYPE_CORN = 2;
-    const PLANT_TYPE_FAKE_PLANT = 77;
+    const PLANT_PHASE_FINAL = 4;
 
     /**
      * @var Field
@@ -38,14 +28,19 @@ abstract class AbstractPlant
         $this->field = $field;
     }
 
+    public function getPid()
+    {
+        return $this->field->product_pid;
+    }
+
     public function getLength()
     {
-        return $this->length;
+        return ($this->length) ? $this->length : $this->size;
     }
 
     public function getHeight()
     {
-        return $this->height;
+        return ($this->height) ? $this->height : $this->size / 2;
     }
 
     public function getAmount()
@@ -70,7 +65,7 @@ abstract class AbstractPlant
 
     public function setAsEmpty()
     {
-        $this->field->plant_type = Field::FIELD_EMPTY;
+        $this->field->product_pid = null;
         $this->field->time = 0;
         $this->field->planted = 0;
         $this->field->save();

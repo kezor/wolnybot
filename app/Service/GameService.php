@@ -12,17 +12,18 @@ namespace App\Service;
 use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
 use App\Field;
-use App\Plant\AbstractPlant;
-use App\Plant\Carrot;
-use App\Plant\Cucumber;
-use App\Plant\Strawberry;
-use App\Plant\Wheat;
+use App\Product\AbstractProduct;
+use App\Product\Carrot;
+use App\Product\Cucumber;
+use App\Product\Strawberry;
+use App\Product\Wheat;
 use App\Player;
+use App\ProductFactory;
 use App\Repository\FieldRepository;
 use App\Repository\SpaceRepository;
-use App\Repository\StockRepository;
+use App\Repository\ProductRepository;
 use App\Space;
-use App\Stock;
+use App\Product;
 use Illuminate\Database\Eloquent\Collection;
 
 class GameService
@@ -40,6 +41,21 @@ class GameService
      */
     private $player;
 
+    /**
+     * @var SpaceRepository
+     */
+    private $spaceRepository;
+
+    /**
+     * @var FieldRepository
+     */
+    private $fieldRepository;
+
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
     public function __construct(Player $player)
     {
         $this->connector = new WolniFarmerzyConnector();
@@ -47,7 +63,7 @@ class GameService
         $this->connector->login($player);
         $this->spaceRepository = new SpaceRepository();
         $this->fieldRepository = new FieldRepository();
-        $this->stockRepository = new StockRepository();
+        $this->productRepository = new ProductRepository();
     }
 
     public function updateFields()
@@ -80,7 +96,7 @@ class GameService
                             continue;
                         }
                         $field = $this->fieldRepository->getField($fieldData, $space);
-                        $field->plant_type = $fieldData['inhalt'];
+                        $field->product_pid = $fieldData['inhalt'];
                         $field->offset_x = $fieldData['x'];
                         $field->offset_y = $fieldData['y'];
                         $field->phase = $fieldData['phase'];
@@ -99,8 +115,9 @@ class GameService
                     $festFields = Field::whereIn('index', $restFieldI0ds)
                         ->where('space', $space->id)
                         ->get();
+                    /** @var Field $field */
                     foreach ($festFields as $field) {
-                        $field->plant_type = Field::FIELD_EMPTY;
+                        $field->product_pid = null;
                         $field->offset_x = 0;
                         $field->offset_y = 0;
                         $field->planted = 0;
@@ -128,7 +145,7 @@ class GameService
             $field = new Field();
             $field->space = $space->id;
             $field->index = $i;
-            $field->plant_type = Field::FIELD_EMPTY;
+            $field->product_pid = null;
             $field->offset_x = 0;
             $field->offset_y = 0;
             $field->phase = 4;
@@ -169,9 +186,9 @@ class GameService
             }
         }
 
-        $plants = $this->convertFieldToPlants($fields);
+        $plants = $this->convertPlantsToSeed($fields);
 
-        /** @var AbstractPlant $field */
+        /** @var AbstractProduct $field */
         foreach ($plants as $plant) {
             $this->connector->collect($plant);
             $plant->setAsEmpty();
@@ -191,27 +208,13 @@ class GameService
         }
     }
 
-    private function convertFieldToPlants($fields)
+    private function convertPlantsToSeed($fields)
     {
         $plants = [];
 
         /** @var Field $field */
         foreach ($fields as $field) {
-            switch ($field->plant_type) {
-                case AbstractPlant::PLANT_TYPE_CARROT:
-                    $plant = new Carrot($field);
-                    break;
-                case AbstractPlant::PLANT_TYPE_WHEAT:
-                    $plant = new Wheat($field);
-                    break;
-                case AbstractPlant::PLANT_TYPE_CUCUMBER:
-                    $plant = new Cucumber($field);
-                    break;
-                case AbstractPlant::PLANT_TYPE_STRAWBERRY:
-                    $plant = new Strawberry($field);
-                    break;
-            }
-            $plants[] = $plant;
+            $plants[] = ProductFactory::getProductFromField($field);
         }
 
         return $plants;
@@ -226,22 +229,24 @@ class GameService
 
         $updatedItemsInStock = [];
 
-        foreach ($stocks as $stock) {
-            foreach ($stock as $level1) {
+        foreach ($stocks as $product) {
+            foreach ($product as $level1) {
                 foreach ($level1 as $level2) {
-                    $stock = $this->stockRepository->getStock($level2, $this->player);
-                    $stock->amount = $level2['amount'];
-                    $stock->duration = $level2['duration'];
-                    $stock->save();
-                    $updatedItemsInStock[] = $stock->id;
-                    echo 'plant id: ' . $stock->plant_pid . ', amount: ' . $stock->amount . PHP_EOL;
+                    /** @var Product $product */
+                    $product = $this->productRepository->getStock($level2, $this->player);
+                    $product->amount = $level2['amount'];
+                    $product->duration = $level2['duration'];
+                    $product->size = $level2['duration'];
+                    $product->save();
+                    $updatedItemsInStock[] = $product->id;
+                    echo 'plant id: ' . $product->pid . ', amount: ' . $product->amount . PHP_EOL;
                 }
             }
         }
 
-        $emptyItemsInStock = $this->stockRepository->getEmptyItems($updatedItemsInStock, $this->player);
+        $emptyItemsInStock = $this->productRepository->getEmptyItems($updatedItemsInStock, $this->player);
 
-        /** @var Stock $item */
+        /** @var Product $item */
         foreach ($emptyItemsInStock as $item) {
             $item->amount = 0;
             $item->save();
@@ -277,12 +282,12 @@ class GameService
     }
 
     /**
-     * @return AbstractPlant
+     * @return AbstractProduct
      */
     private function getSeedToSeed()
     {
-        /** @var Stock $seedFromStock */
-        $seedFromStock = Stock::where('player', $this->player->id)
+        /** @var Product $seedFromStock */
+        $seedFromStock = Product::where('player', $this->player->id)
             ->where('amount', '>', 0)
             ->whereNotIn('plant_pid', $this->usedSeeds)
             ->orderBy('amount', 'ASC')
@@ -290,20 +295,20 @@ class GameService
         $this->usedSeeds[] = $seedFromStock->plant_pid;
 
         switch ($seedFromStock->plant_pid) {
-            case AbstractPlant::PLANT_TYPE_CARROT:
+            case AbstractProduct::PLANT_TYPE_CARROT:
                 $plant = new Carrot();
                 break;
-            case AbstractPlant::PLANT_TYPE_WHEAT:
+            case AbstractProduct::PLANT_TYPE_WHEAT:
                 $plant = new Wheat();
                 break;
-            case AbstractPlant::PLANT_TYPE_CUCUMBER:
+            case AbstractProduct::PLANT_TYPE_CUCUMBER:
                 $plant = new Cucumber();
                 break;
-            case AbstractPlant::PLANT_TYPE_STRAWBERRY:
+            case AbstractProduct::PLANT_TYPE_STRAWBERRY:
                 $plant = new Strawberry();
                 break;
         }
-        /** @var AbstractPlant $plant */
+        /** @var AbstractProduct $plant */
         $plant->setAmount($seedFromStock->amount);
 
         return $plant;
@@ -318,7 +323,7 @@ class GameService
     private function haveEnoughSeeds()
     {
         /** @var Collection $availablePlants */
-        $availablePlants = Stock::where('amount', '>', 0)
+        $availablePlants = Product::where('amount', '>', 0)
             ->where('player', $this->player->id)
             ->whereNotIn('plant_pid', $this->usedSeeds)
             ->get();
@@ -336,7 +341,7 @@ class GameService
     }
 
 
-    private function getFieldsToSeed(Space $space, AbstractPlant $plant)
+    private function getFieldsToSeed(Space $space, AbstractProduct $plant)
     {
         $fieldsCollection = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
             ->where('space', $space->id)
@@ -388,7 +393,7 @@ class GameService
         return $finalFieldsAvailableToSeed;
     }
 
-    private function getIndexesToRemove($currentIndex, AbstractPlant $plant)
+    private function getIndexesToRemove($currentIndex, AbstractProduct $plant)
     {
         $indexes = [];
 

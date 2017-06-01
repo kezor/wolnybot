@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciej
- * Date: 23.05.17
- * Time: 16:25
- */
 
 namespace App\Connector;
 
-
 use App\Field;
-use App\Plant\AbstractPlant;
+use App\Product\AbstractProduct;
 use App\Player;
 use App\Space;
 use GuzzleHttp\Client;
@@ -77,9 +70,9 @@ class WolniFarmerzyConnector
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function collect(AbstractPlant $plant)
+    public function collect(AbstractProduct $product)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]=' . $plant->getType() . '&feld[]=' . $plant->getIndex() . '&felder[]=' . $plant->getFields();
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]=' . $product->getPid() . '&feld[]=' . $product->getIndex() . '&felder[]=' . $product->getFields();
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }
@@ -102,20 +95,21 @@ class WolniFarmerzyConnector
         return $this->client->request('GET', $url);
     }
 
-    public function getGuildingsOptions(Space $space){
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getbuildingoptions&farm='.$space->farm.'&position='.$space->position;
+    public function getGuildingsOptions(Space $space)
+    {
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getbuildingoptions&farm=' . $space->farm . '&position=' . $space->position;
         return $this->client->request('GET', $url);
     }
 
     public function buyBuilding(Space $space, $building)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=buybuilding&farm='.$space->farm.'&position='.$space->position.'&id=1&buildingid='.$building->getType();
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=buybuilding&farm=' . $space->farm . '&position=' . $space->position . '&id=1&buildingid=' . $building->getType();
         return $this->client->request('GET', $url);
     }
 
     public function watered(Field $field)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]='.$field->index.'&felder[]='.$field->index;
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]=' . $field->index . '&felder[]=' . $field->index;
         return $this->client->request('GET', $url);
     }
 

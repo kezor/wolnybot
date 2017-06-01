@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciej
- * Date: 23.05.17
- * Time: 21:16
- */
 
-namespace App\Plant;
+namespace App\Product;
 
 
-class Corn extends AbstractPlant
+class Corn extends AbstractProduct
 {
     protected $length = 2;
 

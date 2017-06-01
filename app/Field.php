@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Product\AbstractProduct;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @property integer space
  * @property integer index
- * @property integer plant_type
+ * @property integer product_pid
  * @property integer offset_x
  * @property integer offset_y
  * @property integer phase
@@ -18,29 +19,23 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Field extends Model
 {
-    const FIELD_EMPTY = 0;
-    const FIELD_WEEDS = 13;
-    const FIELD_STUMPS = 14;
-    const FIELD_STONES = 15;
-    const FIELD_COCKROACHES = 16;
-    const FIELD_UNKNOWN = 99;
-
     public function canCollect()
     {
-        return !in_array($this->plant_type, [
-            self::FIELD_COCKROACHES,
-            self::FIELD_WEEDS,
-            self::FIELD_STONES,
-            self::FIELD_STUMPS,
-        ]) && $this->phase == 4;
+        return $this->phase == AbstractProduct::PLANT_PHASE_FINAL
+            && $this->isVegetable();
     }
 
     public function drawField()
     {
-        $char = $this->plant_type;
-        if(strlen($char) == 1){
-            $char = ' '.$char;
+        $char = $this->product_pid;
+        if (strlen($char) == 1) {
+            $char = ' ' . $char;
         }
-        return '['.$char.']';
+        return '[' . $char . ']';
+    }
+
+    public function isVegetable()
+    {
+        return in_array($this->product_pid, ProductCategoryMapper::getVegetablesPids());
     }
 }
