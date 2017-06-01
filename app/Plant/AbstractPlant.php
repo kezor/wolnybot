@@ -25,7 +25,7 @@ abstract class AbstractPlant
     const PLANT_TYPE_CUCUMBER = 18;
     const PLANT_TYPE_STRAWBERRY = 20;
 
-    const PLANT_TYPE_CORN = 88;
+    const PLANT_TYPE_CORN = 2;
     const PLANT_TYPE_FAKE_PLANT = 77;
 
     /**
