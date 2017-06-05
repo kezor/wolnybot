@@ -411,8 +411,8 @@ class ProductCategoryMapper
     public static function getVegetablesPids()
     {
         $vegetables = [];
-        foreach (self::productTypes as $pid => $type) {
-            if ($type = 'v') {
+        foreach (self::$productTypes as $pid => $type) {
+            if ($type == 'v') {
                 $vegetables[] = $pid;
             }
         }

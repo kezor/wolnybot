@@ -10,13 +10,20 @@ class ProductFactory
 
     public static function getProductFromField(Field $field)
     {
-        $productName = ProductMapper::getProductNameByPid($field->product_pid);
+        return self::getProductFromPid($field->product_pid, $field);
+    }
+
+    public static function getProductFromPid($pid, Field $field = null)
+    {
+        $productName = ProductMapper::getProductNameByPid($pid);
 
         $productClassName = 'App\\Product\\' . $productName;
 
         if (class_exists($productClassName)) {
             /** @var AbstractProduct $product */
-            return new $productClassName($field);
+            $product = new $productClassName($field);
+            $product->setPid($pid);
+            return $product;
         }
         throw new \Exception('Class "' . $productClassName . '" not found');
     }

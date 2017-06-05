@@ -18,7 +18,9 @@ use App\Product\Cucumber;
 use App\Product\Strawberry;
 use App\Product\Wheat;
 use App\Player;
+use App\ProductCategoryMapper;
 use App\ProductFactory;
+use App\ProductMapper;
 use App\Repository\FieldRepository;
 use App\Repository\SpaceRepository;
 use App\Repository\ProductRepository;
@@ -261,15 +263,10 @@ class GameService
             $this->updateStock();
             $this->updateFields();
             while ($this->isPossibleToSeed($space)) {
-                $seed = $this->getSeedToSeed();
-                echo 'Try to seed ' . $seed->getName() . PHP_EOL;
-                $fieldsToSeed = $this->getFieldsToSeed($space, $seed);
+                $seeds = $this->getSeedToSeed($space);
 
-                foreach ($fieldsToSeed as $field) {
-                    if ($seed->getAmount() > 0) {
-                        $this->connector->seed($field, $seed->getType());
-                        $seed->decreaseAmount();
-                    }
+                foreach ($seeds as $seed) {
+                    $this->connector->seed($seed);
                 }
 
                 $this->updateStock();
@@ -282,36 +279,40 @@ class GameService
     }
 
     /**
-     * @return AbstractProduct
+     * @param Space $space
+     * @return array
      */
-    private function getSeedToSeed()
+    private function getSeedToSeed(Space $space)
     {
         /** @var Product $seedFromStock */
         $seedFromStock = Product::where('player', $this->player->id)
             ->where('amount', '>', 0)
-            ->whereNotIn('plant_pid', $this->usedSeeds)
+            ->whereIn('pid', ProductCategoryMapper::getVegetablesPids())
+            ->whereNotIn('pid', $this->usedSeeds)
             ->orderBy('amount', 'ASC')
             ->first();
-        $this->usedSeeds[] = $seedFromStock->plant_pid;
-
-        switch ($seedFromStock->plant_pid) {
-            case AbstractProduct::PLANT_TYPE_CARROT:
-                $plant = new Carrot();
-                break;
-            case AbstractProduct::PLANT_TYPE_WHEAT:
-                $plant = new Wheat();
-                break;
-            case AbstractProduct::PLANT_TYPE_CUCUMBER:
-                $plant = new Cucumber();
-                break;
-            case AbstractProduct::PLANT_TYPE_STRAWBERRY:
-                $plant = new Strawberry();
-                break;
+        if (!$seedFromStock) {
+            return [];
         }
-        /** @var AbstractProduct $plant */
-        $plant->setAmount($seedFromStock->amount);
 
-        return $plant;
+        $this->usedSeeds[] = $seedFromStock->pid;
+
+        echo 'Try to seed ' . $seedFromStock->id . PHP_EOL;
+
+
+        $fieldsToSeed = $this->getFieldsToSeed($space, ProductFactory::getProductFromPid($seedFromStock->pid));
+
+        $seeds = [];
+        foreach ($fieldsToSeed as $field) {
+            /** @var AbstractProduct $seedToSeed */
+            $seedToSeed = ProductFactory::getProductFromPid($seedFromStock->pid);
+            $seedToSeed->setSize($seedFromStock->size);
+            $seedToSeed->setField($field);
+            $seedToSeed->setField($field);
+            $seeds[] = $seedToSeed;
+        }
+
+        return $seeds;
     }
 
     private function isPossibleToSeed(Space $space)
@@ -325,7 +326,7 @@ class GameService
         /** @var Collection $availablePlants */
         $availablePlants = Product::where('amount', '>', 0)
             ->where('player', $this->player->id)
-            ->whereNotIn('plant_pid', $this->usedSeeds)
+            ->whereNotIn('pid', $this->usedSeeds)
             ->get();
         return $availablePlants->isNotEmpty();
     }
@@ -333,7 +334,7 @@ class GameService
     private function haveFreeFields(Space $space)
     {
         /** @var Collection $availablePlants */
-        $fields = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
+        $fields = $fieldsToCollect = Field::whereNull('product_pid')
             ->where('space', $space->id)
             ->get();
         return $fields->isNotEmpty();
@@ -343,7 +344,7 @@ class GameService
 
     private function getFieldsToSeed(Space $space, AbstractProduct $plant)
     {
-        $fieldsCollection = $fieldsToCollect = Field::where('plant_type', Field::FIELD_EMPTY)
+        $fieldsCollection = $fieldsToCollect = Field::whereNull('product_pid')
             ->where('space', $space->id)
             ->get();
 
@@ -353,6 +354,7 @@ class GameService
             $fields[$field->index] = $field;
         }
 
+        $this->drawFieldsToCollect($fields);
 
         reset($fields);
         $index = key($fields);
@@ -371,8 +373,9 @@ class GameService
                 }
             }
             if (!$removeIndex) {
-                for ($yIndex = 1; $yIndex < $plant->getHeight(); $yIndex++) {
-                    $nextIndex = $field->index + $yIndex + 12;
+                for ($yIndex = 1; $yIndex <= $plant->getHeight(); $yIndex++) {
+                    $nextIndex = $field->index + $yIndex + 11;
+//                    var_dump('sprawdzam '. $index.' nastepny index '.$nextIndex);
                     if (!isset($fields[$nextIndex]) || $this->isNextIndexInNextRow($index, $nextIndex)) {
                         $removeIndex = true;
                     }
@@ -383,6 +386,7 @@ class GameService
             } else {
                 $finalFieldsAvailableToSeed[$index] = $fields[$index];
                 $indexesToRemove = $this->getIndexesToRemove($index, $plant);
+//                var_dump('sprawdzam ' . $index . 'Bede usuwal' . implode(',', array_values($indexesToRemove)));
                 foreach ($indexesToRemove as $indexToRemove) {
                     unset($fields[$indexToRemove]);
                 }
@@ -443,7 +447,7 @@ class GameService
         $firstField = new Field();
         $firstField->index = 1;
         $carrot = new Carrot($firstField);
-        $this->connector->seed($firstField, $carrot->getType());
+        $this->connector->seed($carrot->getPid());
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_water&farm=1&position=1&feld[]=3&felder[]=3
         $this->connector->watered($firstField);

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer amount
  * @property integer duration
  * @property integer size
+ * @property integer product_type
  */
 class Product extends Model
 {

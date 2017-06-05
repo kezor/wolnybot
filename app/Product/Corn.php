@@ -10,9 +10,4 @@ class Corn extends AbstractProduct
     protected $height = 2;
 
     protected $name = 'Kukurydza';
-
-    public function getType()
-    {
-        return self::PLANT_TYPE_CORN;
-    }
 }

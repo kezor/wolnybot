@@ -3,6 +3,8 @@
 namespace App;
 
 
+use App\Product\AbstractProduct;
+
 class ProductMapper
 {
     private static $products = [

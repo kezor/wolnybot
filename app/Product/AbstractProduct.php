@@ -14,6 +14,8 @@ abstract class AbstractProduct
 
     protected $amount = null;
 
+    protected $pid = null;
+
     protected $size = 1;
 
     const PLANT_PHASE_FINAL = 4;
@@ -28,8 +30,23 @@ abstract class AbstractProduct
         $this->field = $field;
     }
 
+    public function setField(Field $field)
+    {
+        $this->field = $field;
+        return $this;
+    }
+
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
+        return $this;
+    }
+
     public function getPid()
     {
+        if ($this->pid) {
+            return $this->pid;
+        }
         return $this->field->product_pid;
     }
 
@@ -53,6 +70,11 @@ abstract class AbstractProduct
         $this->amount = $amount;
     }
 
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
     public function decreaseAmount()
     {
         $this->amount--;
@@ -70,8 +92,6 @@ abstract class AbstractProduct
         $this->field->planted = 0;
         $this->field->save();
     }
-
-    abstract public function getType();
 
     public function getIndex()
     {

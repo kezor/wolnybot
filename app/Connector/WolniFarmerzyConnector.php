@@ -77,9 +77,9 @@ class WolniFarmerzyConnector
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function seed(Field $field, $plantType)
+    public function seed(AbstractProduct $plant)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $plantType . '&feld[]=' . $field->index . '&felder[]=' . $field->index;
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $plant->getPid() . '&feld[]=' . $plant->getIndex() . '&felder[]=' . $plant->getFields();
         return $this->client->request('GET', $url);
     }
 
