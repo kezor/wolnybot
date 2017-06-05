@@ -13,7 +13,7 @@ class SeedPlants extends Command
      *
      * @var string
      */
-    protected $signature = 'plants:seed';
+    protected $signature = 'fields:seed';
 
     /**
      * The console command description.

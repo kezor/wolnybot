@@ -262,15 +262,17 @@ class GameService
             echo 'working with space: ' . $space->position . PHP_EOL;
             $this->updateStock();
             $this->updateFields();
-            while ($this->isPossibleToSeed($space)) {
-                $seeds = $this->getSeedToSeed($space);
 
-                foreach ($seeds as $seed) {
-                    $this->connector->seed($seed);
+            $fieldsToSeed = $this->getFieldsToSeed($space);
+            while ($fieldsToSeed) {
+                foreach ($fieldsToSeed as $field) {
+                    $this->connector->seed($field);
                 }
 
                 $this->updateStock();
                 $this->updateFields();
+
+                $fieldsToSeed = $this->getFieldsToSeed($space);
             }
 //            foreach ($fieldsToSeed as $field) {
 //                $this->connector->watered($field);
@@ -341,8 +343,87 @@ class GameService
 
     }
 
+    private function getFieldsToSeed(Space $space)
+    {
+        do {
+            $productToSeed = $this->getProductToSeed();
+            if (!$productToSeed) {
+                return false;
+            }
+            $this->usedSeeds[] = $productToSeed->getPid();
+            $emptyFields = $this->getEmptyFields($space);
 
-    private function getFieldsToSeed(Space $space, AbstractProduct $plant)
+            $fieldsToSeed = $this->selectFields($emptyFields, $productToSeed);
+        } while (empty($fieldsToSeed));
+
+        return $fieldsToSeed;
+    }
+
+    private function getEmptyFields(Space $space)
+    {
+        return Field::whereNull('product_pid')
+            ->where('space', $space->id)
+            ->get();
+    }
+
+    private function getProductToSeed()
+    {
+        $stockProduct = Product::where('player', $this->player->id)
+            ->where('amount', '>', 0)
+            ->whereIn('pid', ProductCategoryMapper::getVegetablesPids())
+            ->whereNotIn('pid', $this->usedSeeds)
+            ->orderBy('amount', 'ASC')
+            ->first();
+        return ProductFactory::getProductFromPid($stockProduct->pid);
+    }
+
+    private function selectFields($fieldsCollection, AbstractProduct $product)
+    {
+        $fields = [];
+        /** @var Field $field */
+        foreach ($fieldsCollection as $field) {
+            $fields[$field->index] = $field;
+        }
+
+        reset($fields);
+        $index = key($fields);
+
+        $finalFieldsAvailableToSeed = [];
+
+        while (isset($fields[$index])) {
+            $availableToSeed = true;
+
+            for ($xIndex = 0; $xIndex < $product->getLength(); $xIndex++) {
+                for ($yIndex = 0; $yIndex < $product->getHeight(); $yIndex++) {
+                    $checkingIndex = $index + $xIndex + ($yIndex * 12);
+                    echo 'current index '.$index.' checking index '.$checkingIndex.PHP_EOL;
+                    if (!isset($fields[$checkingIndex]) || $this->isNextIndexInNextRow($index, $checkingIndex)) {
+                        $availableToSeed = false;
+                    }
+                }
+            }
+
+            if (!$availableToSeed) {
+                unset($fields[$index]);
+            } else {
+                $finalFieldsAvailableToSeed[$index] = clone $fields[$index];
+                $indexesToRemove = $this->getIndexesToRemove($index, $product);
+                foreach ($indexesToRemove as $indexToRemove) {
+                    unset($fields[$indexToRemove]);
+                }
+            }
+            reset($fields);
+            $index = key($fields);
+        }
+
+        /** @var Field $field */
+        foreach ($finalFieldsAvailableToSeed as $field) {
+            $field->setProduct($product);
+        }
+        return $finalFieldsAvailableToSeed;
+    }
+
+    private function getFieldsToSeed2(Space $space, AbstractProduct $plant)
     {
         $fieldsCollection = $fieldsToCollect = Field::whereNull('product_pid')
             ->where('space', $space->id)

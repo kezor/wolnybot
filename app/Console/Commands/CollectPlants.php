@@ -13,7 +13,7 @@ class CollectPlants extends Command
      *
      * @var string
      */
-    protected $signature = 'plants:collect';
+    protected $signature = 'fields:collect';
 
     /**
      * The console command description.

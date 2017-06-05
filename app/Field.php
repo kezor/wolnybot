@@ -25,6 +25,11 @@ class Field extends Model
             && $this->isVegetable();
     }
 
+    /**
+     * @var AbstractProduct
+     */
+    private $product = null;
+
     public function drawField()
     {
         $char = $this->product_pid;
@@ -32,6 +37,36 @@ class Field extends Model
             $char = ' ' . $char;
         }
         return '[' . $char . ']';
+    }
+
+    public function setProduct(AbstractProduct $product)
+    {
+        $this->product = $product;
+        return $this;
+    }
+
+    /**
+     * @return AbstractProduct
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function getFields()
+    {
+        if(!$this->product){
+            throw new \Exception('Field doesn\'t have product');
+        }
+        $fields = [];
+
+        for ($i = 0; $i < $this->product->getLength(); $i++) {
+            for ($j = 0; $j < $this->product->getHeight(); $j++) {
+                $fields[] = $this->index + $i + (12 * $j);
+            }
+        }
+
+        return implode(',', $fields);
     }
 
     public function isVegetable()
