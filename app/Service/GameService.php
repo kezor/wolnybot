@@ -26,7 +26,6 @@ use App\Repository\SpaceRepository;
 use App\Repository\ProductRepository;
 use App\Space;
 use App\Product;
-use Illuminate\Database\Eloquent\Collection;
 
 class GameService
 {
@@ -133,6 +132,10 @@ class GameService
 
     public function drawSpace(Space $space)
     {
+        /**
+         * @var integer $key
+         * @var Field $field
+         */
         foreach ($space->getFields() as $key => $field) {
             echo $field->drawField();
             if ((($key + 1) % 12) == 0) {
@@ -194,19 +197,6 @@ class GameService
         foreach ($plants as $plant) {
             $this->connector->collect($plant);
             $plant->setAsEmpty();
-        }
-    }
-
-    /**
-     * @param Field[] $fields
-     */
-    private function drawFieldsToCollect($fields)
-    {
-        for ($i = 1; $i <= 120; $i++) {
-            echo '[' . (isset($fields[$i]) ? $i : 'O') . ']';
-            if ($i % 12 == 0) {
-                echo PHP_EOL;
-            }
         }
     }
 
@@ -278,69 +268,6 @@ class GameService
 //                $this->connector->watered($field);
 //            }
         }
-    }
-
-    /**
-     * @param Space $space
-     * @return array
-     */
-    private function getSeedToSeed(Space $space)
-    {
-        /** @var Product $seedFromStock */
-        $seedFromStock = Product::where('player', $this->player->id)
-            ->where('amount', '>', 0)
-            ->whereIn('pid', ProductCategoryMapper::getVegetablesPids())
-            ->whereNotIn('pid', $this->usedSeeds)
-            ->orderBy('amount', 'ASC')
-            ->first();
-        if (!$seedFromStock) {
-            return [];
-        }
-
-        $this->usedSeeds[] = $seedFromStock->pid;
-
-        echo 'Try to seed ' . $seedFromStock->id . PHP_EOL;
-
-
-        $fieldsToSeed = $this->getFieldsToSeed($space, ProductFactory::getProductFromPid($seedFromStock->pid));
-
-        $seeds = [];
-        foreach ($fieldsToSeed as $field) {
-            /** @var AbstractProduct $seedToSeed */
-            $seedToSeed = ProductFactory::getProductFromPid($seedFromStock->pid);
-            $seedToSeed->setSize($seedFromStock->size);
-            $seedToSeed->setField($field);
-            $seedToSeed->setField($field);
-            $seeds[] = $seedToSeed;
-        }
-
-        return $seeds;
-    }
-
-    private function isPossibleToSeed(Space $space)
-    {
-        return $this->haveEnoughSeeds() && $this->haveFreeFields($space);
-    }
-
-
-    private function haveEnoughSeeds()
-    {
-        /** @var Collection $availablePlants */
-        $availablePlants = Product::where('amount', '>', 0)
-            ->where('player', $this->player->id)
-            ->whereNotIn('pid', $this->usedSeeds)
-            ->get();
-        return $availablePlants->isNotEmpty();
-    }
-
-    private function haveFreeFields(Space $space)
-    {
-        /** @var Collection $availablePlants */
-        $fields = $fieldsToCollect = Field::whereNull('product_pid')
-            ->where('space', $space->id)
-            ->get();
-        return $fields->isNotEmpty();
-
     }
 
     private function getFieldsToSeed(Space $space)
@@ -423,61 +350,6 @@ class GameService
         return $finalFieldsAvailableToSeed;
     }
 
-    private function getFieldsToSeed2(Space $space, AbstractProduct $plant)
-    {
-        $fieldsCollection = $fieldsToCollect = Field::whereNull('product_pid')
-            ->where('space', $space->id)
-            ->get();
-
-        $fields = [];
-        /** @var Field $field */
-        foreach ($fieldsCollection as $field) {
-            $fields[$field->index] = $field;
-        }
-
-        $this->drawFieldsToCollect($fields);
-
-        reset($fields);
-        $index = key($fields);
-
-        $finalFieldsAvailableToSeed = [];
-
-        while (isset($fields[$index])) {
-            /** @var Field $field */
-            $field = $fields[$index];
-            $removeIndex = false;
-
-            for ($xIndex = 1; $xIndex < $plant->getLength(); $xIndex++) {
-                $nextIndex = $field->index + $xIndex;
-                if (!isset($fields[$nextIndex]) || $this->isNextIndexInNextRow($index, $nextIndex)) {
-                    $removeIndex = true;
-                }
-            }
-            if (!$removeIndex) {
-                for ($yIndex = 1; $yIndex <= $plant->getHeight(); $yIndex++) {
-                    $nextIndex = $field->index + $yIndex + 11;
-//                    var_dump('sprawdzam '. $index.' nastepny index '.$nextIndex);
-                    if (!isset($fields[$nextIndex]) || $this->isNextIndexInNextRow($index, $nextIndex)) {
-                        $removeIndex = true;
-                    }
-                }
-            }
-            if ($removeIndex) {
-                unset($fields[$index]);
-            } else {
-                $finalFieldsAvailableToSeed[$index] = $fields[$index];
-                $indexesToRemove = $this->getIndexesToRemove($index, $plant);
-//                var_dump('sprawdzam ' . $index . 'Bede usuwal' . implode(',', array_values($indexesToRemove)));
-                foreach ($indexesToRemove as $indexToRemove) {
-                    unset($fields[$indexToRemove]);
-                }
-            }
-            reset($fields);
-            $index = key($fields);
-        }
-        return $finalFieldsAvailableToSeed;
-    }
-
     private function getIndexesToRemove($currentIndex, AbstractProduct $plant)
     {
         $indexes = [];
@@ -491,6 +363,14 @@ class GameService
         return $indexes;
     }
 
+    protected function isNextIndexInNextRow($index, $nextIndex)
+    {
+        $currentColumn = $this->getColumn($index);
+        $nextColumn = $this->getColumn($nextIndex);
+
+        return $nextColumn < $currentColumn;
+    }
+
     protected function getColumn($index)
     {
         $column = $index % 12;
@@ -498,14 +378,6 @@ class GameService
             $column = 12;
         }
         return $column;
-    }
-
-    protected function isNextIndexInNextRow($index, $nextIndex)
-    {
-        $currentColumn = $this->getColumn($index);
-        $nextColumn = $this->getColumn($nextIndex);
-
-        return $nextColumn < $currentColumn;
     }
 
     public function disableTutorial()
