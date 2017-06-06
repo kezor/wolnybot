@@ -35,9 +35,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//         $schedule->command('bot:test')
-//                  ->everyFiveMinutes()
-//                  ->withoutOverlapping();
+         $schedule->command('bot:test')
+                  ->everyFiveMinutes()
+                  ->withoutOverlapping();
     }
 
     /**
