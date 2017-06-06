@@ -301,6 +301,9 @@ class GameService
             ->whereNotIn('pid', $this->usedSeeds)
             ->orderBy('amount', 'ASC')
             ->first();
+        if(!$stockProduct){
+            return null;
+        }
         return ProductFactory::getProductFromPid($stockProduct->pid);
     }
 
