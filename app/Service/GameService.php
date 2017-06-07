@@ -106,7 +106,7 @@ class GameService
                         $field->save();
                         $updatedFieldIds[] = $field->index;
                     }
-                    echo 'Updated '.count($fields).' fields.'.PHP_EOL;
+                    echo 'Updated '.count($updatedFieldIds).' fields.'.PHP_EOL;
 
                     $values = range(1, 120);
                     $restFieldI0ds = array_combine($values, $values);
@@ -256,8 +256,10 @@ class GameService
 
             $fieldsToSeed = $this->getFieldsToSeed($space);
             while (!empty($fieldsToSeed)) {
+                reset($fieldsToSeed);
+                $index = key($fieldsToSeed);
                 /** @var Field[] $fieldsToSeed */
-                echo 'Found '.count($fieldsToSeed).' fields available to seed '.$fieldsToSeed[0]->getProduct()->getPid().PHP_EOL;
+                echo 'Found '.count($fieldsToSeed).' fields available to seed '.$fieldsToSeed[$index]->getProduct()->getPid().PHP_EOL;
                 foreach ($fieldsToSeed as $field) {
                     $this->connector->seed($field);
                 }
