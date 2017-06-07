@@ -255,7 +255,7 @@ class GameService
             $this->updateFields();
 
             $fieldsToSeed = $this->getFieldsToSeed($space);
-            while ($fieldsToSeed) {
+            while (!empty($fieldsToSeed)) {
                 /** @var Field[] $fieldsToSeed */
                 echo 'Found '.count($fieldsToSeed).' fields available to seed '.$fieldsToSeed[0]->getProduct()->getPid().PHP_EOL;
                 foreach ($fieldsToSeed as $field) {
