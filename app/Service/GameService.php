@@ -106,7 +106,7 @@ class GameService
                         $field->save();
                         $updatedFieldIds[] = $field->index;
                     }
-
+                    echo 'Updated '.count($fields).' fields.'.PHP_EOL;
 
                     $values = range(1, 120);
                     $restFieldI0ds = array_combine($values, $values);
@@ -198,6 +198,7 @@ class GameService
             $this->connector->collect($plant);
             $plant->setAsEmpty();
         }
+        echo 'Collected '.count($plants).' on space position: '.$space->position.PHP_EOL;
     }
 
     private function convertPlantsToSeed($fields)
@@ -231,7 +232,7 @@ class GameService
                     $product->size = $level2['duration'];
                     $product->save();
                     $updatedItemsInStock[] = $product->id;
-                    echo 'plant id: ' . $product->pid . ', amount: ' . $product->amount . PHP_EOL;
+                    echo 'Updated plant id: ' . $product->pid . ', amount: ' . $product->amount . PHP_EOL;
                 }
             }
         }
@@ -255,6 +256,8 @@ class GameService
 
             $fieldsToSeed = $this->getFieldsToSeed($space);
             while ($fieldsToSeed) {
+                /** @var Field[] $fieldsToSeed */
+                echo 'Found '.count($fieldsToSeed).' fields available to seed '.$fieldsToSeed[0]->getProduct()->getPid().PHP_EOL;
                 foreach ($fieldsToSeed as $field) {
                     $this->connector->seed($field);
                 }
@@ -326,7 +329,7 @@ class GameService
             for ($xIndex = 0; $xIndex < $product->getLength(); $xIndex++) {
                 for ($yIndex = 0; $yIndex < $product->getHeight(); $yIndex++) {
                     $checkingIndex = $index + $xIndex + ($yIndex * 12);
-                    echo 'current index '.$index.' checking index '.$checkingIndex.PHP_EOL;
+//                    echo 'current index '.$index.' checking index '.$checkingIndex.PHP_EOL;
                     if (!isset($fields[$checkingIndex]) || $this->isNextIndexInNextRow($index, $checkingIndex)) {
                         $availableToSeed = false;
                     }

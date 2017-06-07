@@ -32,12 +32,15 @@ class TestBot extends Command
         $players = Player::where('active', true)->get();
 
         foreach ($players as $player){
-            echo 'Working with player"'.$player->username.'" on server id: '.$player->server_id.PHP_EOL;
+            echo '###### Working with player "'.$player->username.'" on server id: '.$player->server_id.' ######'.PHP_EOL;
             $gameService = new GameService($player);
-
+            echo 'Updating fields...'.PHP_EOL;
             $gameService->updateFields();
+            echo 'Collecting ready products...'.PHP_EOL;
             $gameService->collectReady();
+            echo 'Updating stock...'.PHP_EOL;
             $gameService->updateStock();
+            echo 'Seeding products...'.PHP_EOL;
             $gameService->seed();
         }
     }
