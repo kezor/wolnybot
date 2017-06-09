@@ -10,9 +10,4 @@ class Wheat extends AbstractProduct
     protected $height = 1;
 
     protected $name = 'Pszenica';
-
-    public function getType()
-    {
-        return self::PLANT_TYPE_WHEAT;
-    }
 }

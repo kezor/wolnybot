@@ -3,11 +3,11 @@
 namespace App\Product;
 
 
-class Carrot extends AbstractProduct
+class Radish extends AbstractProduct
 {
     protected $length = 1;
 
     protected $height =1;
 
-    protected $name = 'Marchew';
+    protected $name = 'Rzodkiewka';
 }

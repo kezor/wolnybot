@@ -10,9 +10,4 @@ class Cucumber extends AbstractProduct
     protected $height = 1;
 
     protected $name = 'Ogórek';
-
-    public function getType()
-    {
-        return self::PLANT_TYPE_CUCUMBER;
-    }
 }
