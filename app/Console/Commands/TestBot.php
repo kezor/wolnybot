@@ -13,14 +13,14 @@ class TestBot extends Command
      *
      * @var string
      */
-    protected $signature = 'bot:test';
+    protected $signature = 'bot:test {--username=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Process all game';
 
     /**
      * Execute the console command.
@@ -29,18 +29,27 @@ class TestBot extends Command
      */
     public function handle()
     {
-        $players = Player::where('active', true)->get();
+        if ($this->option('username')) {
+            $players = Player::where('username', $this->option('username'))->get();
+        } else {
+            $players = Player::where('active', true)->get();
+        }
 
-        foreach ($players as $player){
-            echo '###### Working with player "'.$player->username.'" on server id: '.$player->server_id.' ######'.PHP_EOL;
+        if ($players->isEmpty()) {
+            $this->info('Not active users found');
+            return 0;
+        }
+
+        foreach ($players as $player) {
+            $this->info('###### Working with player "' . $player->username . '" on server id: ' . $player->server_id . ' ######');
             $gameService = new GameService($player);
-            echo 'Updating fields...'.PHP_EOL;
+            echo 'Updating fields...' . PHP_EOL;
             $gameService->updateFields();
-            echo 'Collecting ready products...'.PHP_EOL;
+            echo 'Collecting ready products...' . PHP_EOL;
             $gameService->collectReady();
-            echo 'Updating stock...'.PHP_EOL;
+            echo 'Updating stock...' . PHP_EOL;
             $gameService->updateStock();
-            echo 'Seeding products...'.PHP_EOL;
+            echo 'Seeding products...' . PHP_EOL;
             $gameService->seed();
         }
     }

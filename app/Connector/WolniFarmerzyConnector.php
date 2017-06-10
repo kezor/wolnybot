@@ -80,7 +80,6 @@ class WolniFarmerzyConnector
     public function seed(Field $field)
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
-//        var_dump($url);
         return $this->client->request('GET', $url);
     }
 
@@ -96,7 +95,7 @@ class WolniFarmerzyConnector
         return $this->client->request('GET', $url);
     }
 
-    public function getGuildingsOptions(Space $space)
+    public function getBuildingsOptions(Space $space)
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getbuildingoptions&farm=' . $space->farm . '&position=' . $space->position;
         return $this->client->request('GET', $url);
@@ -108,9 +107,9 @@ class WolniFarmerzyConnector
         return $this->client->request('GET', $url);
     }
 
-    public function watered(Field $field)
+    public function waterField(Field $field)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]=' . $field->index . '&felder[]=' . $field->index;
+        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
         return $this->client->request('GET', $url);
     }
 
