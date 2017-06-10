@@ -73,4 +73,13 @@ class Field extends Model
     {
         return in_array($this->product_pid, ProductCategoryMapper::getVegetablesPids());
     }
+
+    public function setAsEmpty()
+    {
+        $this->product_pid = null;
+        $this->time = 0;
+        $this->planted = 0;
+        $this->save();
+        return $this;
+    }
 }

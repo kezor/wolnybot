@@ -3,18 +3,32 @@
 namespace App\Connector;
 
 use App\Field;
-use App\Product\AbstractProduct;
 use App\Player;
 use App\Space;
+use App\UrlGenerator;
 use GuzzleHttp\Client;
 
 class WolniFarmerzyConnector
 {
+    /**
+     * @var Client
+     */
     private $client;
 
+    /**
+     * @var string
+     */
     private $token;
 
+    /**
+     * @var Player
+     */
     private $player;
+
+    /**
+     * @var UrlGenerator
+     */
+    private $urlGenerator;
 
     public function __construct()
     {
@@ -54,25 +68,27 @@ class WolniFarmerzyConnector
         $length = strpos($body, '\'');
 
         $this->token = substr($body, 0, $length);
+
+        $this->urlGenerator = new UrlGenerator($player, $this->token);
     }
 
     public function getDashboardData()
     {
-        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getfarms&farm=1&position=0';
+        $allDataUrl = $this->urlGenerator->getDashboardDataUrl();
         $res = $this->client->request('GET', $allDataUrl);
         return json_decode($res->getBody()->__toString(), true);
     }
 
     public function getSpaceFields(Space $space)
     {
-        $allDataUrl = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=gardeninit&farm=1&position=' . $space->position;
+        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($space);
         $res = $this->client->request('GET', $allDataUrl);
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function collect(AbstractProduct $product)
+    public function collect(Field $field)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_harvest&farm=1&position=1&pflanze[]=' . $product->getPid() . '&feld[]=' . $product->getIndex() . '&felder[]=' . $product->getFields();
+        $url = $this->urlGenerator->getCollectUrl($field);
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }

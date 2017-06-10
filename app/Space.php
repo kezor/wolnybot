@@ -29,9 +29,16 @@ class Space extends Model
 
     public function getFieldsToCollect()
     {
-        return Field::where('phase', 4)
+
+        $fields = Field::where('phase', 4)
             ->where('space', $this->id)
             ->where('time', '!=', 0)
             ->get();
+
+        /** @var Field $field */
+        foreach ($fields as $field) {
+            $field->setProduct(ProductFactory::getProductFromField($field));
+        }
+        return $fields;
     }
 }

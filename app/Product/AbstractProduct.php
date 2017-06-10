@@ -30,12 +30,6 @@ abstract class AbstractProduct
         $this->field = $field;
     }
 
-    public function setField(Field $field)
-    {
-        $this->field = $field;
-        return $this;
-    }
-
     public function setPid($pid)
     {
         $this->pid = $pid;
@@ -85,30 +79,9 @@ abstract class AbstractProduct
         return $this->field->canCollect();
     }
 
-    public function setAsEmpty()
-    {
-        $this->field->product_pid = null;
-        $this->field->time = 0;
-        $this->field->planted = 0;
-        $this->field->save();
-    }
-
     public function getIndex()
     {
         return $this->field->index;
-    }
-
-    public function getFields()
-    {
-        $fields = [];
-
-        for ($i = 0; $i < $this->getLength(); $i++) {
-            for ($j = 0; $j < $this->getHeight(); $j++) {
-                $fields[] = $this->getIndex() + $i + (12 * $j);
-            }
-        }
-
-        return implode(',', $fields);
     }
 
     public function getName()

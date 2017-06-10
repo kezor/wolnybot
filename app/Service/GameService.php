@@ -181,26 +181,12 @@ class GameService
             }
         }
 
-        $plants = $this->convertPlantsToSeed($fields);
-
-        /** @var AbstractProduct $field */
-        foreach ($plants as $plant) {
-            $this->connector->collect($plant);
-            $plant->setAsEmpty();
-        }
-        echo 'Collected ' . count($plants) . ' on space position: ' . $space->position . PHP_EOL;
-    }
-
-    private function convertPlantsToSeed($fields)
-    {
-        $plants = [];
-
         /** @var Field $field */
         foreach ($fields as $field) {
-            $plants[] = ProductFactory::getProductFromField($field);
+            $this->connector->collect($field);
+            $field->setAsEmpty();
         }
-
-        return $plants;
+        echo 'Collected ' . count($fields) . ' on space position: ' . $space->position . PHP_EOL;
     }
 
     public function updateStock()
@@ -434,7 +420,7 @@ class GameService
         }
         echo PHP_EOL;
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_harvest&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3
-        $this->connector->collect($carrot);
+        $this->connector->collect($firstField);
 
         $this->connector->increaseTutorialStep();
         $this->connector->closeTutorial();
