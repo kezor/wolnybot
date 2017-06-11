@@ -7,11 +7,8 @@ use App\Building\Farmland;
 use App\Connector\ConnectorInterface;
 use App\Connector\WolniFarmerzyConnector;
 use App\Field;
-use App\Product\AbstractProduct;
-use App\Product\Carrot;
 use App\Player;
 use App\ProductCategoryMapper;
-use App\ProductFactory;
 use App\Repository\FieldRepository;
 use App\Repository\SpaceRepository;
 use App\Repository\ProductRepository;
@@ -282,16 +279,11 @@ class GameService
         }
 
         $this->usedSeeds[] = $stockProduct->pid;
-        try {
-            return ProductFactory::getProductFromPid($stockProduct->pid);
-        } catch (\Exception $e) {
-            // @TODO logger
-        }
 
-        return null;
+        return $stockProduct;
     }
 
-    private function selectFields($fieldsCollection, AbstractProduct $product)
+    private function selectFields($fieldsCollection, Product $product)
     {
         $fields = [];
         /** @var Field $field */
@@ -338,7 +330,7 @@ class GameService
         return $finalFieldsAvailableToSeed;
     }
 
-    private function getIndexesToRemove($currentIndex, AbstractProduct $plant)
+    private function getIndexesToRemove($currentIndex, Product $plant)
     {
         $indexes = [];
 
@@ -389,7 +381,7 @@ class GameService
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3&cid=12
         $firstField = new Field();
         $firstField->index = 1;
-        $carrot = new Carrot($firstField);
+        $carrot = new Product($firstField);
         $this->connector->seed($carrot->getPid());
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_water&farm=1&position=1&feld[]=3&felder[]=3

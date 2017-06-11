@@ -37,7 +37,8 @@ class Space extends Model
 
         /** @var Field $field */
         foreach ($fields as $field) {
-            $field->setProduct(ProductFactory::getProductFromField($field));
+            $product = Product::where('pid', $field->product_pid)->first();
+            $field->setProduct($product);
         }
         return $fields;
     }

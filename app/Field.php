@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Product\AbstractProduct;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -21,12 +20,12 @@ class Field extends Model
 {
     public function canCollect()
     {
-        return $this->phase == AbstractProduct::PLANT_PHASE_FINAL
+        return $this->phase == Product::PLANT_PHASE_FINAL
             && $this->isVegetable();
     }
 
     /**
-     * @var AbstractProduct
+     * @var Product
      */
     private $product = null;
 
@@ -39,14 +38,14 @@ class Field extends Model
         return '[' . $char . ']';
     }
 
-    public function setProduct(AbstractProduct $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
         return $this;
     }
 
     /**
-     * @return AbstractProduct
+     * @return Product
      */
     public function getProduct()
     {

@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Field;
 use App\Player;
+use App\Product;
 use App\Product\AbstractProduct;
 use App\Product\Corn;
 use App\Space;
@@ -47,18 +48,18 @@ abstract class TestCase extends BaseTestCase
         return $space;
     }
 
-    protected function getTestField(AbstractProduct $product)
+    protected function getTestField(Product $product)
     {
         $field = new Field();
         $field->index = 1;
-        $field->phase = AbstractProduct::PLANT_PHASE_FINAL;
+        $field->phase = Product::PLANT_PHASE_FINAL;
         $field->setProduct($product);
         return $field;
     }
 
     protected function getTestProduct()
     {
-        $product = new Corn();
+        $product = new Product();
         $product->setAmount(123);
         $product->setPid(1);
         $product->setSize(4);
