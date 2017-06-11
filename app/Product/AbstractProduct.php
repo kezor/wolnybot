@@ -20,16 +20,6 @@ abstract class AbstractProduct
 
     const PLANT_PHASE_FINAL = 4;
 
-    /**
-     * @var Field
-     */
-    protected $field;
-
-    public function __construct(Field $field = null)
-    {
-        $this->field = $field;
-    }
-
     public function setPid($pid)
     {
         $this->pid = $pid;

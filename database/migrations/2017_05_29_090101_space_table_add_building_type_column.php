@@ -14,7 +14,7 @@ class SpaceTableAddBuildingTypeColumn extends Migration
     public function up()
     {
         Schema::table('spaces', function($table) {
-            $table->integer('building_type')->after('position');
+            $table->integer('building_type')->nullable()->after('position');
         });
     }
 

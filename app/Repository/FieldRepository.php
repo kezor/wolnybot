@@ -8,7 +8,7 @@ use App\Space;
 
 class FieldRepository
 {
-    public function getField($fieldData, Space $space)
+    public static function getField($fieldData, Space $space)
     {
         $field = Field::where('space', $space->id)
             ->where('index', $fieldData['teil_nr'])

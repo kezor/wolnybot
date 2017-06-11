@@ -18,7 +18,6 @@ class Player extends Model
 {
     public function getSpaces()
     {
-        $spaceRepository = new SpaceRepository();
-        return $spaceRepository->getPlayerSpaces($this);
+        return SpaceRepository::getPlayerSpaces($this);
     }
 }

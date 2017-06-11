@@ -13,7 +13,7 @@ class FieldTableAddPhaseColumn extends Migration
     public function up()
     {
         Schema::table('fields', function($table) {
-            $table->integer('phase');
+            $table->integer('phase')->default(0);
         });
     }
 

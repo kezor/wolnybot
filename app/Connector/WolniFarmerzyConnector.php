@@ -8,7 +8,7 @@ use App\Space;
 use App\UrlGenerator;
 use GuzzleHttp\Client;
 
-class WolniFarmerzyConnector
+class WolniFarmerzyConnector implements ConnectorInterface
 {
     /**
      * @var Client
@@ -70,6 +70,8 @@ class WolniFarmerzyConnector
         $this->token = substr($body, 0, $length);
 
         $this->urlGenerator = new UrlGenerator($player, $this->token);
+
+        return true;
     }
 
     public function getDashboardData()

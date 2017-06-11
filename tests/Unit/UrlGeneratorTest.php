@@ -50,41 +50,4 @@ class UrlGeneratorTest extends TestCase
             $url->getSeedUrl($field)
         );
     }
-
-    private function getTestPlayer()
-    {
-        $player = new Player();
-        $player->server_id = 1;
-        $player->username = 'TestUser';
-        $player->password = 'testPass';
-        $player->active = true;
-        return $player;
-    }
-
-    private function getTestSpace(Player $player)
-    {
-        $space = new Space();
-        $space->player = $player;
-        $space->farm = 1;
-        $space->position = 1;
-        return $space;
-    }
-
-    private function getTestField(AbstractProduct $product)
-    {
-        $field = new Field();
-        $field->index = 1;
-        $field->phase = AbstractProduct::PLANT_PHASE_FINAL;
-        $field->setProduct($product);
-        return $field;
-    }
-
-    private function getTestProduct()
-    {
-        $product = new Corn();
-        $product->setAmount(123);
-        $product->setPid(1);
-        $product->setSize(4);
-        return $product;
-    }
 }

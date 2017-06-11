@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Building\Farmland;
+use App\Connector\ConnectorInterface;
 use App\Connector\WolniFarmerzyConnector;
 use App\Field;
 use App\Product\AbstractProduct;
@@ -19,6 +20,9 @@ use App\Product;
 
 class GameService
 {
+    /**
+     * @var ConnectorInterface|WolniFarmerzyConnector
+     */
     private $connector;
 
     /**
@@ -32,29 +36,11 @@ class GameService
      */
     private $player;
 
-    /**
-     * @var SpaceRepository
-     */
-    private $spaceRepository;
-
-    /**
-     * @var FieldRepository
-     */
-    private $fieldRepository;
-
-    /**
-     * @var ProductRepository
-     */
-    private $productRepository;
-
-    public function __construct(Player $player)
+    public function __construct(Player $player, ConnectorInterface $connector)
     {
-        $this->connector = new WolniFarmerzyConnector();
+        $this->connector = $connector;
         $this->player = $player;
         $this->connector->login($player);
-        $this->spaceRepository = new SpaceRepository();
-        $this->fieldRepository = new FieldRepository();
-        $this->productRepository = new ProductRepository();
     }
 
     public function updateFields()
@@ -66,7 +52,7 @@ class GameService
         foreach ($farms as $farm) {
             foreach ($farm as $spaceData) {
                 if ($spaceData['status'] == 1 && $spaceData['buildingid'] == 1) { // @TODO temporary only for plant spaces
-                    $space = $this->spaceRepository->getSpace($spaceData, $this->player);
+                    $space = SpaceRepository::getSpace($spaceData, $this->player);
                     $space->building_type = $spaceData['buildingid'];
                     $space->save();
                     $this->spaces[] = $space;
@@ -86,7 +72,7 @@ class GameService
                         if (!is_numeric($key)) {
                             continue;
                         }
-                        $field = $this->fieldRepository->getField($fieldData, $space);
+                        $field = FieldRepository::getField($fieldData, $space);
                         $field->product_pid = $fieldData['inhalt'];
                         $field->offset_x = $fieldData['x'];
                         $field->offset_y = $fieldData['y'];
@@ -96,7 +82,6 @@ class GameService
                         $field->save();
                         $updatedFieldIds[] = $field->index;
                     }
-                    echo 'Updated ' . count($updatedFieldIds) . ' fields.' . PHP_EOL;
 
                     $values = range(1, 120);
                     $restFieldI0ds = array_combine($values, $values);
@@ -193,7 +178,6 @@ class GameService
     {
         $dashboardData = $this->connector->getDashboardData();
 
-        //update stock
         $stocks = $dashboardData['updateblock']['stock']['stock'];
 
         $updatedItemsInStock = [];
@@ -202,18 +186,17 @@ class GameService
             foreach ($product as $level1) {
                 foreach ($level1 as $level2) {
                     /** @var Product $product */
-                    $product = $this->productRepository->getStock($level2, $this->player);
+                    $product = ProductRepository::getStock($level2, $this->player);
                     $product->amount = $level2['amount'];
                     $product->duration = $level2['duration'];
                     $product->size = $level2['duration'];
                     $product->save();
                     $updatedItemsInStock[] = $product->id;
-                    echo 'Updated plant id: ' . $product->pid . ', amount: ' . $product->amount . PHP_EOL;
                 }
             }
         }
 
-        $emptyItemsInStock = $this->productRepository->getEmptyItems($updatedItemsInStock, $this->player);
+        $emptyItemsInStock = ProductRepository::getEmptyItems($updatedItemsInStock, $this->player);
 
         /** @var Product $item */
         foreach ($emptyItemsInStock as $item) {

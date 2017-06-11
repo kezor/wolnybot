@@ -13,7 +13,7 @@ use App\Product;
 
 class ProductRepository
 {
-    public function getStock($stockData, Player $player)
+    public static function getStock($stockData, Player $player)
     {
         $stock = Product::where('pid', $stockData['pid'])
             ->where('player', $player->id)
@@ -26,7 +26,7 @@ class ProductRepository
         return $stock;
     }
 
-    public function getEmptyItems($ids, Player $player)
+    public static function getEmptyItems($ids, Player $player)
     {
         return Product::whereNotIn('id', $ids)
             ->where('player', $player->id)

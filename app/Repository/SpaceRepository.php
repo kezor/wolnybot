@@ -15,7 +15,7 @@ use App\Space;
 class SpaceRepository
 {
 
-    public function getSpace($spaceData, $player)
+    public static function getSpace($spaceData, $player)
     {
         $space = Space::where('player', $player->id)
             ->where('farm', $spaceData['farm'])
@@ -31,7 +31,7 @@ class SpaceRepository
         return $space;
     }
 
-    public function getPlayerSpaces(Player $player)
+    public static function getPlayerSpaces(Player $player)
     {
         return Space::where('player', $player->id)->get();
     }
