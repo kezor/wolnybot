@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Connector\WolniFarmerzyConnector;
 use App\Player;
 use App\Service\GameService;
 use Illuminate\Console\Command;
@@ -42,7 +43,7 @@ class TestBot extends Command
 
         foreach ($players as $player) {
             $this->info('###### Working with player "' . $player->username . '" on server id: ' . $player->server_id . ' ######');
-            $gameService = new GameService($player);
+            $gameService = new GameService($player, new WolniFarmerzyConnector());
             echo 'Updating fields...' . PHP_EOL;
             $gameService->updateFields();
             echo 'Collecting ready products...' . PHP_EOL;
