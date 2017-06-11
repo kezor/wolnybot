@@ -95,7 +95,7 @@ class WolniFarmerzyConnector
 
     public function seed(Field $field)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
+        $url = $this->urlGenerator->getSeedUrl($field);
         return $this->client->request('GET', $url);
     }
 

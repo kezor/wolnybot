@@ -9,10 +9,7 @@ use App\Product\Carrot;
 use App\Product\Corn;
 use App\Space;
 use App\UrlGenerator;
-use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UrlGeneratorTest extends TestCase
 {
@@ -45,8 +42,12 @@ class UrlGeneratorTest extends TestCase
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_harvest&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,13,2,14',
-//            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=getfarms&farm=1&position=0',
             $url->getCollectUrl($field)
+        );
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,13,2,14',
+            $url->getSeedUrl($field)
         );
     }
 
