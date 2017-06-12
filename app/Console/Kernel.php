@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AddPlayer;
 use App\Console\Commands\CollectPlants;
 use App\Console\Commands\DisableTutorial;
 use App\Console\Commands\SeedPlants;
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
         SeedPlants::class,
         CollectPlants::class,
         UpdateFields::class,
-        DisableTutorial::class
+        DisableTutorial::class,
+        AddPlayer::class,
     ];
 
     /**

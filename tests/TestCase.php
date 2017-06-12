@@ -5,28 +5,15 @@ namespace Tests;
 use App\Field;
 use App\Player;
 use App\Product;
-use App\Product\AbstractProduct;
-use App\Product\Corn;
 use App\Space;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-
-    public function setUp()
-    {
-        parent::setUp();
-        Artisan::call('migrate');
-    }
-
-    public function tearDown()
-    {
-        Artisan::call('migrate:reset');
-        parent::tearDown();
-    }
+    use DatabaseTransactions;
 
     protected function getTestPlayer()
     {
@@ -62,7 +49,6 @@ abstract class TestCase extends BaseTestCase
         $product = new Product();
         $product->setAmount(123);
         $product->setPid(1);
-        $product->setSize(4);
         return $product;
     }
 

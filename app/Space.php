@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Repository\PlayerRepository;
+use App\Repository\ProductRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -37,9 +39,14 @@ class Space extends Model
 
         /** @var Field $field */
         foreach ($fields as $field) {
-            $product = Product::where('pid', $field->product_pid)->first();
+            $product = ProductRepository::getProductByPid($field);
             $field->setProduct($product);
         }
         return $fields;
+    }
+
+    public function getPlayer()
+    {
+        return PlayerRepository::getById($this->player);
     }
 }

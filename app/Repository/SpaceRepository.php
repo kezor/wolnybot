@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciej
- * Date: 24.05.17
- * Time: 13:26
- */
 
 namespace App\Repository;
 
@@ -14,6 +8,9 @@ use App\Space;
 
 class SpaceRepository
 {
+    public static function getById($id){
+        return Space::where('id', $id)->first();
+    }
 
     public static function getSpace($spaceData, $player)
     {

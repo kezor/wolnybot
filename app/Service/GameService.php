@@ -185,8 +185,6 @@ class GameService
                     /** @var Product $product */
                     $product = ProductRepository::getStock($level2, $this->player);
                     $product->amount = $level2['amount'];
-                    $product->duration = $level2['duration'];
-                    $product->size = $level2['duration'];
                     $product->save();
                     $updatedItemsInStock[] = $product->id;
                 }

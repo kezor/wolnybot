@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciej
- * Date: 24.05.17
- * Time: 13:26
- */
 
 namespace App\Repository;
 
+use App\Field;
 use App\Player;
 use App\Product;
 
@@ -31,5 +26,20 @@ class ProductRepository
         return Product::whereNotIn('id', $ids)
             ->where('player', $player->id)
             ->get();
+    }
+
+    public static function getProductByPid(Field $field)
+    {
+        $product = Product::where('pid', $field->product_pid)
+            ->where('player', $field->getSpace()->getPlayer()->id)
+            ->first();
+        if (!$product) {
+            $product = new Product();
+            $product->pid = $field->product_pid;
+            $product->player = $field->getSpace()->getPlayer()->id;
+            $product->amount = 0;
+            $product->save();
+        }
+        return $product;
     }
 }

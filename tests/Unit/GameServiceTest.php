@@ -8,15 +8,10 @@ use App\Field;
 use App\Product;
 use App\Service\GameService;
 use App\Space;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class GameServiceTest extends TestCase
 {
-    use DatabaseTransactions;
-    use DatabaseMigrations;
-
     public function testUpdateStock()
     {
         $player = $this->getTestPlayer();
@@ -32,7 +27,7 @@ class GameServiceTest extends TestCase
 
         $gameService->updateStock();
 
-        $allProductsInDatabase = Product::all();
+        $allProductsInDatabase = Product::where('player', $player->id)->get();
 
         $this->assertNotNull($allProductsInDatabase);
 
@@ -56,27 +51,27 @@ class GameServiceTest extends TestCase
 
         $gameService->updateFields();
 
-        $allSpaces = Space::all();
+        $allSpaces = Space::where('player', $player->id)->get();
         $this->assertNotNull($allSpaces);
         $this->assertCount(1, $allSpaces);
 
-        $allFields = Field::all();
+        $allFields = Field::where('space', $allSpaces[0]->id)->get();
         $this->assertNotNull($allFields);
         $this->assertCount(120, $allFields);
 
         $gameService->updateFields();
 
-        $allSpaces = Space::all();
+        $allSpaces = Space::where('player', $player->id)->get();
         $this->assertNotNull($allSpaces);
         $this->assertCount(1, $allSpaces);
 
-        $allFields = Field::orderBy('index', 'ASC')->get();
+        $allFields = Field::where('space', $allSpaces[0]->id)->orderBy('index', 'ASC')->get();
         $this->assertNotNull($allFields);
         $this->assertCount(120, $allFields);
 
         /** @var Field $field */
         foreach ($allFields as $field){
-            $this->assertEquals(1, $field->space);
+            $this->assertEquals($allSpaces[0]->id, $field->space);
         }
     }
 

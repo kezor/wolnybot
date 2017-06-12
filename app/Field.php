@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Repository\SpaceRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -80,5 +81,10 @@ class Field extends Model
         $this->planted = 0;
         $this->save();
         return $this;
+    }
+
+    public function getSpace()
+    {
+        return SpaceRepository::getById($this->space);
     }
 }

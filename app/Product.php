@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer player
  * @property integer pid
  * @property integer amount
- * @property integer duration
- * @property integer size
- * @property integer product_type
  */
 class Product extends Model
 {
@@ -32,18 +29,12 @@ class Product extends Model
 
     public function getLength()
     {
-        if ($this->size > 2) {
-            return $this->size / 2;
-        }
-        return $this->size;
+        return ProductSizeService::getProductLenghtByPid($this->pid);
     }
 
     public function getHeight()
     {
-        if ($this->size > 1) {
-            return $this->size / 2;
-        }
-        return $this->size;
+        return ProductSizeService::getProductLenghtByPid($this->pid);
     }
 
     public function getAmount()
@@ -54,11 +45,6 @@ class Product extends Model
     public function setAmount($amount)
     {
         $this->amount = $amount;
-    }
-
-    public function setSize($size)
-    {
-        $this->size = $size;
     }
 
     public function decreaseAmount()
