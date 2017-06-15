@@ -30,46 +30,64 @@ class WolniFarmerzyConnector implements ConnectorInterface
      */
     private $urlGenerator;
 
-    public function __construct()
+    public function __construct($client = null)
     {
-        $this->client = new Client(['cookies' => true]);
+        if (!$client) {
+            $client = new Client(['cookies' => true]);
+        }
+        $this->client = $client;
     }
 
     public function login(Player $player)
     {
         $this->player = $player;
 
-        $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
-            'form_params' => [
-                'server' => $player->server_id,
-                'username' => $player->username,
-                'password' => $player->password,
-                'ref' => '',
-                'retid' => '',
-                '_' => '',
-            ],
-        ]);
+        try {
+            $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
+                'form_params' => [
+                    'server' => $player->server_id,
+                    'username' => $player->username,
+                    'password' => $player->password,
+                    'ref' => '',
+                    'retid' => '',
+                    '_' => '',
+                ],
+            ]);
 
-        $responseBody = $res->getBody()->__toString();
+            $responseBody = $res->getBody()->__toString();
 
-        $url = substr($responseBody, 4, strlen($responseBody) - 6);
+            $matches = null;
+            preg_match('^\[1,"[a-z\:]+^', $responseBody, $matches);
+            if (empty($matches)) {
+                throw new \Exception('Wrong login credentials');
+            }
 
-        $url = str_replace('\\', '', $url);
+            $url = substr($responseBody, 4, strlen($responseBody) - 6);
 
-        $res = $this->client->request('GET', $url);
+            $url = str_replace('\\', '', $url);
 
-        $body = $res->getBody()->__toString();
+            $res = $this->client->request('GET', $url);
 
-        $needle = 'var rid = \'';
-        $startPos = strpos($body, $needle) + strlen($needle);
+            $body = $res->getBody()->__toString();
 
-        $body = substr($body, $startPos);
+            $needle = 'var rid = \'';
+            $startPos = strpos($body, $needle) + strlen($needle);
 
-        $length = strpos($body, '\'');
+            $body = substr($body, $startPos);
 
-        $this->token = substr($body, 0, $length);
+            $length = strpos($body, '\'');
 
-        $this->urlGenerator = new UrlGenerator($player, $this->token);
+            $this->token = substr($body, 0, $length);
+
+            if (empty($this->token)) {
+                throw new \Exception('Token is invalid');
+            }
+
+            $this->urlGenerator = new UrlGenerator($player, $this->token);
+        } catch (\Exception $exception) {
+            // @TODO log error
+            return false;
+        }
 
         return true;
     }
