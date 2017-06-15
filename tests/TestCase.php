@@ -26,21 +26,30 @@ abstract class TestCase extends BaseTestCase
         return $player;
     }
 
-    protected function getTestSpace(Player $player)
+    protected function getTestSpace(Player $player, $buildingType = null)
     {
         $space = new Space();
-        $space->player = $player;
+        $space->player = $player->id;
         $space->farm = 1;
         $space->position = 1;
+        if ($buildingType) {
+            $space->building_type = $buildingType;
+        }
+        $space->save();
         return $space;
     }
 
-    protected function getTestField(Product $product)
+    protected function getTestField(Product $product, Space $space, $plantPhase = Product::PLANT_PHASE_FINAL)
     {
         $field = new Field();
         $field->index = 1;
-        $field->phase = Product::PLANT_PHASE_FINAL;
+        $field->phase = $plantPhase;
+        $field->time = ($plantPhase > 1) ? time() : '';
         $field->setProduct($product);
+        $field->space = $space->id;
+        $field->offset_y = 1;
+        $field->offset_x = 1;
+        $field->save();
         return $field;
     }
 

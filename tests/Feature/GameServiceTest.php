@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 
 use App\Connector\WolniFarmerzyConnector;
@@ -49,7 +49,7 @@ class GameServiceTest extends TestCase
 
         $gameService = new GameService($player, $connectorMock);
 
-        $gameService->updateFields();
+        $gameService->updateSpacesData();
 
         $allSpaces = Space::where('player', $player->id)->get();
         $this->assertNotNull($allSpaces);
@@ -59,7 +59,7 @@ class GameServiceTest extends TestCase
         $this->assertNotNull($allFields);
         $this->assertCount(120, $allFields);
 
-        $gameService->updateFields();
+        $gameService->updateSpacesData();
 
         $allSpaces = Space::where('player', $player->id)->get();
         $this->assertNotNull($allSpaces);

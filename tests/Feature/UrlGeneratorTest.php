@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Field;
 use App\Player;
@@ -24,7 +24,7 @@ class UrlGeneratorTest extends TestCase
         $token = 'yghjurtdvbhytrfvbnrec';
         $space = $this->getTestSpace($player);
         $product = $this->getTestProduct();
-        $field = $this->getTestField($product);
+        $field = $this->getTestField($product, $space);
 
 
         $url = new UrlGenerator($player, $token);
