@@ -37,11 +37,7 @@ class UpdateFields extends Command
 
             $gameService = new GameService($player);
 
-            $gameService->updateFields();
-
-            foreach ($player->getSpaces() as $space){
-                $gameService->drawSpace($space);
-            }
+            $gameService->updateSpacesData();
         }
     }
 }

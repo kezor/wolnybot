@@ -39,7 +39,8 @@ class Space extends Model
 
         /** @var Field $field */
         foreach ($fields as $field) {
-            $product = ProductRepository::getProductByPid($field);
+            $product = new Product();
+            $product->setPid($field->product_pid);
             $field->setProduct($product);
         }
         return $fields;

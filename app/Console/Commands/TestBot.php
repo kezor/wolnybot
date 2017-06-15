@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Connector\WolniFarmerzyConnector;
 use App\Player;
 use App\Service\GameService;
+use App\Service\HovelService;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 
 class TestBot extends Command
 {
@@ -30,6 +32,7 @@ class TestBot extends Command
      */
     public function handle()
     {
+        /** @var Collection $players */
         if ($this->option('username')) {
             $players = Player::where('username', $this->option('username'))->get();
         } else {
@@ -44,14 +47,14 @@ class TestBot extends Command
         foreach ($players as $player) {
             $this->info('###### Working with player "' . $player->username . '" on server id: ' . $player->server_id . ' ######');
             $gameService = new GameService($player, new WolniFarmerzyConnector());
-            echo 'Updating fields...' . PHP_EOL;
-            $gameService->updateFields();
-            echo 'Collecting ready products...' . PHP_EOL;
-            $gameService->collectReady();
-            echo 'Updating stock...' . PHP_EOL;
-            $gameService->updateStock();
-            echo 'Seeding products...' . PHP_EOL;
-            $gameService->seed();
+
+            $gameService->run();
+
+            $hovelService = new HovelService($player, new WolniFarmerzyConnector());
+            echo 'Collecting eggs from hovels...' . PHP_EOL;
+            $hovelService->collect();
+            echo 'Feeding chickens...' . PHP_EOL;
+            $hovelService->feed();
         }
     }
 }
