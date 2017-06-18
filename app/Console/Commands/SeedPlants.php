@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Connector\WolniFarmerzyConnector;
 use App\Player;
 use App\Service\GameService;
 use Illuminate\Console\Command;
@@ -42,9 +43,9 @@ class SeedPlants extends Command
         $players = Player::where('active', true)->get();
 
         foreach ($players as $player){
-            echo 'Working with player on server: ' . $player->server_id . PHP_EOL;
+            echo 'Working with player '.$player->username.' on server: ' . $player->server_id . PHP_EOL;
 
-            $gameService = new GameService($player);
+            $gameService = new GameService($player, new WolniFarmerzyConnector());
             $gameService->seed();
         }
     }

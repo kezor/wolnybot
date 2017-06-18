@@ -230,6 +230,7 @@ class GameService
                 $fieldsToSeed = $this->getFieldsToSeed($space);
             }
             $this->waterFields($seededFields);
+            $this->usedSeeds = []; // reset used products for new space
         }
     }
 
