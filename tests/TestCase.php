@@ -26,29 +26,31 @@ abstract class TestCase extends BaseTestCase
         return $player;
     }
 
-    protected function getTestSpace(Player $player)
+    protected function getTestSpace(Player $player, $position = 1)
     {
         $space = new Space();
-        $space->player = $player;
+        $space->player = $player->id;
         $space->farm = 1;
-        $space->position = 1;
+        $space->position = $position;
+        $space->save();
         return $space;
     }
 
-    protected function getTestField(Product $product)
+    protected function getTestField(Product $product, Space $space)
     {
         $field = new Field();
         $field->index = 1;
         $field->phase = Product::PLANT_PHASE_FINAL;
         $field->setProduct($product);
+        $field->space = $space->id;
         return $field;
     }
 
-    protected function getTestProduct()
+    protected function getTestProduct($pid = 17) //default carrot 1x1
     {
         $product = new Product();
         $product->setAmount(123);
-        $product->setPid(1);
+        $product->setPid($pid);
         return $product;
     }
 

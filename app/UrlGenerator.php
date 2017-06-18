@@ -33,12 +33,12 @@ class UrlGenerator
 
     public function getCollectUrl(Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_harvest&farm=1&position=1&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
+        return $this->getMainPart() . '&mode=garden_harvest&farm=1&position='.$field->getSpace()->getPosition().'&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
     }
 
     public function getSeedUrl(Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
+        return $this->getMainPart() . '&mode=garden_plant&farm='.$field->getSpace()->getFarm().'&position='.$field->getSpace()->getPosition().'&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
     }
 
     private function getMainPart()
