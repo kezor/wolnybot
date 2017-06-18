@@ -49,4 +49,14 @@ class Space extends Model
     {
         return PlayerRepository::getById($this->player);
     }
+
+    public function getFarm()
+    {
+        return $this->farm;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
 }

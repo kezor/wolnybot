@@ -1,0 +1,3302 @@
+{
+  "datablock": [
+    1,
+    0
+  ],
+  "updateblock": {
+    "stock": {
+      "stock": {
+        "1": {
+          "1": {
+            "1": {
+              "pid": "1",
+              "amount": "2869",
+              "points": 3,
+              "duration": 1200
+            },
+            "2": {
+              "pid": "2",
+              "amount": "407",
+              "points": 17,
+              "duration": 2430,
+              "oldtime": 2700
+            },
+            "3": {
+              "pid": "9",
+              "amount": "21",
+              "points": 750,
+              "duration": 14400
+            },
+            "4": {
+              "pid": "17",
+              "amount": "11168",
+              "points": 1,
+              "duration": 900
+            },
+            "5": {
+              "pid": "18",
+              "amount": "1505",
+              "points": 7,
+              "duration": 5400
+            },
+            "6": {
+              "pid": "19",
+              "amount": "1637",
+              "points": 24,
+              "duration": 14400
+            },
+            "7": {
+              "pid": "20",
+              "amount": "1794",
+              "points": 42,
+              "duration": 28800
+            },
+            "8": {
+              "pid": "21",
+              "amount": "1982",
+              "points": 63,
+              "duration": 36000
+            }
+          }
+        },
+        "5": [],
+        "6": []
+      },
+      "harvestbonus": [],
+      "tempstock": [],
+      "racklock": {
+        "2": {
+          "house": 0,
+          "text": "Po wykonaniu questu 18 aktywujesz mo\u017cliwo\u015b\u0107 kupna tego rega\u0142u."
+        },
+        "3": {
+          "house": 0,
+          "text": "Ta mo\u017cliwo\u015b\u0107 dost\u0119pna jest jedynie dla posiadaczy konta premium."
+        },
+        "4": {
+          "house": 0,
+          "text": "Ta mo\u017cliwo\u015b\u0107 dost\u0119pna jest jedynie dla posiadaczy konta premium."
+        },
+        "5": {
+          "house": 0,
+          "text": "Ta mo\u017cliwo\u015b\u0107 dost\u0119pna jest jedynie dla posiadaczy konta premium."
+        },
+        "6": {
+          "house": 0,
+          "text": "Ta mo\u017cliwo\u015b\u0107 dost\u0119pna jest jedynie dla posiadaczy konta premium."
+        },
+        "7": {
+          "house": 0,
+          "text": "Ta mo\u017cliwo\u015b\u0107 dost\u0119pna jest jedynie dla posiadaczy konta premium."
+        },
+        "15": {
+          "house": 0,
+          "text": "Ta mo\u017cliwo\u015b\u0107 dost\u0119pna jest jedynie dla posiadaczy konta premium."
+        },
+        "30": {
+          "house": 0,
+          "text": "Z poziomem 23 mo\u017cesz aktywowa\u0107 ten rega\u0142."
+        },
+        "20": {
+          "house": 0,
+          "text": "Z poziomem 11 mo\u017cesz aktywowa\u0107 ten rega\u0142."
+        },
+        "10": {
+          "house": 0,
+          "text": "Z poziomem 31 mo\u017cesz aktywowa\u0107 ten rega\u0142."
+        }
+      },
+      "rackfarm": 0
+    },
+    "menue": {
+      "success": 1,
+      "bar": "1165.76",
+      "points": "238538",
+      "coins": "0",
+      "level": "Klubowy chaota",
+      "levelnum": "10",
+      "premium": 0,
+      "premium_bis": "01.01.70, 01:00",
+      "tutorial": 0,
+      "levelcurrentlimit": 211900,
+      "levellimit": 276900,
+      "mail": "0",
+      "contracts": "0",
+      "lng_con": "Umowy",
+      "lng_mail": "Wiadomo\u015bci",
+      "time": 1497776066,
+      "guildid": 0,
+      "guildname": 0,
+      "guildlevel": 0,
+      "guildmemberstatus": 0,
+      "localtime": "2017, 6, 18, 10, 54, 26",
+      "servertime": 1497776066,
+      "reallocatebuilding": 1,
+      "reallocateanimals": 1,
+      "forestry_unlock": 0,
+      "farms": [],
+      "cropbonus": 0,
+      "no_farmslide": 0,
+      "animalghosts": 0,
+      "main_flyer": 0,
+      "disable_autologout": 1,
+      "carpentry_bonus": 0,
+      "carpentrybonus_data": {
+        "data": 0,
+        "config": {
+          "level": 10,
+          "duration": 86400,
+          "needs": {
+            "23": 26,
+            "2": 91
+          },
+          "bonus": 1
+        },
+        "buildingid": 17
+      },
+      "paymentitem_remain": 0,
+      "specialoffer": 0,
+      "specialbonus": 0,
+      "collectevent": 0,
+      "giftevent": 0,
+      "teaser": [],
+      "news": []
+    },
+    "farms": {
+      "farms": {
+        "1": {
+          "1": {
+            "farm": "1",
+            "position": "1",
+            "buildingid": "1",
+            "level": "1",
+            "status": "1",
+            "animals": "0",
+            "product": "0",
+            "name": "Pole",
+            "upgrade": {
+              "cost": 21500,
+              "coins": 0,
+              "level": 15,
+              "block": 1
+            },
+            "destruct": 1,
+            "production": [
+              {
+                "remain": -12024,
+                "pid": "2"
+              }
+            ],
+            "water": [
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2062,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86165
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2063,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86166
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2064,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86167
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2065,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86168
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86168
+              },
+              {
+                "remain": 12112,
+                "waterremain": 71157
+              },
+              {
+                "remain": 12112,
+                "waterremain": 71157
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2066,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86169
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2067,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86172
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86172
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86170
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2068,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86171
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86172
+              },
+              {
+                "remain": 2069,
+                "waterremain": 86172
+              },
+              {
+                "remain": 1595,
+                "waterremain": 82876
+              },
+              {
+                "remain": 1595,
+                "waterremain": 82876
+              },
+              {
+                "remain": 1595,
+                "waterremain": 82877
+              },
+              {
+                "remain": 1596,
+                "waterremain": 82877
+              },
+              {
+                "remain": 1596,
+                "waterremain": 82877
+              },
+              {
+                "remain": 1596,
+                "waterremain": 82877
+              },
+              {
+                "remain": 1596,
+                "waterremain": 82878
+              },
+              {
+                "remain": 1597,
+                "waterremain": 82878
+              },
+              {
+                "remain": 4893,
+                "waterremain": 86172
+              },
+              {
+                "remain": 4893,
+                "waterremain": 86172
+              },
+              {
+                "remain": 12112,
+                "waterremain": 71158
+              },
+              {
+                "remain": 12113,
+                "waterremain": 71158
+              },
+              {
+                "remain": 12113,
+                "waterremain": 71158
+              },
+              {
+                "remain": 12113,
+                "waterremain": 71158
+              },
+              {
+                "remain": 12114,
+                "waterremain": 71158
+              },
+              {
+                "remain": 12114,
+                "waterremain": 71159
+              },
+              {
+                "remain": 12114,
+                "waterremain": 71159
+              },
+              {
+                "remain": 12114,
+                "waterremain": 71159
+              },
+              {
+                "remain": 12115,
+                "waterremain": 71159
+              },
+              {
+                "remain": 12115,
+                "waterremain": 71160
+              },
+              {
+                "remain": 12115,
+                "waterremain": 71160
+              },
+              {
+                "remain": 12115,
+                "waterremain": 71160
+              }
+            ],
+            "allocate_cost": 0
+          },
+          "2": {
+            "farm": "1",
+            "position": "2",
+            "buildingid": "2",
+            "level": "1",
+            "status": "1",
+            "animals": "2",
+            "product": "0",
+            "name": "Kurnik",
+            "upgrade": {
+              "cost": 15200,
+              "coins": 0,
+              "level": 7
+            },
+            "destruct": 1,
+            "animalsmax": 5,
+            "allocate_cost": 987
+          },
+          "3": {
+            "farm": "1",
+            "position": "3",
+            "buildingid": "1",
+            "level": "1",
+            "status": "1",
+            "animals": "0",
+            "product": "0",
+            "name": "Pole",
+            "upgrade": {
+              "cost": 21500,
+              "coins": 0,
+              "level": 15,
+              "block": 1
+            },
+            "destruct": 1,
+            "allocate_cost": 0
+          },
+          "4": {
+            "farm": "1",
+            "position": "4",
+            "buildingid": "0",
+            "level": "0",
+            "status": "0",
+            "animals": "0",
+            "product": "0",
+            "name": "",
+            "bulldoze": {
+              "id": 2,
+              "premium": 0,
+              "cost": 4300,
+              "quest": null,
+              "block": null,
+              "level": null
+            },
+            "allocate_cost": 0
+          },
+          "5": {
+            "farm": "1",
+            "position": "5",
+            "buildingid": "0",
+            "level": "0",
+            "status": "0",
+            "animals": "0",
+            "product": "0",
+            "name": "",
+            "bulldoze": {
+              "id": 5,
+              "premium": 1,
+              "cost": 10000,
+              "quest": null,
+              "block": null,
+              "level": null
+            },
+            "premium": 1,
+            "premiumblock": 1,
+            "allocate_cost": 0
+          },
+          "6": {
+            "farm": "1",
+            "position": "6",
+            "buildingid": "0",
+            "level": "0",
+            "status": "0",
+            "animals": "0",
+            "product": "0",
+            "name": "",
+            "bulldoze": {
+              "id": 4,
+              "premium": 0,
+              "cost": 22800,
+              "quest": null,
+              "block": null,
+              "level": null
+            },
+            "allocate_cost": 0
+          }
+        }
+      },
+      "count": "1",
+      "megafield_teaser": 0,
+      "highestquest1": "6",
+      "freegardenspeedup": 1,
+      "freegardenspeedup2": 0,
+      "premium": 0,
+      "guildquest": 0,
+      "farmhouse": 1,
+      "blocked": {
+        "2": {
+          "0": 5,
+          "1": 53200,
+          "2": 0,
+          "3": 6,
+          "questblock": 23
+        },
+        "3": {
+          "0": 10,
+          "1": 192800,
+          "2": 1,
+          "3": 6,
+          "questblock": 35
+        },
+        "4": {
+          "0": 30,
+          "1": 268000,
+          "2": 0,
+          "3": 6,
+          "questblock2": 10
+        },
+        "5": {
+          "0": 40,
+          "1": 585000,
+          "2": 0,
+          "3": 6,
+          "levelblock": 1
+        },
+        "6": {
+          "0": 42,
+          "1": 750000,
+          "2": 0,
+          "3": 6,
+          "levelblock": 1
+        },
+        "7": {
+          "0": 52,
+          "1": 268000,
+          "2": 0,
+          "3": 6,
+          "4": 1,
+          "block": 1
+        },
+        "8": {
+          "0": 55,
+          "1": 268000,
+          "2": 0,
+          "3": 6,
+          "4": 1,
+          "block": 1
+        }
+      },
+      "animals": [],
+      "powerups": {
+        "rack": null,
+        "active": []
+      },
+      "autoplant_loads": 0,
+      "config": {
+        "building2product": {
+          "2": 9,
+          "3": 10,
+          "4": 11,
+          "5": 12,
+          "11": 91,
+          "12": 110,
+          "15": 151
+        },
+        "advancedbuilding": {
+          "7": [
+            [
+              9,
+              30,
+              25
+            ],
+            [
+              21,
+              450,
+              144
+            ]
+          ],
+          "8": [
+            [
+              10,
+              12,
+              27
+            ],
+            [
+              110,
+              5,
+              111
+            ]
+          ],
+          "9": [
+            [
+              11,
+              8,
+              28
+            ],
+            [
+              151,
+              5,
+              152
+            ]
+          ],
+          "10": [
+            12,
+            5,
+            30
+          ]
+        },
+        "product2animals": {
+          "2": {
+            "1": {
+              "product": 9,
+              "timebonus": 600
+            },
+            "2": {
+              "product": 9,
+              "timebonus": 1200
+            }
+          },
+          "3": {
+            "3": {
+              "product": 10,
+              "timebonus": 900
+            },
+            "4": {
+              "product": 10,
+              "timebonus": 1800
+            }
+          },
+          "4": {
+            "5": {
+              "product": 11,
+              "timebonus": 2400
+            },
+            "6": {
+              "product": 11,
+              "timebonus": 4800
+            }
+          },
+          "5": {
+            "7": {
+              "product": 12,
+              "timebonus": 4800
+            },
+            "8": {
+              "product": 12,
+              "timebonus": 9600
+            }
+          },
+          "11": {
+            "92": {
+              "product": 91,
+              "timebonus": 14400
+            },
+            "93": {
+              "product": 91,
+              "timebonus": 28800
+            }
+          },
+          "12": {
+            "109": {
+              "product": 110,
+              "timebonus": 1800
+            },
+            "108": {
+              "product": 110,
+              "timebonus": 3600
+            }
+          },
+          "15": {
+            "153": {
+              "product": 151,
+              "timebonus": 1560
+            },
+            "154": {
+              "product": 151,
+              "timebonus": 3120
+            }
+          }
+        }
+      }
+    },
+    "farmis": [
+      [
+        {
+          "id": "56135219",
+          "pic": "6",
+          "verkauft": "0",
+          "price": "266.84",
+          "p1": "17",
+          "a1": "14",
+          "p2": "20",
+          "a2": "16",
+          "p3": "1",
+          "a3": "6",
+          "p4": "9",
+          "a4": "5",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56135485",
+          "pic": "4",
+          "verkauft": "0",
+          "price": "160.99",
+          "p1": "1",
+          "a1": "4",
+          "p2": "20",
+          "a2": "24",
+          "p3": "9",
+          "a3": "4",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56135525",
+          "pic": "1",
+          "verkauft": "0",
+          "price": "227.44",
+          "p1": "17",
+          "a1": "28",
+          "p2": "20",
+          "a2": "30",
+          "p3": "18",
+          "a3": "12",
+          "p4": "9",
+          "a4": "4",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56135993",
+          "pic": "5",
+          "verkauft": "0",
+          "price": "170.32",
+          "p1": "18",
+          "a1": "26",
+          "p2": "20",
+          "a2": "26",
+          "p3": "9",
+          "a3": "4",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56136967",
+          "pic": "2",
+          "verkauft": "0",
+          "price": "190.72",
+          "p1": "20",
+          "a1": "23",
+          "p2": "17",
+          "a2": "24",
+          "p3": "1",
+          "a3": "4",
+          "p4": "18",
+          "a4": "12",
+          "p5": "9",
+          "a5": "5",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56136991",
+          "pic": "1",
+          "verkauft": "0",
+          "price": "115.72",
+          "p1": "18",
+          "a1": "35",
+          "p2": "1",
+          "a2": "8",
+          "p3": "9",
+          "a3": "3",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56137005",
+          "pic": "1",
+          "verkauft": "0",
+          "price": "199.04",
+          "p1": "17",
+          "a1": "48",
+          "p2": "18",
+          "a2": "56",
+          "p3": "9",
+          "a3": "3",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56143760",
+          "pic": "6",
+          "verkauft": "0",
+          "price": "183.09",
+          "p1": "18",
+          "a1": "30",
+          "p2": "17",
+          "a2": "16",
+          "p3": "1",
+          "a3": "7",
+          "p4": "9",
+          "a4": "5",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56143764",
+          "pic": "3",
+          "verkauft": "0",
+          "price": "107.28",
+          "p1": "2",
+          "a1": "12",
+          "p2": "9",
+          "a2": "3",
+          "p3": "0",
+          "a3": "0",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56143908",
+          "pic": "6",
+          "verkauft": "0",
+          "price": "114.10",
+          "p1": "2",
+          "a1": "22",
+          "p2": "9",
+          "a2": "3",
+          "p3": "0",
+          "a3": "0",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56148782",
+          "pic": "2",
+          "verkauft": "0",
+          "price": "293.30",
+          "p1": "20",
+          "a1": "96",
+          "p2": "9",
+          "a2": "4",
+          "p3": "0",
+          "a3": "0",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56148783",
+          "pic": "4",
+          "verkauft": "0",
+          "price": "265.86",
+          "p1": "2",
+          "a1": "6",
+          "p2": "18",
+          "a2": "23",
+          "p3": "17",
+          "a3": "20",
+          "p4": "1",
+          "a4": "5",
+          "p5": "9",
+          "a5": "5",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56148784",
+          "pic": "6",
+          "verkauft": "0",
+          "price": "197.97",
+          "p1": "20",
+          "a1": "18",
+          "p2": "1",
+          "a2": "3",
+          "p3": "18",
+          "a3": "30",
+          "p4": "17",
+          "a4": "24",
+          "p5": "9",
+          "a5": "5",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56148785",
+          "pic": "5",
+          "verkauft": "0",
+          "price": "177.80",
+          "p1": "1",
+          "a1": "26",
+          "p2": "9",
+          "a2": "4",
+          "p3": "0",
+          "a3": "0",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56149672",
+          "pic": "5",
+          "verkauft": "0",
+          "price": "212.40",
+          "p1": "1",
+          "a1": "28",
+          "p2": "9",
+          "a2": "4",
+          "p3": "0",
+          "a3": "0",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        },
+        {
+          "id": "56150915",
+          "pic": "4",
+          "verkauft": "0",
+          "price": "124.78",
+          "p1": "1",
+          "a1": "4",
+          "p2": "18",
+          "a2": "22",
+          "p3": "9",
+          "a3": "2",
+          "p4": "0",
+          "a4": "0",
+          "p5": "0",
+          "a5": "0",
+          "p6": "0",
+          "a6": "0",
+          "p7": "0",
+          "a7": "0"
+        }
+      ],
+      0,
+      []
+    ],
+    "farmersmarket": {
+      "pets": {
+        "block": 1,
+        "data": {
+          "id": "3490",
+          "unr": "12547546",
+          "points": "0",
+          "count": "0",
+          "count_alltime": "0",
+          "count_alltime_lastchange": "0",
+          "count_buy": null,
+          "slots": {
+            "3": {
+              "block": 1,
+              "coins": 50
+            },
+            "4": {
+              "block": 1,
+              "coins": 5,
+              "rent_duration": 172800
+            }
+          },
+          "queue": "0",
+          "collected_parts1": "11",
+          "collected_parts2": "1",
+          "collected_parts3": "0",
+          "collected_parts4": "0",
+          "produced_food": "0",
+          "produced_toy": "0",
+          "produced_plushy": "0",
+          "finished_breeds": "0",
+          "createdate": "1495741266",
+          "level": 1,
+          "level_percent": 0,
+          "level_rest": 27400,
+          "queue_remain": -1497171266,
+          "exchangecoins": 2,
+          "exchangeamount": 700,
+          "pets_queue_active": 1
+        },
+        "parts": {
+          "3": {
+            "1": "1",
+            "2": "1",
+            "3": "1",
+            "4": "1",
+            "5": "1",
+            "6": "1",
+            "7": "1",
+            "8": "1",
+            "9": "2",
+            "complete": "1"
+          },
+          "7": {
+            "3": "1",
+            "complete": 0
+          },
+          "8": {
+            "2": "1",
+            "complete": 0
+          }
+        },
+        "packs": [],
+        "daily": 1,
+        "breed": 0,
+        "production": [],
+        "quest": {
+          "products": {
+            "600": 72,
+            "668": 24
+          },
+          "reward": {
+            "points": 80100
+          },
+          "delay": 86400,
+          "campaign": "1",
+          "questid": 1
+        },
+        "first": 0,
+        "log": [],
+        "collected": {
+          "3": 1
+        },
+        "config": {
+          "animals": {
+            "1": {
+              "name": "Kot",
+              "points_multi": 1.3,
+              "money_multi": 1.1,
+              "rarity": 1
+            },
+            "2": {
+              "name": "Pies",
+              "points_multi": 1.1,
+              "money_multi": 1.3,
+              "rarity": 1
+            },
+            "3": {
+              "name": "Kr\u00f3lik",
+              "points_multi": 1.25,
+              "money_multi": 1.15,
+              "rarity": 1
+            },
+            "4": {
+              "name": "\u015awinka morska",
+              "points_multi": 1.2,
+              "money_multi": 1.2,
+              "rarity": 1
+            },
+            "5": {
+              "name": "Osio\u0142",
+              "points_multi": 1.15,
+              "money_multi": 1.25,
+              "rarity": 1
+            },
+            "6": {
+              "name": "G\u0119\u015b",
+              "points_multi": 1.1,
+              "money_multi": 1.3,
+              "rarity": 1
+            },
+            "7": {
+              "name": "Papu\u017cka",
+              "points_multi": 1.4,
+              "money_multi": 1,
+              "rarity": 1
+            },
+            "8": {
+              "name": "Nied\u017awied\u017a",
+              "points_multi": 1.4,
+              "money_multi": 1.2,
+              "rarity": 2
+            },
+            "9": {
+              "name": "Lis",
+              "points_multi": 1.1,
+              "money_multi": 1.5,
+              "rarity": 2
+            },
+            "10": {
+              "name": "Sarna",
+              "points_multi": 1.3,
+              "money_multi": 1.3,
+              "rarity": 2
+            },
+            "11": {
+              "name": "Je\u017c",
+              "points_multi": 1.45,
+              "money_multi": 1.15,
+              "rarity": 2
+            },
+            "12": {
+              "name": "Wiewi\u00f3rka",
+              "points_multi": 1.2,
+              "money_multi": 1.4,
+              "rarity": 2
+            },
+            "13": {
+              "name": "Ry\u015b",
+              "points_multi": 1.3,
+              "money_multi": 1.3,
+              "rarity": 2
+            },
+            "14": {
+              "name": "Szop",
+              "points_multi": 1.4,
+              "money_multi": 1.4,
+              "rarity": 3
+            },
+            "15": {
+              "name": "Wydra",
+              "points_multi": 1.3,
+              "money_multi": 1.5,
+              "rarity": 3
+            },
+            "16": {
+              "name": "Panda",
+              "points_multi": 1.2,
+              "money_multi": 1.6,
+              "rarity": 3
+            },
+            "17": {
+              "name": "Kangur",
+              "points_multi": 1.45,
+              "money_multi": 1.35,
+              "rarity": 3
+            },
+            "18": {
+              "name": "Alpaka",
+              "points_multi": 1.3,
+              "money_multi": 1.5,
+              "rarity": 3
+            },
+            "19": {
+              "name": "Ba\u017cant",
+              "points_multi": 1.5,
+              "money_multi": 1.3,
+              "rarity": 3
+            },
+            "20": {
+              "name": "Panda czerwona",
+              "points_multi": 2,
+              "money_multi": 1.5,
+              "rarity": 4
+            },
+            "21": {
+              "name": "Tapir",
+              "points_multi": 1.8,
+              "money_multi": 1.7,
+              "rarity": 4
+            },
+            "22": {
+              "name": "Pudu",
+              "points_multi": 1.6,
+              "money_multi": 1.9,
+              "rarity": 4
+            }
+          },
+          "tools": {
+            "600": {
+              "breedlevel": 1,
+              "type": "food",
+              "needs": {
+                "10": 3,
+                "1": 340,
+                "12": 4
+              },
+              "money_production": 200,
+              "happiness": 20,
+              "breedpoints_production": 15,
+              "breedpoints_care": 110,
+              "money_care": 700,
+              "points_care": 2000,
+              "happy_duration": 1800,
+              "duration": 14400,
+              "amount": 3,
+              "money": 200,
+              "points": 2410
+            },
+            "601": {
+              "breedlevel": 2,
+              "type": "food",
+              "needs": {
+                "111": 12,
+                "17": 500,
+                "6": 60
+              },
+              "coins_production": 1,
+              "happiness": 70,
+              "breedpoints_production": 35,
+              "breedpoints_care": 340,
+              "money_care": 1800,
+              "points_care": 6000,
+              "happy_duration": 10800,
+              "duration": 10800,
+              "amount": 5,
+              "coins": 1,
+              "points": 4120
+            },
+            "602": {
+              "breedlevel": 3,
+              "type": "food",
+              "needs": {
+                "1": 500,
+                "2": 200,
+                "3": 200,
+                "26": 20
+              },
+              "money_production": 300,
+              "happiness": 28,
+              "breedpoints_production": 80,
+              "breedpoints_care": 140,
+              "money_care": 700,
+              "points_care": 2500,
+              "happy_duration": 2400,
+              "duration": 43200,
+              "amount": 2,
+              "money": 300,
+              "points": 11120
+            },
+            "603": {
+              "breedlevel": 8,
+              "type": "food",
+              "needs": {
+                "109": 150,
+                "108": 100,
+                "8": 15
+              },
+              "money_production": 600,
+              "happiness": 100,
+              "breedpoints_production": 85,
+              "breedpoints_care": 500,
+              "money_care": 1200,
+              "points_care": 11000,
+              "happy_duration": 18000,
+              "duration": 28800,
+              "amount": 4,
+              "money": 600,
+              "points": 11280
+            },
+            "604": {
+              "breedlevel": 7,
+              "type": "food",
+              "needs": {
+                "32": 50,
+                "33": 30,
+                "34": 30
+              },
+              "money_production": 400,
+              "happiness": 37,
+              "breedpoints_production": 35,
+              "breedpoints_care": 180,
+              "money_care": 750,
+              "points_care": 3400,
+              "happy_duration": 3600,
+              "duration": 14400,
+              "amount": 2,
+              "money": 400,
+              "points": 4790
+            },
+            "605": {
+              "breedlevel": 14,
+              "type": "food",
+              "needs": {
+                "9": 12,
+                "10": 10,
+                "27": 10
+              },
+              "coins_production": 4,
+              "happiness": 340,
+              "breedpoints_production": 125,
+              "breedpoints_care": 1700,
+              "money_care": 3800,
+              "points_care": 35000,
+              "happy_duration": 50400,
+              "duration": 20400,
+              "amount": 5,
+              "coins": 4,
+              "points": 13320
+            },
+            "606": {
+              "breedlevel": 12,
+              "type": "food",
+              "needs": {
+                "3": 220,
+                "6": 150,
+                "18": 200,
+                "23": 30
+              },
+              "money_production": 800,
+              "happiness": 60,
+              "breedpoints_production": 120,
+              "breedpoints_care": 290,
+              "money_care": 1050,
+              "points_care": 5200,
+              "happy_duration": 7200,
+              "duration": 36000,
+              "amount": 3,
+              "money": 800,
+              "points": 15370
+            },
+            "607": {
+              "breedlevel": 10,
+              "type": "food",
+              "needs": {
+                "17": 500,
+                "5": 220,
+                "24": 200,
+                "111": 20
+              },
+              "coins_production": 2,
+              "happiness": 100,
+              "breedpoints_production": 37,
+              "breedpoints_care": 500,
+              "money_care": 3200,
+              "points_care": 9000,
+              "happy_duration": 14400,
+              "duration": 8400,
+              "amount": 5,
+              "coins": 2,
+              "points": 3720
+            },
+            "608": {
+              "breedlevel": 11,
+              "type": "food",
+              "needs": {
+                "37": 20,
+                "111": 6,
+                "10": 8,
+                "1": 400
+              },
+              "coins_production": 3,
+              "happiness": 190,
+              "breedpoints_production": 120,
+              "breedpoints_care": 950,
+              "money_care": 2600,
+              "points_care": 19000,
+              "happy_duration": 28800,
+              "duration": 22800,
+              "amount": 4,
+              "coins": 3,
+              "points": 12690
+            },
+            "609": {
+              "breedlevel": 5,
+              "type": "food",
+              "needs": {
+                "37": 20,
+                "35": 30,
+                "36": 10
+              },
+              "coins_production": 2,
+              "happiness": 130,
+              "breedpoints_production": 120,
+              "breedpoints_care": 650,
+              "money_care": 1300,
+              "points_care": 14000,
+              "happy_duration": 21600,
+              "duration": 28800,
+              "amount": 3,
+              "coins": 2,
+              "points": 12850
+            },
+            "630": {
+              "breedlevel": 6,
+              "type": "toy",
+              "needs": {
+                "30": 12,
+                "28": 7,
+                "109": 100
+              },
+              "coins_production": 2,
+              "happiness": 130,
+              "breedpoints_production": 60,
+              "breedpoints_care": 650,
+              "money_care": 3300,
+              "points_care": 14000,
+              "happy_duration": 20400,
+              "duration": 14400,
+              "amount": 5,
+              "coins": 2,
+              "points": 6370
+            },
+            "631": {
+              "breedlevel": 13,
+              "type": "toy",
+              "needs": {
+                "26": 20,
+                "29": 20,
+                "35": 20,
+                "11": 17
+              },
+              "coins_production": 3,
+              "happiness": 190,
+              "breedpoints_production": 65,
+              "breedpoints_care": 950,
+              "money_care": 2550,
+              "points_care": 19000,
+              "happy_duration": 27600,
+              "duration": 12600,
+              "amount": 3,
+              "coins": 3,
+              "points": 7170
+            },
+            "632": {
+              "breedlevel": 4,
+              "type": "toy",
+              "needs": {
+                "17": 300,
+                "7": 20,
+                "28": 10
+              },
+              "coins_production": 1,
+              "happiness": 70,
+              "breedpoints_production": 40,
+              "breedpoints_care": 340,
+              "money_care": 2000,
+              "points_care": 6000,
+              "happy_duration": 9600,
+              "duration": 12000,
+              "amount": 4,
+              "coins": 1,
+              "points": 4180
+            },
+            "633": {
+              "breedlevel": 14,
+              "type": "toy",
+              "needs": {
+                "2": 350,
+                "11": 12,
+                "28": 8
+              },
+              "coins_production": 4,
+              "happiness": 335,
+              "breedpoints_production": 75,
+              "breedpoints_care": 1700,
+              "money_care": 4200,
+              "points_care": 35000,
+              "happy_duration": 49200,
+              "duration": 12000,
+              "amount": 4,
+              "coins": 4,
+              "points": 7780
+            },
+            "634": {
+              "breedlevel": 2,
+              "type": "toy",
+              "needs": {
+                "1": 400,
+                "6": 50,
+                "28": 5
+              },
+              "money_production": 300,
+              "happiness": 30,
+              "breedpoints_production": 25,
+              "breedpoints_care": 150,
+              "money_care": 1080,
+              "points_care": 2700,
+              "happy_duration": 1800,
+              "duration": 13200,
+              "amount": 4,
+              "money": 300,
+              "points": 3500
+            },
+            "635": {
+              "breedlevel": 5,
+              "type": "toy",
+              "needs": {
+                "38": 100,
+                "11": 10,
+                "17": 420
+              },
+              "money_production": 400,
+              "happiness": 37,
+              "breedpoints_production": 60,
+              "breedpoints_care": 180,
+              "money_care": 1100,
+              "points_care": 3400,
+              "happy_duration": 2400,
+              "duration": 25200,
+              "amount": 3,
+              "money": 400,
+              "points": 8380
+            },
+            "636": {
+              "breedlevel": 1,
+              "type": "toy",
+              "needs": {
+                "38": 20,
+                "19": 30,
+                "30": 5
+              },
+              "money_production": 200,
+              "happiness": 20,
+              "breedpoints_production": 11,
+              "breedpoints_care": 110,
+              "money_care": 980,
+              "points_care": 2000,
+              "happy_duration": 600,
+              "duration": 10800,
+              "amount": 4,
+              "money": 200,
+              "points": 1640
+            },
+            "637": {
+              "breedlevel": 9,
+              "type": "toy",
+              "needs": {
+                "24": 60,
+                "34": 200,
+                "35": 30,
+                "111": 18
+              },
+              "money_production": 600,
+              "happiness": 100,
+              "breedpoints_production": 30,
+              "breedpoints_care": 500,
+              "money_care": 3670,
+              "points_care": 11000,
+              "happy_duration": 16800,
+              "duration": 9600,
+              "amount": 4,
+              "money": 600,
+              "points": 3620
+            },
+            "638": {
+              "breedlevel": 8,
+              "type": "toy",
+              "needs": {
+                "153": 40,
+                "28": 18
+              },
+              "coins_production": 2,
+              "happiness": 100,
+              "breedpoints_production": 75,
+              "breedpoints_care": 500,
+              "money_care": 2900,
+              "points_care": 9000,
+              "happy_duration": 13200,
+              "duration": 16800,
+              "amount": 5,
+              "coins": 2,
+              "points": 7520
+            },
+            "639": {
+              "breedlevel": 11,
+              "type": "toy",
+              "needs": {
+                "26": 80,
+                "21": 100,
+                "9": 13
+              },
+              "money_production": 800,
+              "happiness": 60,
+              "breedpoints_production": 125,
+              "breedpoints_care": 290,
+              "money_care": 1180,
+              "points_care": 5200,
+              "happy_duration": 6000,
+              "duration": 36000,
+              "amount": 3,
+              "money": 800,
+              "points": 15110
+            },
+            "660": {
+              "breedlevel": 14,
+              "type": "plushy",
+              "needs": {
+                "17": 450,
+                "11": 15,
+                "28": 11
+              },
+              "coins_production": 4,
+              "happiness": 330,
+              "breedpoints_production": 65,
+              "breedpoints_care": 1700,
+              "money_care": 4250,
+              "points_care": 35000,
+              "happy_duration": 48000,
+              "duration": 10800,
+              "amount": 5,
+              "coins": 4,
+              "points": 7090
+            },
+            "661": {
+              "breedlevel": 9,
+              "type": "plushy",
+              "needs": {
+                "4": 250,
+                "20": 30,
+                "23": 60,
+                "11": 17
+              },
+              "coins_production": 2,
+              "happiness": 100,
+              "breedpoints_production": 90,
+              "breedpoints_care": 490,
+              "money_care": 1650,
+              "points_care": 9000,
+              "happy_duration": 12000,
+              "duration": 20400,
+              "amount": 4,
+              "coins": 2,
+              "points": 9190
+            },
+            "662": {
+              "breedlevel": 7,
+              "type": "plushy",
+              "needs": {
+                "4": 300,
+                "36": 25,
+                "5": 75,
+                "108": 20
+              },
+              "coins_production": 2,
+              "happiness": 130,
+              "breedpoints_production": 150,
+              "breedpoints_care": 650,
+              "money_care": 1150,
+              "points_care": 14000,
+              "happy_duration": 19200,
+              "duration": 36000,
+              "amount": 5,
+              "coins": 2,
+              "points": 16320
+            },
+            "663": {
+              "breedlevel": 13,
+              "type": "plushy",
+              "needs": {
+                "8": 40,
+                "109": 200,
+                "108": 140,
+                "11": 11
+              },
+              "money_production": 800,
+              "happiness": 62,
+              "breedpoints_production": 75,
+              "breedpoints_care": 300,
+              "money_care": 1500,
+              "points_care": 5200,
+              "happy_duration": 5400,
+              "duration": 22800,
+              "amount": 5,
+              "money": 800,
+              "points": 9790
+            },
+            "664": {
+              "breedlevel": 3,
+              "type": "plushy",
+              "needs": {
+                "2": 250,
+                "7": 25,
+                "8": 25
+              },
+              "coins_production": 1,
+              "happiness": 70,
+              "breedpoints_production": 95,
+              "breedpoints_care": 340,
+              "money_care": 800,
+              "points_care": 6000,
+              "happy_duration": 8400,
+              "duration": 28800,
+              "amount": 3,
+              "coins": 1,
+              "points": 10360
+            },
+            "665": {
+              "breedlevel": 12,
+              "type": "plushy",
+              "needs": {
+                "1": 460,
+                "11": 17,
+                "4": 80
+              },
+              "coins_production": 3,
+              "happiness": 190,
+              "breedpoints_production": 80,
+              "breedpoints_care": 950,
+              "money_care": 2200,
+              "points_care": 19000,
+              "happy_duration": 26400,
+              "duration": 15600,
+              "amount": 4,
+              "coins": 3,
+              "points": 8930
+            },
+            "666": {
+              "breedlevel": 6,
+              "type": "plushy",
+              "needs": {
+                "24": 50,
+                "11": 8,
+                "3": 100,
+                "18": 50
+              },
+              "money_production": 400,
+              "happiness": 37,
+              "breedpoints_production": 45,
+              "breedpoints_care": 180,
+              "money_care": 920,
+              "points_care": 3400,
+              "happy_duration": 1200,
+              "duration": 18000,
+              "amount": 3,
+              "money": 400,
+              "points": 6300
+            },
+            "667": {
+              "breedlevel": 4,
+              "type": "plushy",
+              "needs": {
+                "7": 30,
+                "11": 6,
+                "1": 400
+              },
+              "money_production": 300,
+              "happiness": 30,
+              "breedpoints_production": 80,
+              "breedpoints_care": 150,
+              "money_care": 850,
+              "points_care": 2600,
+              "happy_duration": 600,
+              "duration": 43200,
+              "amount": 3,
+              "money": 300,
+              "points": 11560
+            },
+            "668": {
+              "breedlevel": 1,
+              "type": "plushy",
+              "needs": {
+                "5": 100,
+                "18": 200,
+                "6": 30
+              },
+              "money_production": 200,
+              "happiness": 25,
+              "breedpoints_production": 45,
+              "breedpoints_care": 135,
+              "money_care": 400,
+              "points_care": 2400,
+              "happy_duration": 1200,
+              "duration": 43200,
+              "amount": 3,
+              "money": 200,
+              "points": 7070
+            },
+            "669": {
+              "breedlevel": 10,
+              "type": "plushy",
+              "needs": {
+                "11": 10,
+                "28": 7,
+                "33": 20
+              },
+              "money_production": 600,
+              "happiness": 100,
+              "breedpoints_production": 50,
+              "breedpoints_care": 500,
+              "money_care": 1930,
+              "points_care": 11000,
+              "happy_duration": 15600,
+              "duration": 16800,
+              "amount": 5,
+              "money": 600,
+              "points": 6600
+            }
+          },
+          "parts_packages": {
+            "1": {
+              "content": {
+                "1": 1
+              },
+              "money": {
+                "1": 5000
+              },
+              "altcoins": {
+                "1": 1
+              }
+            },
+            "2": {
+              "content": {
+                "1": 2,
+                "2": 1
+              },
+              "coins": {
+                "1": 5,
+                "5": 25,
+                "10": 45,
+                "25": 107
+              }
+            },
+            "3": {
+              "content": {
+                "1": 1,
+                "2": 1,
+                "3": 1
+              },
+              "breedpoints": {
+                "1": 5000,
+                "5": 25000,
+                "10": 45000,
+                "25": 107000
+              }
+            },
+            "4": {
+              "content": {
+                "2": 2,
+                "3": 1
+              },
+              "coins": {
+                "1": 13,
+                "5": 65,
+                "10": 117,
+                "25": 280
+              }
+            },
+            "5": {
+              "content": {
+                "3": 2,
+                "4": 1
+              },
+              "coins": {
+                "1": 34,
+                "5": 170,
+                "10": 310,
+                "25": 730
+              }
+            },
+            "6": {
+              "content": {
+                "4": 3
+              },
+              "coins": {
+                "1": 60,
+                "5": 300,
+                "10": 540,
+                "25": 1280
+              }
+            }
+          },
+          "speedup": {
+            "1": 2700,
+            "2": 5400,
+            "3": 12600,
+            "5": 21600
+          },
+          "time_base": {
+            "food": 18000,
+            "toy": 21600,
+            "plushy": 25200
+          },
+          "reward_packs": {
+            "megafruit": {
+              "1": {
+                "amount": 10000,
+                "package": 2
+              },
+              "2": {
+                "amount": 20000,
+                "package": 3
+              },
+              "3": {
+                "amount": 27000,
+                "package": 4
+              }
+            },
+            "vet": {
+              "1": {
+                "amount": 1,
+                "package": 2
+              },
+              "2": {
+                "amount": 2,
+                "package": 3
+              },
+              "3": {
+                "amount": 3,
+                "package": 4
+              }
+            }
+          },
+          "duration": 604800,
+          "default_parts": 9,
+          "reduction_duration": 7200,
+          "reduction_amount": 40,
+          "fav_bonus": 0.1,
+          "max_happiness": 10000,
+          "complete": {
+            "1": {
+              "1": 2,
+              "2": 6,
+              "3": 14,
+              "4": 40
+            },
+            "2": {
+              "1": 4,
+              "2": 12,
+              "3": 28,
+              "4": 80
+            },
+            "3": {
+              "1": 6,
+              "2": 18,
+              "3": 42,
+              "4": 120
+            }
+          },
+          "queue_duration": 604800,
+          "queue_coins": 5,
+          "diamant_parts": {
+            "30": 1,
+            "50": 2,
+            "80": 3
+          }
+        }
+      }
+    },
+    "megafield": {
+      "block": 1
+    },
+    "queststatus": {
+      "main": {
+        "1": {
+          "questid": 7,
+          "data": [
+            2,
+            [
+              {
+                "19": 540,
+                "20": 720
+              },
+              0,
+              0,
+              0
+            ],
+            [
+              6413,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            0,
+            6,
+            1,
+            "Quest: Bio power! (7)",
+            "Witaj! Nazywam si\u0119 Marcin Udamisiek z agencji PR zajmuj\u0105cej si\u0119 ekologiczn\u0105 upraw\u0105 warzyw i owoc\u00f3w. <br><br>Mamy nowy doskona\u0142y pomys\u0142 na kampani\u0119 przekonuj\u0105c\u0105 ludzi do spo\u017cywania produkt\u00f3w bio. Postanowili\u015bmy rozda\u0107 za darmo du\u017ce ilo\u015bci bio produkt\u00f3w, aby w ten spos\u00f3b spopularyzowa\u0107 ich konsumpcj\u0119. \u015awietny pomys\u0142, nieprawda\u017c?<br><br> Je\u017celi chcia\u0142by\u015b w przysz\u0142o\u015bci zainwestowa\u0107 w nasz\u0105 bran\u017c\u0119, by\u0142oby mi\u0142o, gdyby\u015b wspar\u0142 nasz\u0105 akcj\u0119 dostarczaj\u0105c %PRODUCT1% rzodkiewek i %PRODUCT2% truskawek. Za sw\u00f3j wk\u0142ad w kampani\u0119 otrzymasz %POINTS% punkt\u00f3w.",
+            86400,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "map": {
+      "config": {
+        "vehicles": {
+          "1": {
+            "name": "Owcza furmanka",
+            "unlock": 0,
+            "money": 25000,
+            "capacity": 125,
+            "products": 2,
+            "fuel_multi": 2,
+            "duration_multi": 6,
+            "fuel_points_multi": 0,
+            "farms": [
+              5
+            ]
+          },
+          "2": {
+            "name": "Traktor",
+            "unlock": 0,
+            "money": 1750000,
+            "capacity": 750,
+            "products": 6,
+            "fuel_multi": 3,
+            "duration_multi": 5,
+            "fuel_points_multi": 0,
+            "farms": [
+              5
+            ]
+          },
+          "3": {
+            "name": "Ci\u0119\u017car\u00f3wka",
+            "unlock": 0,
+            "money": 6000000,
+            "capacity": 2500,
+            "products": 10,
+            "fuel_multi": 5,
+            "duration_multi": 4.5,
+            "fuel_points_multi": 0,
+            "farms": [
+              5
+            ]
+          },
+          "4": {
+            "name": "Wy\u015bcig\u00f3wka",
+            "unlock": 0,
+            "coins": 30,
+            "capacity": 1000,
+            "products": 3,
+            "fuel_multi": 2,
+            "duration_multi": 0.25,
+            "fuel_points_multi": 0,
+            "farms": [
+              5
+            ]
+          },
+          "5": {
+            "name": "Truck",
+            "unlock": 0,
+            "coins": 150,
+            "capacity": 20000,
+            "products": 16,
+            "fuel_multi": 4,
+            "duration_multi": 4,
+            "fuel_points_multi": 0,
+            "farms": [
+              5
+            ]
+          },
+          "6": {
+            "name": "Psi zaprz\u0119g",
+            "unlock": 0,
+            "money": 30000,
+            "capacity": 100,
+            "products": 3,
+            "fuel_multi": 2,
+            "duration_multi": 4.75,
+            "fuel_points_multi": 0,
+            "farms": [
+              6
+            ]
+          },
+          "7": {
+            "name": "Teren\u00f3wka",
+            "unlock": 0,
+            "money": 2000000,
+            "capacity": 1000,
+            "products": 5,
+            "fuel_multi": 4,
+            "duration_multi": 6.33,
+            "fuel_points_multi": 0,
+            "farms": [
+              6
+            ]
+          },
+          "8": {
+            "name": "Ratrak",
+            "unlock": 0,
+            "money": 7000000,
+            "capacity": 3000,
+            "products": 12,
+            "fuel_multi": 6,
+            "duration_multi": 5.33,
+            "fuel_points_multi": 0,
+            "farms": [
+              6
+            ]
+          },
+          "9": {
+            "name": "Helikopter",
+            "unlock": 0,
+            "coins": 30,
+            "capacity": 1400,
+            "products": 3,
+            "fuel_multi": 2,
+            "duration_multi": 0.33,
+            "fuel_points_multi": 0,
+            "farms": [
+              6
+            ]
+          },
+          "10": {
+            "name": "Balon na ogrzane powietrze",
+            "unlock": 0,
+            "coins": 150,
+            "capacity": 25000,
+            "products": 15,
+            "fuel_multi": 5,
+            "duration_multi": 5,
+            "fuel_points_multi": 0,
+            "farms": [
+              6
+            ]
+          }
+        },
+        "routes": {
+          "1": {
+            "a": 1,
+            "b": 5,
+            "fuel": 2,
+            "fuel_points": 0,
+            "duration": 3600,
+            "vehicle_multi": 1
+          },
+          "2": {
+            "a": 1,
+            "b": 6,
+            "fuel": 2,
+            "fuel_points": 0,
+            "duration": 3600,
+            "vehicle_multi": 1
+          }
+        },
+        "speedup": {
+          "1": 2700,
+          "2": 5400,
+          "3": 12600,
+          "5": 21600
+        },
+        "fuel_product": 350,
+        "fuelstation_currency": null
+      },
+      "vehicles": [],
+      "achievements": {
+        "1": {
+          "tours": 500,
+          "giftid": 373
+        },
+        "2": {
+          "tours": 10000,
+          "giftid": 374
+        },
+        "3": {
+          "tours": 25000,
+          "giftid": 375
+        },
+        "4": {
+          "products": 1000,
+          "giftid": 376
+        },
+        "5": {
+          "products": 50000,
+          "giftid": 377
+        },
+        "6": {
+          "products": 1000000,
+          "giftid": 378
+        },
+        "7": {
+          "vehicle": 1,
+          "giftid": 394
+        },
+        "8": {
+          "vehicle": 2,
+          "giftid": 395
+        },
+        "9": {
+          "vehicle": 3,
+          "giftid": 396
+        },
+        "10": {
+          "vehicle": 4,
+          "giftid": 397
+        },
+        "11": {
+          "vehicle": 5,
+          "giftid": 398
+        },
+        "12": {
+          "vehicle": 6,
+          "giftid": 551
+        },
+        "13": {
+          "vehicle": 7,
+          "giftid": 552
+        },
+        "14": {
+          "vehicle": 8,
+          "giftid": 553
+        },
+        "15": {
+          "vehicle": 9,
+          "giftid": 554
+        },
+        "16": {
+          "vehicle": 10,
+          "giftid": 555
+        }
+      }
+    },
+    "weather": {
+      "today": {
+        "set": [
+          2,
+          43,
+          4
+        ],
+        "weather": 1
+      },
+      "constants": {
+        "reduction": 10,
+        "coins": 1
+      },
+      "forecast": 1
+    },
+    "job": {
+      "tool": 0,
+      "boost": 0,
+      "config": {
+        "jobs": {
+          "1": {
+            "name": "Ch\u0142op",
+            "products": [
+              1,
+              21,
+              7,
+              38,
+              112,
+              115,
+              153
+            ],
+            "product_category": [
+              "v"
+            ]
+          },
+          "2": {
+            "name": "Rolnik",
+            "products": [
+              2,
+              3,
+              5,
+              108,
+              42,
+              113,
+              154
+            ],
+            "product_category": [
+              "v"
+            ]
+          },
+          "3": {
+            "name": "Ogrodnik",
+            "products": [
+              4,
+              6,
+              109,
+              8,
+              43,
+              114
+            ],
+            "product_category": [
+              "v"
+            ]
+          },
+          "4": {
+            "name": "Hodowca",
+            "products": [
+              12,
+              11,
+              9
+            ],
+            "product_category": [
+              "e"
+            ]
+          },
+          "5": {
+            "name": "Gospodarz",
+            "products": [
+              110,
+              10,
+              151
+            ],
+            "product_category": [
+              "e"
+            ]
+          },
+          "6": {
+            "name": "Fabrykant",
+            "products": [
+              25,
+              111,
+              28,
+              30
+            ],
+            "product_category": [
+              "e"
+            ]
+          },
+          "7": {
+            "name": "Przetw\u00f3rca",
+            "products": [
+              144,
+              27,
+              152
+            ],
+            "product_category": [
+              "e"
+            ]
+          },
+          "8": {
+            "name": "W\u0142\u00f3kiennik",
+            "products": [
+              155,
+              157,
+              156
+            ],
+            "product_category": [
+              "e"
+            ]
+          }
+        },
+        "level": {
+          "1": {
+            "points": 0
+          },
+          "2": {
+            "points": 29520000,
+            "reward": {
+              "points": 590400
+            }
+          },
+          "3": {
+            "points": 69495000,
+            "reward": {
+              "points": 799500
+            }
+          },
+          "4": {
+            "points": 129751000,
+            "reward": {
+              "points": 1205120
+            }
+          },
+          "5": {
+            "points": 221986000,
+            "reward": {
+              "points": 1844700
+            }
+          },
+          "6": {
+            "points": 359714000,
+            "reward": {
+              "points": 2754560
+            }
+          },
+          "7": {
+            "points": 570008000,
+            "reward": {
+              "points": 4205880
+            }
+          },
+          "8": {
+            "points": 877448000,
+            "reward": {
+              "points": 6148800
+            }
+          },
+          "9": {
+            "points": 1310320000,
+            "reward": {
+              "points": 8657440
+            }
+          },
+          "10": {
+            "points": 1900600000,
+            "reward": {
+              "points": 11805600
+            }
+          }
+        },
+        "level_boni": {
+          "1": {
+            "2": [
+              {
+                "products": [
+                  1
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "3": [
+              {
+                "products": [
+                  21
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "5": [
+              {
+                "products": [
+                  7
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "6": [
+              {
+                "products": [
+                  38
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  112
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "9": [
+              {
+                "products": [
+                  115
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  153
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ]
+          },
+          "2": {
+            "2": [
+              {
+                "products": [
+                  2
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "3": [
+              {
+                "products": [
+                  3
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "5": [
+              {
+                "products": [
+                  5
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "6": [
+              {
+                "products": [
+                  108
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  42
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "9": [
+              {
+                "products": [
+                  113
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  154
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ]
+          },
+          "3": {
+            "2": [
+              {
+                "products": [
+                  4
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "3": [
+              {
+                "products": [
+                  6
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "5": [
+              {
+                "products": [
+                  109
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  8
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "9": [
+              {
+                "products": [
+                  43
+                ],
+                "chance": 0.05,
+                "harvest": 1
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  114
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ]
+          },
+          "4": {
+            "4": [
+              {
+                "products": [
+                  12
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  11
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  9
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ]
+          },
+          "5": {
+            "4": [
+              {
+                "products": [
+                  110
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  10
+                ],
+                "chance": 0.4,
+                "harvest": 0.25
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  151
+                ],
+                "chance": 0.4,
+                "harvest": 0.25
+              }
+            ]
+          },
+          "6": {
+            "3": [
+              {
+                "products": [
+                  25
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ],
+            "6": [
+              {
+                "products": [
+                  111
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "8": [
+              {
+                "products": [
+                  28
+                ],
+                "chance": 0.4,
+                "harvest": 0.25
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  30
+                ],
+                "chance": 0.4,
+                "harvest": 0.25
+              }
+            ]
+          },
+          "7": {
+            "3": [
+              {
+                "products": [
+                  144
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  27
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  152
+                ],
+                "chance": 0.5,
+                "harvest": 0.2
+              }
+            ]
+          },
+          "8": {
+            "4": [
+              {
+                "products": [
+                  155
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "7": [
+              {
+                "products": [
+                  157
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ],
+            "10": [
+              {
+                "products": [
+                  156
+                ],
+                "chance": 0.1,
+                "harvest": 1
+              }
+            ]
+          }
+        },
+        "tools": {
+          "200": {
+            "jobs": [
+              1,
+              2,
+              3
+            ],
+            "bonus": {
+              "harvest": 1
+            },
+            "duration": 43200,
+            "name": "Chwastownik"
+          },
+          "201": {
+            "jobs": [
+              1,
+              2,
+              3
+            ],
+            "bonus": {
+              "harvest": 1
+            },
+            "duration": 172800,
+            "name": "Grabie"
+          },
+          "202": {
+            "jobs": [
+              1,
+              2,
+              3
+            ],
+            "bonus": {
+              "harvest": 2
+            },
+            "duration": 43200,
+            "name": "Kompostownik"
+          },
+          "203": {
+            "jobs": [
+              1,
+              2,
+              3
+            ],
+            "bonus": {
+              "harvest": 2
+            },
+            "duration": 172800,
+            "name": "Frezerka"
+          },
+          "204": {
+            "jobs": [
+              4,
+              5
+            ],
+            "bonus": {
+              "harvest": 0.1
+            },
+            "duration": 43200,
+            "name": "Zestaw czyszcz\u0105cy"
+          },
+          "205": {
+            "jobs": [
+              4,
+              5
+            ],
+            "bonus": {
+              "harvest": 0.1
+            },
+            "duration": 172800,
+            "name": "Komplet do masa\u017cu zwierz\u0105t"
+          },
+          "206": {
+            "jobs": [
+              4,
+              5
+            ],
+            "bonus": {
+              "harvest": 0.2
+            },
+            "duration": 43200,
+            "name": "Miseczka"
+          },
+          "207": {
+            "jobs": [
+              4,
+              5
+            ],
+            "bonus": {
+              "harvest": 0.2
+            },
+            "duration": 172800,
+            "name": "Dokarmiarka"
+          },
+          "208": {
+            "jobs": [
+              6,
+              7
+            ],
+            "bonus": {
+              "harvest": 0.15
+            },
+            "duration": 43200,
+            "name": "Mieszalnik"
+          },
+          "209": {
+            "jobs": [
+              6,
+              7
+            ],
+            "bonus": {
+              "harvest": 0.15
+            },
+            "duration": 172800,
+            "name": "Maszyna sortuj\u0105ca"
+          },
+          "210": {
+            "jobs": [
+              6,
+              7
+            ],
+            "bonus": {
+              "harvest": 0.25
+            },
+            "duration": 43200,
+            "name": "Rega\u0142 magazynu"
+          },
+          "211": {
+            "jobs": [
+              6,
+              7
+            ],
+            "bonus": {
+              "harvest": 0.25
+            },
+            "duration": 172800,
+            "name": "Wir\u00f3wka"
+          },
+          "212": {
+            "jobs": [
+              8
+            ],
+            "bonus": {
+              "harvest": 0.15
+            },
+            "duration": 43200,
+            "name": "Ig\u0142y do haftowania"
+          },
+          "213": {
+            "jobs": [
+              8
+            ],
+            "bonus": {
+              "harvest": 0.15
+            },
+            "duration": 172800,
+            "name": "Ko\u0142owrotek"
+          },
+          "214": {
+            "jobs": [
+              8
+            ],
+            "bonus": {
+              "harvest": 0.25
+            },
+            "duration": 43200,
+            "name": "Komplecik do dziergania"
+          },
+          "215": {
+            "jobs": [
+              8
+            ],
+            "bonus": {
+              "harvest": 0.25
+            },
+            "duration": 172800,
+            "name": "Krosno"
+          }
+        },
+        "boosts": {
+          "1": {
+            "bonus": {
+              "points": 1.25
+            },
+            "coins": 5,
+            "duration": 172800,
+            "name": "Kawa z mlekiem"
+          },
+          "2": {
+            "bonus": {
+              "points": 1.5
+            },
+            "coins": 9,
+            "duration": 172800,
+            "name": "Czarna kawa"
+          },
+          "3": {
+            "bonus": {
+              "points": 1.75
+            },
+            "coins": 12,
+            "duration": 172800,
+            "name": "Espresso"
+          }
+        },
+        "job_change_cost": 10000,
+        "job_change_cooldown_coins": 20,
+        "achievements": {
+          "1": {
+            "type": "jobs",
+            "key": "max",
+            "giftid": 458
+          },
+          "2": {
+            "type": "jobs",
+            "key": "level2",
+            "giftid": 459
+          },
+          "3": {
+            "type": "jobs",
+            "key": "levelmax",
+            "giftid": 460
+          },
+          "4": {
+            "type": "tools_production",
+            "count": 1,
+            "giftid": 461
+          },
+          "5": {
+            "type": "tools_production",
+            "count": 20,
+            "giftid": 462
+          },
+          "6": {
+            "type": "tools_usage",
+            "count": 10,
+            "giftid": 463
+          },
+          "7": {
+            "type": "tools_usage",
+            "count": 30,
+            "giftid": 464
+          },
+          "8": {
+            "type": "participation",
+            "count": 1,
+            "giftid": 465
+          },
+          "9": {
+            "type": "participation",
+            "count": 20,
+            "giftid": 466
+          }
+        }
+      },
+      "guild_job_data": 0
+    },
+    "forestry_stock": []
+  }
+}

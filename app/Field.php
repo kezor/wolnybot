@@ -83,6 +83,9 @@ class Field extends Model
         return $this;
     }
 
+    /**
+     * @return mixed|Space
+     */
     public function getSpace()
     {
         return SpaceRepository::getById($this->space);
