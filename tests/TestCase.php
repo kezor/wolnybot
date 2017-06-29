@@ -15,6 +15,9 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use DatabaseTransactions;
 
+    /**
+     * @return Player
+     */
     protected function getTestPlayer()
     {
         $player = new Player();
@@ -26,7 +29,7 @@ abstract class TestCase extends BaseTestCase
         return $player;
     }
 
-    protected function getTestSpace(Player $player, $buildingType = null)
+    protected function getTestSpace(Player $player, $buildingType = null, $fieldsInDatabase = null)
     {
         $space = new Space();
         $space->player = $player->id;
@@ -34,6 +37,9 @@ abstract class TestCase extends BaseTestCase
         $space->position = 1;
         if ($buildingType) {
             $space->building_type = $buildingType;
+        }
+        if ($fieldsInDatabase !== null) {
+            $space->fields_in_database = $fieldsInDatabase;
         }
         $space->save();
         return $space;
@@ -43,6 +49,7 @@ abstract class TestCase extends BaseTestCase
     {
         $field = new Field();
         $field->index = 1;
+        $field->product_pid = $product->getPid();
         $field->phase = $plantPhase;
         $field->time = ($plantPhase > 1) ? time() : '';
         $field->setProduct($product);
@@ -53,11 +60,13 @@ abstract class TestCase extends BaseTestCase
         return $field;
     }
 
-    protected function getTestProduct()
+    protected function getTestProduct(Player $player, $pid = 1)
     {
         $product = new Product();
         $product->setAmount(123);
-        $product->setPid(1);
+        $product->setPid($pid);
+        $product->player = $player->id;
+        $product->save();
         return $product;
     }
 

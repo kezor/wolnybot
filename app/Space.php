@@ -21,17 +21,25 @@ class Space extends Model
 
     public function isFieldsInDatabase()
     {
+        if ($this->building_type != BuildingType::FARMLAND) {
+            throw new \Exception('You can use this method only for farmland');
+        }
         return $this->fields_in_database;
     }
 
     public function getFields()
     {
+        if ($this->building_type != BuildingType::FARMLAND) {
+            throw new \Exception('You can use this method only for farmland');
+        }
         return Field::where('space', $this->id)->get();
     }
 
     public function getFieldsToCollect()
     {
-
+        if ($this->building_type != BuildingType::FARMLAND) {
+            throw new \Exception('You can use this method only for farmland');
+        }
         $fields = Field::where('phase', 4)
             ->where('space', $this->id)
             ->where('time', '!=', 0)

@@ -9,21 +9,19 @@ use App\Product\Carrot;
 use App\Product\Corn;
 use App\Space;
 use App\UrlGenerator;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class UrlGeneratorTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+    use DatabaseTransactions;
+
     public function testGetUrls()
     {
         $player = $this->getTestPlayer();
         $token = 'yghjurtdvbhytrfvbnrec';
         $space = $this->getTestSpace($player);
-        $product = $this->getTestProduct();
+        $product = $this->getTestProduct($player);
         $field = $this->getTestField($product, $space);
 
 

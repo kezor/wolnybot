@@ -18,13 +18,15 @@ class SpaceTest extends TestCase
      */
     private $space;
 
+    private $player;
+
     public function setUp()
     {
         parent::setUp();
 
-        $player = $this->getTestPlayer();
+        $this->player = $this->getTestPlayer();
 
-        $this->space = $this->getTestSpace($player, BuildingType::FARMLAND);
+        $this->space = $this->getTestSpace($this->player, BuildingType::FARMLAND);
     }
 
     public function testGetFields()
@@ -40,9 +42,22 @@ class SpaceTest extends TestCase
             ['phase' => 4],
         ];
 
-        $this->addFieldsIntoSpace($fieldsData);
+        $this->addFieldsIntoSpace($fieldsData, $this->player);
 
         $this->assertCount(8, $this->space->getFields());
+    }
+
+    public function testGetFieldsNotFarmland()
+    {
+
+        $player = $this->getTestPlayer();
+
+        $space = $this->getTestSpace($player, BuildingType::HOVEL);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('You can use this method only for farmland');
+
+        $space->getFields();
     }
 
     public function testGetFieldsToCollect()
@@ -58,9 +73,23 @@ class SpaceTest extends TestCase
             ['phase' => 4],
         ];
 
-        $this->addFieldsIntoSpace($fieldsData);
+        $player = $this->getTestPlayer();
+
+        $this->addFieldsIntoSpace($fieldsData, $player);
 
         $this->assertCount(5, $this->space->getFieldsToCollect());
+    }
+
+    public function testGetFieldsToCollectNotFarmland()
+    {
+        $player = $this->getTestPlayer();
+
+        $space = $this->getTestSpace($player, BuildingType::HOVEL);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('You can use this method only for farmland');
+
+        $space->getFieldsToCollect();
     }
 
     public function testGetPlayer()
@@ -68,10 +97,26 @@ class SpaceTest extends TestCase
         $this->assertNotNull($this->space->getPlayer());
     }
 
-    private function addFieldsIntoSpace($fieldsData)
+    public function testIsFieldsInDatabase()
+    {
+        $player = $this->getTestPlayer();
+
+        $spaceFarmland1 = $this->getTestSpace($player, BuildingType::FARMLAND, true);
+        $this->assertTrue($spaceFarmland1->isFieldsInDatabase());
+
+        $spaceFarmland2 = $this->getTestSpace($player, BuildingType::FARMLAND, false);
+        $this->assertFalse($spaceFarmland2->isFieldsInDatabase());
+
+        $spaceFarmland2 = $this->getTestSpace($player, BuildingType::HOVEL, true);
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('You can use this method only for farmland');
+        $spaceFarmland2->isFieldsInDatabase();
+    }
+
+    private function addFieldsIntoSpace($fieldsData, $player)
     {
         $i = 1;
-        $product = $this->getTestProduct();
+        $product = $this->getTestProduct($player);
 
         foreach ($fieldsData as $data){
             $this->getTestField($product, $this->space, $data['phase']);

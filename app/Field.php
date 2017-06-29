@@ -42,6 +42,18 @@ class Field extends Model
     public function setProduct(Product $product)
     {
         $this->product = $product;
+        $this->product_pid = $product->id;
+        return $this;
+    }
+
+    public function removeProduct()
+    {
+        $this->product_pid = null;
+        $this->time = 0;
+        $this->planted = 0;
+        $this->phase = Product::PLANT_PHASE_EMPTY;
+        $this->product = null;
+        $this->save();
         return $this;
     }
 
@@ -53,9 +65,9 @@ class Field extends Model
         return $this->product;
     }
 
-    public function getFields()
+    public function getRelatedFields()
     {
-        if(!$this->product){
+        if(!$this->getProduct()){
             throw new \Exception('Field doesn\'t have product');
         }
         $fields = [];
@@ -71,16 +83,7 @@ class Field extends Model
 
     public function isVegetable()
     {
-        return in_array($this->product_pid, ProductCategoryMapper::getVegetablesPids());
-    }
-
-    public function setAsEmpty()
-    {
-        $this->product_pid = null;
-        $this->time = 0;
-        $this->planted = 0;
-        $this->save();
-        return $this;
+         return in_array($this->getProduct()->pid, ProductCategoryMapper::getVegetablesPids());
     }
 
     public function getSpace()

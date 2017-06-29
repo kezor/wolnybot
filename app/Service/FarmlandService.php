@@ -63,7 +63,7 @@ class FarmlandService
         /** @var Field $field */
         foreach ($fields as $field) {
             $this->connector->collect($field);
-            $field->setAsEmpty();
+            $field->removeProduct();
         }
         echo 'Collected ' . count($fields) . ' on space position: ' . $space->position . PHP_EOL;
     }
