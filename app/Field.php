@@ -17,18 +17,50 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed planted
  * @property mixed time
  */
-class Field extends Model
+class Field
 {
+    private $phase;
+
+    private $time;
+
+    private $offset_x;
+
+    private $offset_y;
+
+    private $index;
+
+    private $product_pid;
+
+    private $product;
+
+    public function __construct($index)
+    {
+        $this->index = $index;
+        $this->phase = Product::PLANT_PHASE_EMPTY;
+        $this->product_pid = null;
+        $this->time = 0;
+        $this->product = null;
+    }
+
     public function canCollect()
     {
         return $this->phase == Product::PLANT_PHASE_FINAL
             && $this->isVegetable();
     }
 
-    /**
-     * @var Product
-     */
-    private $product = null;
+    public function canSeed()
+    {
+        return $this->phase == Product::PLANT_PHASE_EMPTY
+            && $this->getProductPid() === null
+            && $this->time == 0;
+    }
+
+    public function canWater()
+    {
+        return $this->phase != Product::PLANT_PHASE_EMPTY
+            && $this->time != 0
+            && $this->isVegetable();
+    }
 
     public function drawField()
     {
@@ -42,7 +74,7 @@ class Field extends Model
     public function setProduct(Product $product)
     {
         $this->product = $product;
-        $this->product_pid = $product->id;
+        $this->product_pid = $product->pid;
         return $this;
     }
 
@@ -53,7 +85,6 @@ class Field extends Model
         $this->planted = 0;
         $this->phase = Product::PLANT_PHASE_EMPTY;
         $this->product = null;
-        $this->save();
         return $this;
     }
 
@@ -67,7 +98,7 @@ class Field extends Model
 
     public function getRelatedFields()
     {
-        if(!$this->getProduct()){
+        if (!$this->getProduct()) {
             throw new \Exception('Field doesn\'t have product');
         }
         $fields = [];
@@ -83,11 +114,77 @@ class Field extends Model
 
     public function isVegetable()
     {
-         return in_array($this->getProduct()->pid, ProductCategoryMapper::getVegetablesPids());
+        return in_array($this->getProductPid(), ProductCategoryMapper::getVegetablesPids());
     }
 
-    public function getSpace()
+    public function setTime($time)
     {
-        return SpaceRepository::getById($this->space);
+        $this->time = $time;
+        return $this;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function setPlanted($planted)
+    {
+        $this->planted = $planted;
+        return $this;
+    }
+
+    public function getPlanted()
+    {
+        return $this->planted;
+    }
+
+    public function setOffsetX($offset)
+    {
+        $this->offset_x = $offset;
+        return $this;
+    }
+
+    public function setOffsetY($offset)
+    {
+        $this->offset_y = $offset;
+        return $this;
+    }
+
+    public function getOffsetX()
+    {
+        return $this->offset_x;
+    }
+
+    public function getOffsetY()
+    {
+        return $this->offset_y;
+    }
+
+    public function setPhase($phase)
+    {
+        $this->phase = $phase;
+        return $this;
+    }
+
+    public function getPhase()
+    {
+        return $this->phase;
+    }
+
+    public function setProductPid($pid)
+    {
+        $this->product_pid = $pid;
+        return $this;
+    }
+
+    public function getProductPid()
+    {
+        return $this->product_pid;
+    }
+
+    public function getIndex()
+    {
+        return $this->index;
     }
 }

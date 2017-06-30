@@ -7,11 +7,13 @@ use App\Connector\WolniFarmerzyConnector;
 use App\Field;
 use App\Product;
 use App\Service\GameService;
-use App\Space;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class GameServiceTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function testUpdateStock()
     {
         $player = $this->getTestPlayer();
@@ -21,11 +23,11 @@ class GameServiceTest extends TestCase
             ->andReturn(true)
             ->shouldReceive('getDashboardData')
             ->andReturn($this->getDashboardSuccessData())
+            ->shouldReceive('getSpaceFields')
+            ->andReturn($this->getGardeninitSuccessData())
             ->getMock();
 
         $gameService = new GameService($player, $connectorMock);
-
-        $gameService->updateStock();
 
         $allProductsInDatabase = Product::where('player', $player->id)->get();
 
@@ -48,40 +50,28 @@ class GameServiceTest extends TestCase
             ->getMock();
 
         $gameService = new GameService($player, $connectorMock);
-
-        $gameService->updateSpacesData();
-
-        $allSpaces = Space::where('player', $player->id)->get();
-        $this->assertNotNull($allSpaces);
-        $this->assertCount(1, $allSpaces);
-
-        $allFields = Field::where('space', $allSpaces[0]->id)->get();
-        $this->assertNotNull($allFields);
-        $this->assertCount(120, $allFields);
-
-        $gameService->updateSpacesData();
-
-        $allSpaces = Space::where('player', $player->id)->get();
-        $this->assertNotNull($allSpaces);
-        $this->assertCount(1, $allSpaces);
-
-        $allFields = Field::where('space', $allSpaces[0]->id)->orderBy('index', 'ASC')->get();
-        $this->assertNotNull($allFields);
-        $this->assertCount(120, $allFields);
-
-        /** @var Field $field */
-        foreach ($allFields as $field){
-            $this->assertEquals($allSpaces[0]->id, $field->space);
-        }
     }
 
-    private function getDashboardSuccessData()
+    public function testRunTest()
     {
-        return json_decode($this->loadJSON('getFarmSuccess'), true);
-    }
+        $player = $this->getTestPlayer();
 
-    private function getGardeninitSuccessData()
-    {
-        return json_decode($this->loadJSON('getGardeninitSuccess'), true);
+        $connectorMock = \Mockery::mock(WolniFarmerzyConnector::class)
+            ->shouldReceive('login')
+            ->andReturn(true)
+            ->shouldReceive('getDashboardData')
+            ->andReturn($this->getDashboardSuccessData())
+            ->shouldReceive('getSpaceFields')
+            ->andReturn($this->getGardeninitSuccessData())
+            ->shouldReceive('collect')
+            ->times(10)
+            ->shouldReceive('seed')
+            ->times(10)
+            ->shouldReceive('waterField')
+            ->times(102)
+            ->getMock();
+
+        $gameService = new GameService($player, $connectorMock);
+        $gameService->run();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Connector;
 
+use App\Building\Farmland;
 use App\Field;
 use App\Player;
 use App\Space;
@@ -99,9 +100,9 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function getSpaceFields(Space $space)
+    public function getSpaceFields(Farmland $farmland)
     {
-        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($space);
+        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($farmland);
         $res = $this->client->request('GET', $allDataUrl);
         return json_decode($res->getBody()->__toString(), true);
     }

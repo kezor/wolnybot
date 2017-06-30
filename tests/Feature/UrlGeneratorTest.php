@@ -2,12 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Field;
-use App\Player;
-use App\Product\AbstractProduct;
-use App\Product\Carrot;
-use App\Product\Corn;
-use App\Space;
+use App\Building\Farmland;
+use App\Building\Hovel;
+use App\BuildingType;
 use App\UrlGenerator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -20,11 +17,12 @@ class UrlGeneratorTest extends TestCase
     {
         $player = $this->getTestPlayer();
         $token = 'yghjurtdvbhytrfvbnrec';
-        $space = $this->getTestSpace($player);
-        $product = $this->getTestProduct($player);
-        $field = $this->getTestField($product, $space);
+        $product = $this->getTestProduct($player, 1); // wheat
+        $field = $this->getTestField($product);
 
+        $farmland = new Farmland(['farm' => 1, 'position' => 1], $player);
 
+        $hovel = new Hovel(['farm' => 1, 'position' => 2], $player);
         $url = new UrlGenerator($player, $token);
 
         $this->assertEquals(
@@ -35,17 +33,27 @@ class UrlGeneratorTest extends TestCase
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=gardeninit&farm=1&position=1',
-            $url->getSpaceFieldsUrl($space)
+            $url->getSpaceFieldsUrl($farmland)
         );
 
         $this->assertEquals(
-            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_harvest&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,13,2,14',
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_harvest&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
             $url->getCollectUrl($field)
         );
 
         $this->assertEquals(
-            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,13,2,14',
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
             $url->getSeedUrl($field)
+        );
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=inner_init&farm=1&position=2',
+            $url->getLoadHovelData($hovel)
+        );
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=inner_feed&farm=1&position=2&pid=1&c=1_1|&amount=1&guildjob=0',
+            $url->getFeedUrl($hovel)
         );
     }
 }

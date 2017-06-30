@@ -36,7 +36,7 @@ class Product extends Model
 
     public function getHeight()
     {
-        return ProductSizeService::getProductLenghtByPid($this->pid);
+        return ProductSizeService::getProductHeightByPid($this->pid);
     }
 
     public function getAmount()
@@ -52,5 +52,6 @@ class Product extends Model
     public function decreaseAmount()
     {
         $this->amount--;
+        return $this;
     }
 }

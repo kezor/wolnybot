@@ -46,15 +46,9 @@ class TestBot extends Command
 
         foreach ($players as $player) {
             $this->info('###### Working with player "' . $player->username . '" on server id: ' . $player->server_id . ' ######');
-            $gameService = new GameService($player, new WolniFarmerzyConnector());
+            $gameService = new GameService($player);
 
             $gameService->run();
-
-            $hovelService = new HovelService($player, new WolniFarmerzyConnector());
-            echo 'Collecting eggs from hovels...' . PHP_EOL;
-            $hovelService->collect();
-            echo 'Feeding chickens...' . PHP_EOL;
-            $hovelService->feed();
         }
     }
 }

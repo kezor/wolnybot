@@ -3,6 +3,7 @@
 namespace App\Connector;
 
 
+use App\Building\Farmland;
 use App\Field;
 use App\Player;
 use App\Space;
@@ -13,7 +14,7 @@ interface ConnectorInterface
 
     public function getDashboardData();
 
-    public function getSpaceFields(Space $space);
+    public function getSpaceFields(Farmland $farmland);
 
     public function collect(Field $field);
 

@@ -4,8 +4,11 @@ namespace App\Service;
 
 
 use App\Building\Farmland;
+use App\Building\Hovel;
+use App\BuildingType;
 use App\Connector\ConnectorInterface;
 use App\Connector\WolniFarmerzyConnector;
+use App\Farm;
 use App\Field;
 use App\Player;
 use App\ProductCategoryMapper;
@@ -22,40 +25,32 @@ class GameService
      */
     private $connector;
 
-    /**
-     * @var Space[]
-     */
-    private $spaces = [];
-
-    private $farmlandService;
-
-    private $hovelService;
+    private $farms;
 
     /**
      * @var Player
      */
     private $player;
 
-    public function __construct(Player $player, ConnectorInterface $connector)
+    public function __construct(Player $player, ConnectorInterface $connector = null)
     {
+        if (!$connector) {
+            $connector = new WolniFarmerzyConnector();
+        }
         $this->connector = $connector;
         $this->player = $player;
         $this->connector->login($player);
 
-        $this->farmlandService = new FarmlandService($player, $connector);
-        $this->hovelService = new HovelService($player, $connector);
+        $this->updateSpacesData();
+        $this->updateStock();
     }
 
     public function run()
     {
-        $this->updateSpacesData();
-
-        $this->farmlandService->collectReady();
-        $this->updateStock();
-        $this->farmlandService->seed();
-
-        $this->hovelService->collect();
-        $this->hovelService->feed();
+        /** @var Farm $farm */
+        foreach ($this->farms as $farm){
+            $farm->process();
+        }
     }
 
     public function updateStock()
@@ -94,76 +89,49 @@ class GameService
 
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
-        foreach ($farms as $farm) {
+        foreach ($farms as $farmId => $farm) {
+            $this->farms[$farmId] = new Farm();
             foreach ($farm as $spaceData) {
-                if ($spaceData['status'] == 1 && $spaceData['buildingid'] == 1) { // @TODO temporary only for plant spaces
-                    $space = SpaceRepository::getSpace($spaceData, $this->player);
-                    $space->building_type = $spaceData['buildingid'];
-                    $space->save();
-                    $this->spaces[] = $space;
-
-                    if (!$space->isFieldsInDatabase()) {
-                        $this->fillDatabaseWithEmptyFields($space);
-                    }
-
-                    $fieldsData = $this->connector->getSpaceFields($space);
-                    $fields = $fieldsData['datablock'][1];
-
-                    if ($fields == 0) {
-                        continue;
-                    }
-                    $updatedFieldIds = [];
-                    foreach ($fields as $key => $fieldData) {
-                        if (!is_numeric($key)) {
-                            continue;
-                        }
-                        $field = FieldRepository::getField($fieldData, $space);
-                        $field->product_pid = $fieldData['inhalt'];
-                        $field->offset_x = $fieldData['x'];
-                        $field->offset_y = $fieldData['y'];
-                        $field->phase = $fieldData['phase'];
-                        $field->planted = $fieldData['gepflanzt'];
-                        $field->time = $fieldData['zeit'];
-                        $field->save();
-                        $updatedFieldIds[] = $field->index;
-                    }
-
-                    $values = range(1, 120);
-                    $restFieldI0ds = array_combine($values, $values);
-
-                    $restFieldI0ds = array_diff($restFieldI0ds, $updatedFieldIds);
-
-                    $festFields = Field::whereIn('index', $restFieldI0ds)
-                        ->where('space', $space->id)
-                        ->get();
-                    /** @var Field $field */
-                    foreach ($festFields as $field) {
-                        $field->product_pid = null;
-                        $field->offset_x = 0;
-                        $field->offset_y = 0;
-                        $field->planted = 0;
-                        $field->time = 0;
-                        $field->save();
+                if ($spaceData['status'] == 1) {
+                    switch ($spaceData['buildingid']) {
+                        case BuildingType::FARMLAND:
+                            $this->processFarmland($spaceData, $farmId);
+                            break;
+                        case BuildingType::HOVEL:
+                            $this->processHovel($spaceData, $farmId);
+                            break;
                     }
                 }
             }
         }
     }
 
-    private function fillDatabaseWithEmptyFields(Space $space)
+    private function processFarmland($spaceData, $farmId)
     {
-        for ($i = 1; $i <= 120; $i++) {
-            $field = new Field();
-            $field->space = $space->id;
-            $field->index = $i;
-            $field->product_pid = null;
-            $field->offset_x = 0;
-            $field->offset_y = 0;
-            $field->phase = 4;
-            $field->save();
+        $farmland = new Farmland($spaceData, $this->player);
+        $farmland->setConnector($this->connector);
+
+        $fieldsData = $this->connector->getSpaceFields($farmland);
+        $fields = $fieldsData['datablock'][1];
+
+        if ($fields != 0) {
+            foreach ($fields as $key => $fieldData) {
+                if (!is_numeric($key)) {
+                    continue;
+                }
+                $farmland->updateField($fieldData);
+            }
+
         }
-        $space->fields_in_database = true;
-        $space->save();
+        $this->farms[$farmId]->addFarmland($farmland);
+    }
+
+    private function processHovel($spaceData, $farmId)
+    {
+        $hovel = new Hovel($spaceData, $this->player);
+        $hovel->setConnector($this->connector);
+        $this->farms[$farmId]->addBuilding($hovel);
+        return $this;
     }
 
     public function disableTutorial()
