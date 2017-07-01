@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 
+use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
 use App\Field;
 use App\Product;
@@ -46,6 +47,7 @@ class GameServiceTest extends TestCase
             ->shouldReceive('getDashboardData')
             ->andReturn($this->getDashboardSuccessData())
             ->shouldReceive('getSpaceFields')
+            ->with(\Mockery::type(Farmland::class))
             ->andReturn($this->getGardeninitSuccessData())
             ->getMock();
 
@@ -64,10 +66,13 @@ class GameServiceTest extends TestCase
             ->shouldReceive('getSpaceFields')
             ->andReturn($this->getGardeninitSuccessData())
             ->shouldReceive('collect')
+            ->with(\Mockery::type(Farmland::class), \Mockery::type(Field::class))
             ->times(10)
             ->shouldReceive('seed')
+            ->with(\Mockery::type(Farmland::class), \Mockery::type(Field::class))
             ->times(10)
             ->shouldReceive('waterField')
+            ->with(\Mockery::type(Farmland::class), \Mockery::type(Field::class))
             ->times(102)
             ->getMock();
 
