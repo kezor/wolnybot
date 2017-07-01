@@ -31,17 +31,22 @@ class UrlGenerator
 
     public function getSpaceFieldsUrl(Farmland $farmland)
     {
-        return $this->getMainPart() . '&mode=gardeninit&farm='.$farmland->getFarmId().'&position=' . $farmland->getPosition();
+        return $this->getMainPart() . '&mode=gardeninit&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition();
     }
 
-    public function getCollectUrl(Field $field)
+    public function getCollectUrl(Farmland $farmland, Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_harvest&farm=1&position=1&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
+        return $this->getMainPart() . '&mode=garden_harvest&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition() . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
     }
 
-    public function getSeedUrl(Field $field)
+    public function getSeedUrl(Farmland $farmland, Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_plant&farm=1&position=1&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
+        return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition() . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
+    }
+
+    public function getWaterUrl(Farmland $farmland, Field $field)
+    {
+        return $this->getMainPart() . '&mode=garden_water&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
     }
 
     public function getFeedUrl(Hovel $hovel)

@@ -47,7 +47,7 @@ class Farmland extends AbstractBuilding
         foreach ($this->fields as $finalFieldToReset) {
             if ($finalFieldToReset->canCollect()) {
                 $this->resetRelatedFields($finalFieldToReset);
-                $this->connector->collect($finalFieldToReset);
+                $this->connector->collect($this, $finalFieldToReset);
                 $finalFieldToReset->removeProduct();
             }
         }
@@ -73,7 +73,7 @@ class Farmland extends AbstractBuilding
             reset($fieldsToSeed);
             /** @var Field[] $fieldsToSeed */
             foreach ($fieldsToSeed as $field) {
-                $this->connector->seed($field);
+                $this->connector->seed($this, $field);
                 $this->updateField([
                     'teil_nr' => $field->getIndex(),
                     'inhalt' => $field->getProduct()->getPid(),
@@ -144,7 +144,7 @@ class Farmland extends AbstractBuilding
                 foreach ($indexesToRemove as $indexToRemove) {
                     unset($fields[$indexToRemove]);
                 }
-                if($product->getAmount() <= count($finalFieldsAvailableToSeed)){
+                if ($product->getAmount() <= count($finalFieldsAvailableToSeed)) {
                     break;
                 }
             }
@@ -215,7 +215,7 @@ class Farmland extends AbstractBuilding
         /** @var Field $field */
         foreach ($this->fields as $field) {
             if ($field->canWater()) {
-                $this->connector->waterField($field);
+                $this->connector->waterField($this, $field);
             }
         }
     }

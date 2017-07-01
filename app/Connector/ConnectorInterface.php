@@ -16,11 +16,11 @@ interface ConnectorInterface
 
     public function getSpaceFields(Farmland $farmland);
 
-    public function collect(Field $field);
+    public function collect(Farmland $farmland, Field $field);
 
-    public function seed(Field $field);
+    public function seed(Farmland $farmland, Field $field);
 
-    public function waterField(Field $field);
+    public function waterField(Farmland $farmland, Field $field);
 
     public function buyBuilding(Space $space, $building);
 

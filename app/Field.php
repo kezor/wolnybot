@@ -99,7 +99,13 @@ class Field
     public function getRelatedFields()
     {
         if (!$this->getProduct()) {
-            throw new \Exception('Field doesn\'t have product');
+
+            if(!$this->getProductPid()){
+                throw new \Exception('Field doesn\'t have product');
+            }
+            $product = new Product();
+            $product->setPid($this->getProductPid());
+            $this->setProduct($product);
         }
         $fields = [];
 

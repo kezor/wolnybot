@@ -107,17 +107,18 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function collect(Field $field)
+    public function collect(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getCollectUrl($field);
+        $url = $this->urlGenerator->getCollectUrl($farmland, $field);
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function seed(Field $field)
+    public function seed(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getSeedUrl($field);
-        return $this->client->request('GET', $url);
+        $url = $this->urlGenerator->getSeedUrl($farmland, $field);
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->__toString(), true);
     }
 
     public function closeTutorial()
@@ -144,10 +145,11 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $this->client->request('GET', $url);
     }
 
-    public function waterField(Field $field)
+    public function waterField(Farmland $farmland, Field $field)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
-        return $this->client->request('GET', $url);
+        $url = $this->urlGenerator->getWaterUrl($farmland, $field);
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->__toString(), true);
     }
 
     //remove weed

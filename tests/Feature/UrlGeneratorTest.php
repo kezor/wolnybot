@@ -38,12 +38,12 @@ class UrlGeneratorTest extends TestCase
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_harvest&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
-            $url->getCollectUrl($field)
+            $url->getCollectUrl($farmland, $field)
         );
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
-            $url->getSeedUrl($field)
+            $url->getSeedUrl($farmland, $field)
         );
 
         $this->assertEquals(
@@ -55,5 +55,11 @@ class UrlGeneratorTest extends TestCase
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=inner_feed&farm=1&position=2&pid=1&c=1_1|&amount=1&guildjob=0',
             $url->getFeedUrl($hovel)
         );
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_water&farm=1&position=1&feld[]=1&felder[]=1,2',
+            $url->getWaterUrl($farmland, $field)
+        );
+
     }
 }
