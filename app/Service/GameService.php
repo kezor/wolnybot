@@ -38,7 +38,7 @@ class GameService
             $connector = new WolniFarmerzyConnector();
         }
         $this->connector = $connector;
-        $this->player = $player;
+        $this->player    = $player;
         $this->connector->login($player);
 
         $this->updateSpacesData();
@@ -48,7 +48,7 @@ class GameService
     public function run()
     {
         /** @var Farm $farm */
-        foreach ($this->farms as $farm){
+        foreach ($this->farms as $farm) {
             $farm->process();
         }
     }
@@ -65,7 +65,7 @@ class GameService
             foreach ($product as $level1) {
                 foreach ($level1 as $level2) {
                     /** @var Product $product */
-                    $product = ProductRepository::getStock($level2, $this->player);
+                    $product         = ProductRepository::getStock($level2, $this->player);
                     $product->amount = $level2['amount'];
                     $product->save();
                     $updatedItemsInStock[] = $product->id;
@@ -90,23 +90,24 @@ class GameService
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
 
-                foreach ($farms as $farmId => $farm) {
-                    $this->farms[$farmId] = new Farm();
-foreach ($farm as $spaceData) {
-                    if($spaceData['status'] == 1){
+        foreach ($farms as $farmId => $farm) {
+            $this->farms[$farmId] = new Farm();
+            foreach ($farm as $spaceData) {
+                if ($spaceData['status'] == 1) {
                     switch ($spaceData['buildingid']) {
-case BuildingType::FARMLAND:
+                        case BuildingType::FARMLAND:
 
-                $this->processFarmland($spaceData, $farmId);
-                break;
-case BuildingType::HOVEL:
-                $this->processHovel($spaceData, $farmId);
-            break;
+                            $this->processFarmland($spaceData, $farmId);
+                            break;
+                        case BuildingType::HOVEL:
+                            $this->processHovel($spaceData, $farmId);
+                            break;
+                    }
+                    $this->usedSeeds = []; // reset used products for new space}
+                }
+
+
             }
-        $this->usedSeeds = []; // reset used products for new space}
-    }
-
-
         }
     }
 
@@ -116,7 +117,7 @@ case BuildingType::HOVEL:
         $farmland->setConnector($this->connector);
 
         $fieldsData = $this->connector->getSpaceFields($farmland);
-        $fields = $fieldsData['datablock'][1];
+        $fields     = $fieldsData['datablock'][1];
 
         if ($fields != 0) {
             foreach ($fields as $key => $fieldData) {
@@ -135,13 +136,14 @@ case BuildingType::HOVEL:
         $hovel = new Hovel($spaceData, $this->player);
         $hovel->setConnector($this->connector);
         $this->farms[$farmId]->addBuilding($hovel);
+
         return $this;
     }
 
     public function disableTutorial()
     {
-        $space = new Space();
-        $space->farm = 1;
+        $space           = new Space();
+        $space->farm     = 1;
         $space->position = 1;
         //OK http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=getbuildingoptions&farm=1&position=1
         $this->connector->getBuildingsOptions($space);
@@ -155,9 +157,9 @@ case BuildingType::HOVEL:
         $this->connector->getSpaceFields($space);
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3&cid=12
-        $firstField = new Field();
+        $firstField        = new Field();
         $firstField->index = 1;
-        $carrot = new Product($firstField);
+        $carrot            = new Product($firstField);
         $this->connector->seed($carrot->getPid());
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_water&farm=1&position=1&feld[]=3&felder[]=3
