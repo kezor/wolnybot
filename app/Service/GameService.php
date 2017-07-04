@@ -89,20 +89,24 @@ class GameService
 
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
-        foreach ($farms as $farmId => $farm) {
-            $this->farms[$farmId] = new Farm();
-            foreach ($farm as $spaceData) {
-                if ($spaceData['status'] == 1) {
+
+                foreach ($farms as $farmId => $farm) {
+                    $this->farms[$farmId] = new Farm();
+foreach ($farm as $spaceData) {
+                    if($spaceData['status'] == 1){
                     switch ($spaceData['buildingid']) {
-                        case BuildingType::FARMLAND:
-                            $this->processFarmland($spaceData, $farmId);
-                            break;
-                        case BuildingType::HOVEL:
-                            $this->processHovel($spaceData, $farmId);
-                            break;
-                    }
-                }
+case BuildingType::FARMLAND:
+
+                $this->processFarmland($spaceData, $farmId);
+                break;
+case BuildingType::HOVEL:
+                $this->processHovel($spaceData, $farmId);
+            break;
             }
+        $this->usedSeeds = []; // reset used products for new space}
+    }
+
+
         }
     }
 

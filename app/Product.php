@@ -54,4 +54,9 @@ class Product extends Model
         $this->amount--;
         return $this;
     }
+
+    public function getName()
+    {
+        return ProductMapper::getProductNameByPid($this->pid);
+    }
 }

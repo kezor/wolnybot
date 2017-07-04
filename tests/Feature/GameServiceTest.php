@@ -9,6 +9,7 @@ use App\Field;
 use App\Product;
 use App\Service\GameService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class GameServiceTest extends TestCase
