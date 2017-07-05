@@ -8,6 +8,7 @@ use App\Player;
 use App\UrlGenerator;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use App\Space;
 
 class WolniFarmerzyConnector implements ConnectorInterface
 {
