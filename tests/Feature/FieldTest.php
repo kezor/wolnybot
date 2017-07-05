@@ -45,12 +45,8 @@ class FieldTest extends TestCase
         $field = $this->getField();
 
         $this->assertTrue($field->canCollect());
-
         $field->removeProduct();
-
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Field doesn\'t have product');
-        $field->getRelatedFields();
+        $this->assertFalse($field->getRelatedFields());
     }
 
     private function getField($phase = Product::PLANT_PHASE_FINAL)
