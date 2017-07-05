@@ -5,9 +5,12 @@ namespace App\Repository;
 use App\Field;
 use App\Player;
 use App\Product;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProductRepository
 {
+    use DatabaseTransactions;
+
     public static function getStock($stockData, Player $player)
     {
         $stock = Product::where('pid', $stockData['pid'])
@@ -26,20 +29,5 @@ class ProductRepository
         return Product::whereNotIn('id', $ids)
             ->where('player', $player->id)
             ->get();
-    }
-
-    public static function getProductByPid(Field $field)
-    {
-        $product = Product::where('pid', $field->product_pid)
-            ->where('player', $field->getSpace()->getPlayer()->id)
-            ->first();
-        if (!$product) {
-            $product = new Product();
-            $product->pid = $field->product_pid;
-            $product->player = $field->getSpace()->getPlayer()->id;
-            $product->amount = 0;
-            $product->save();
-        }
-        return $product;
     }
 }

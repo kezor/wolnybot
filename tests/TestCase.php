@@ -5,7 +5,6 @@ namespace Tests;
 use App\Field;
 use App\Player;
 use App\Product;
-use App\Space;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\File;
@@ -15,6 +14,9 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use DatabaseTransactions;
 
+    /**
+     * @return Player
+     */
     protected function getTestPlayer()
     {
         $player = new Player();
@@ -26,31 +28,26 @@ abstract class TestCase extends BaseTestCase
         return $player;
     }
 
-    protected function getTestSpace(Player $player, $position = 1)
+    protected function getTestField(Product $product, $plantPhase = Product::PLANT_PHASE_FINAL)
     {
-        $space = new Space();
-        $space->player = $player->id;
-        $space->farm = 1;
-        $space->position = $position;
-        $space->save();
-        return $space;
-    }
-
-    protected function getTestField(Product $product, Space $space)
-    {
-        $field = new Field();
-        $field->index = 1;
-        $field->phase = Product::PLANT_PHASE_FINAL;
+        $field = new Field(1);
+        $field->setProductPid($product->getPid());
+        $field->setPhase($plantPhase);
+        $field->setTime(($plantPhase > 1) ? time() : '');
         $field->setProduct($product);
-        $field->space = $space->id;
+        $field->setOffsetX(1);
+        $field->setOffsetY(1);
+//        $field->save();
         return $field;
     }
 
-    protected function getTestProduct($pid = 17) //default carrot 1x1
+    protected function getTestProduct(Player $player, $pid = 1, $amount = 120)
     {
         $product = new Product();
-        $product->setAmount(123);
+        $product->setAmount($amount);
         $product->setPid($pid);
+        $product->player = $player->id;
+        $product->save();
         return $product;
     }
 
@@ -62,5 +59,15 @@ abstract class TestCase extends BaseTestCase
         }
 
         return File::get($path); // string
+    }
+
+    protected function getDashboardSuccessData()
+    {
+        return json_decode($this->loadJSON('getFarmSuccess'), true);
+    }
+
+    protected function getGardeninitSuccessData()
+    {
+        return json_decode($this->loadJSON('getGardeninitSuccess'), true);
     }
 }

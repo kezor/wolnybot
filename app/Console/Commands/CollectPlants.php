@@ -35,7 +35,7 @@ class CollectPlants extends Command
         foreach ($players as $player){
             $gameService = new GameService($player);
 
-            $gameService->updateFields();
+            $gameService->updateSpacesData();
             $gameService->collectReady();
         }
     }

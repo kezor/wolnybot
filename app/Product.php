@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     const PLANT_PHASE_FINAL = 4;
+    const PLANT_PHASE_BEGIN = 1;
+    const PLANT_PHASE_EMPTY = 0;
 
     public function setPid($pid)
     {
@@ -50,6 +52,7 @@ class Product extends Model
     public function decreaseAmount()
     {
         $this->amount--;
+        return $this;
     }
 
     public function getName()

@@ -16,8 +16,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Player extends Model
 {
-    public function getSpaces()
-    {
-        return SpaceRepository::getPlayerSpaces($this);
-    }
+
 }

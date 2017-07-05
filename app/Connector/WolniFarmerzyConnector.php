@@ -2,6 +2,7 @@
 
 namespace App\Connector;
 
+use App\Building\Farmland;
 use App\Field;
 use App\Player;
 use App\Space;
@@ -30,46 +31,64 @@ class WolniFarmerzyConnector implements ConnectorInterface
      */
     private $urlGenerator;
 
-    public function __construct()
+    public function __construct($client = null)
     {
-        $this->client = new Client(['cookies' => true]);
+        if (!$client) {
+            $client = new Client(['cookies' => true]);
+        }
+        $this->client = $client;
     }
 
     public function login(Player $player)
     {
         $this->player = $player;
 
-        $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
-            'form_params' => [
-                'server' => $player->server_id,
-                'username' => $player->username,
-                'password' => $player->password,
-                'ref' => '',
-                'retid' => '',
-                '_' => '',
-            ],
-        ]);
+        try {
+            $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
+                'form_params' => [
+                    'server' => $player->server_id,
+                    'username' => $player->username,
+                    'password' => $player->password,
+                    'ref' => '',
+                    'retid' => '',
+                    '_' => '',
+                ],
+            ]);
 
-        $responseBody = $res->getBody()->__toString();
+            $responseBody = $res->getBody()->__toString();
 
-        $url = substr($responseBody, 4, strlen($responseBody) - 6);
+            $matches = null;
+            preg_match('^\[1,"[a-z\:]+^', $responseBody, $matches);
+            if (empty($matches)) {
+                throw new \Exception('Wrong login credentials');
+            }
 
-        $url = str_replace('\\', '', $url);
+            $url = substr($responseBody, 4, strlen($responseBody) - 6);
 
-        $res = $this->client->request('GET', $url);
+            $url = str_replace('\\', '', $url);
 
-        $body = $res->getBody()->__toString();
+            $res = $this->client->request('GET', $url);
 
-        $needle = 'var rid = \'';
-        $startPos = strpos($body, $needle) + strlen($needle);
+            $body = $res->getBody()->__toString();
 
-        $body = substr($body, $startPos);
+            $needle = 'var rid = \'';
+            $startPos = strpos($body, $needle) + strlen($needle);
 
-        $length = strpos($body, '\'');
+            $body = substr($body, $startPos);
 
-        $this->token = substr($body, 0, $length);
+            $length = strpos($body, '\'');
 
-        $this->urlGenerator = new UrlGenerator($player, $this->token);
+            $this->token = substr($body, 0, $length);
+
+            if (empty($this->token)) {
+                throw new \Exception('Token is invalid');
+            }
+
+            $this->urlGenerator = new UrlGenerator($player, $this->token);
+        } catch (\Exception $exception) {
+            // @TODO log error
+            return false;
+        }
 
         return true;
     }
@@ -81,24 +100,25 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function getSpaceFields(Space $space)
+    public function getSpaceFields(Farmland $farmland)
     {
-        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($space);
+        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($farmland);
         $res = $this->client->request('GET', $allDataUrl);
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function collect(Field $field)
+    public function collect(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getCollectUrl($field);
+        $url = $this->urlGenerator->getCollectUrl($farmland, $field);
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->__toString(), true);
     }
 
-    public function seed(Field $field)
+    public function seed(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getSeedUrl($field);
-        return $this->client->request('GET', $url);
+        $url = $this->urlGenerator->getSeedUrl($farmland, $field);
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->__toString(), true);
     }
 
     public function closeTutorial()
@@ -125,10 +145,11 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $this->client->request('GET', $url);
     }
 
-    public function waterField(Field $field)
+    public function waterField(Farmland $farmland, Field $field)
     {
-        $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=garden_water&farm=1&position=1&feld[]=' . $field->index . '&felder[]=' . $field->getFields();
-        return $this->client->request('GET', $url);
+        $url = $this->urlGenerator->getWaterUrl($farmland, $field);
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->__toString(), true);
     }
 
     //remove weed
