@@ -93,12 +93,7 @@ class Field
      */
     public function getProduct()
     {
-        return $this->product;
-    }
-
-    public function getRelatedFields()
-    {
-        if (!$this->getProduct()) {
+        if (!$this->product) {
 
             if(!$this->getProductPid()){
                 throw new \Exception('Field doesn\'t have product');
@@ -107,10 +102,15 @@ class Field
             $product->setPid($this->getProductPid());
             $this->setProduct($product);
         }
+        return $this->product;
+    }
+
+    public function getRelatedFields()
+    {
         $fields = [];
 
-        for ($i = 0; $i < $this->product->getLength(); $i++) {
-            for ($j = 0; $j < $this->product->getHeight(); $j++) {
+        for ($i = 0; $i < $this->getProduct()->getLength(); $i++) {
+            for ($j = 0; $j < $this->getProduct()->getHeight(); $j++) {
                 $fields[] = $this->index + $i + (12 * $j);
             }
         }
