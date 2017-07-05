@@ -5,9 +5,9 @@ namespace App\Connector;
 use App\Building\Farmland;
 use App\Field;
 use App\Player;
-use App\Space;
 use App\UrlGenerator;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class WolniFarmerzyConnector implements ConnectorInterface
 {
@@ -46,12 +46,12 @@ class WolniFarmerzyConnector implements ConnectorInterface
         try {
             $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
                 'form_params' => [
-                    'server' => $player->server_id,
+                    'server'   => $player->server_id,
                     'username' => $player->username,
                     'password' => $player->password,
-                    'ref' => '',
-                    'retid' => '',
-                    '_' => '',
+                    'ref'      => '',
+                    'retid'    => '',
+                    '_'        => '',
                 ],
             ]);
 
@@ -71,7 +71,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
             $body = $res->getBody()->__toString();
 
-            $needle = 'var rid = \'';
+            $needle   = 'var rid = \'';
             $startPos = strpos($body, $needle) + strlen($needle);
 
             $body = substr($body, $startPos);
@@ -95,61 +95,93 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function getDashboardData()
     {
-        $allDataUrl = $this->urlGenerator->getDashboardDataUrl();
-        $res = $this->client->request('GET', $allDataUrl);
-        return json_decode($res->getBody()->__toString(), true);
+        $url          = $this->urlGenerator->getDashboardDataUrl();
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to get dashboard data: url - ' . $url);
+        }
+
+        return $responseData;
     }
 
     public function getSpaceFields(Farmland $farmland)
     {
         $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($farmland);
-        $res = $this->client->request('GET', $allDataUrl);
+        $res        = $this->client->request('GET', $allDataUrl);
+
         return json_decode($res->getBody()->__toString(), true);
     }
 
     public function collect(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getCollectUrl($farmland, $field);
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->__toString(), true);
+        $url          = $this->urlGenerator->getCollectUrl($farmland, $field);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to collect field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
+        }
+
+        return $responseData;
     }
 
     public function seed(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getSeedUrl($farmland, $field);
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->__toString(), true);
+        $url          = $this->urlGenerator->getSeedUrl($farmland, $field);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to seed field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
+        }
+
+        return $responseData;
     }
 
     public function closeTutorial()
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/main.php?rid=' . $this->token . '&action=closetutorial';
+
         return $this->client->request('GET', $url);
     }
 
     public function increaseTutorialStep()
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/main.php?rid=' . $this->token . '&action=increasetutorialstep';
+
         return $this->client->request('GET', $url);
     }
 
     public function getBuildingsOptions(Space $space)
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=getbuildingoptions&farm=' . $space->farm . '&position=' . $space->position;
+
         return $this->client->request('GET', $url);
     }
 
     public function buyBuilding(Space $space, $building)
     {
         $url = 'http://s' . $this->player->server_id . '.wolnifarmerzy.pl/ajax/farm.php?rid=' . $this->token . '&mode=buybuilding&farm=' . $space->farm . '&position=' . $space->position . '&id=1&buildingid=' . $building->getType();
+
         return $this->client->request('GET', $url);
     }
 
     public function waterField(Farmland $farmland, Field $field)
     {
-        $url = $this->urlGenerator->getWaterUrl($farmland, $field);
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->__toString(), true);
+        $url          = $this->urlGenerator->getWaterUrl($farmland, $field);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to water field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
+        }
+
+        return $responseData;
+    }
+
+    private function callRequest($url)
+    {
+        try {
+            $res = $this->client->request('GET', $url);
+
+            return json_decode($res->getBody()->__toString(), true);
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 
     //remove weed
