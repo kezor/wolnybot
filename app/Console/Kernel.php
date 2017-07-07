@@ -38,7 +38,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('bot:test')
-                  ->everyFiveMinutes();
+             ->weekdays()
+             ->hourlyAt(mt_rand(1,60))
+             ->between('7:45', '16:08');
     }
 
     /**

@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer offset_x
  * @property integer offset_y
  * @property integer phase
- * @property mixed planted
- * @property mixed time
+ * @property mixed   planted
+ * @property mixed   time
  */
 class Field
 {
@@ -35,16 +35,17 @@ class Field
 
     public function __construct($index)
     {
-        $this->index = $index;
-        $this->phase = Product::PLANT_PHASE_EMPTY;
+        $this->index       = $index;
+        $this->phase       = Product::PLANT_PHASE_EMPTY;
         $this->product_pid = null;
-        $this->time = 0;
-        $this->product = null;
+        $this->time        = 0;
+        $this->product     = null;
     }
 
     public function canCollect()
     {
         return $this->phase == Product::PLANT_PHASE_FINAL
+            && $this->getProduct()
             && $this->isVegetable();
     }
 
@@ -68,23 +69,26 @@ class Field
         if (strlen($char) == 1) {
             $char = ' ' . $char;
         }
+
         return '[' . $char . ']';
     }
 
     public function setProduct(Product $product)
     {
-        $this->product = $product;
+        $this->product     = $product;
         $this->product_pid = $product->pid;
+
         return $this;
     }
 
     public function removeProduct()
     {
         $this->product_pid = null;
-        $this->time = 0;
-        $this->planted = 0;
-        $this->phase = Product::PLANT_PHASE_EMPTY;
-        $this->product = null;
+        $this->time        = 0;
+        $this->planted     = 0;
+        $this->phase       = Product::PLANT_PHASE_EMPTY;
+        $this->product     = null;
+
         return $this;
     }
 
@@ -93,15 +97,12 @@ class Field
      */
     public function getProduct()
     {
-        if (!$this->product) {
-
-            if(!$this->getProductPid()){
-                throw new \Exception('Field doesn\'t have product');
-            }
+        if (!$this->product && $this->getProductPid()) {
             $product = new Product();
             $product->setPid($this->getProductPid());
             $this->setProduct($product);
         }
+
         return $this->product;
     }
 
@@ -109,6 +110,9 @@ class Field
     {
         $fields = [];
 
+        if (!$this->getProduct()) {
+            return false;
+        }
         for ($i = 0; $i < $this->getProduct()->getLength(); $i++) {
             for ($j = 0; $j < $this->getProduct()->getHeight(); $j++) {
                 $fields[] = $this->index + $i + (12 * $j);
@@ -116,6 +120,7 @@ class Field
         }
 
         return implode(',', $fields);
+
     }
 
     public function isVegetable()
@@ -126,6 +131,7 @@ class Field
     public function setTime($time)
     {
         $this->time = $time;
+
         return $this;
     }
 
@@ -137,6 +143,7 @@ class Field
     public function setPlanted($planted)
     {
         $this->planted = $planted;
+
         return $this;
     }
 
@@ -148,12 +155,14 @@ class Field
     public function setOffsetX($offset)
     {
         $this->offset_x = $offset;
+
         return $this;
     }
 
     public function setOffsetY($offset)
     {
         $this->offset_y = $offset;
+
         return $this;
     }
 
@@ -170,6 +179,7 @@ class Field
     public function setPhase($phase)
     {
         $this->phase = $phase;
+
         return $this;
     }
 
@@ -181,6 +191,7 @@ class Field
     public function setProductPid($pid)
     {
         $this->product_pid = $pid;
+
         return $this;
     }
 
