@@ -48,10 +48,14 @@ class TestBot extends Command
         }
 
         foreach ($players as $player) {
-            Log::info(Carbon::now()->toDateTimeString() . ' --- Starting working with player "' . $player->username . '" on server id: ' . $player->server_id . '  ');
+            Log::debug(Carbon::now()->toDateTimeString() . ' --- Starting working with player "' . $player->username . '" on server id: ' . $player->server_id . '  ');
+            $minutes = mt_rand(3, 23);
+            Log::debug('Sleeping for '.$minutes. 'minutest before run script...');
+            sleep($minutes * 60);
+            Log::debug('Starting game process...');
             $gameService = new GameService($player);
             $gameService->run();
-            Log::info(Carbon::now()->toDateTimeString() . ' --- Ended working with player "' . $player->username . '" on server id: ' . $player->server_id . '  ');
+            Log::debug(Carbon::now()->toDateTimeString() . ' --- Ended working with player "' . $player->username . '" on server id: ' . $player->server_id . '  ');
         }
     }
 }

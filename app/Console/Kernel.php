@@ -40,40 +40,35 @@ class Kernel extends ConsoleKernel
         // run at work :)
         $schedule->command('bot:test')
             ->weekdays()
-            ->hourlyAt(mt_rand(1, 25))
+            ->everyThirtyMinutes()
             ->between('7:45', '16:08');
-
-        $schedule->command('bot:test')
-            ->weekdays()
-            ->hourlyAt(mt_rand(30, 55))
-            ->between('7:40', '16:40');
 
         // run once/twice at evening at weekdays
         $schedule->command('bot:test')
             ->weekdays()
-            ->hourlyAt(mt_rand(30, 55))
+            ->everyThirtyMinutes()
             ->between('20:00', '21:30');
 
         // Have two periods on saturday
         $schedule->command('bot:test')
             ->saturdays()
-            ->hourlyAt(mt_rand(30, 55))
+            ->everyThirtyMinutes()
             ->between('8:30', '10:15');
 
         $schedule->command('bot:test')
             ->saturdays()
-            ->hourlyAt(mt_rand(30, 55))
+            ->everyThirtyMinutes()
             ->between('18:20', '20:15');
 
         // Have two periods on sunday
         $schedule->command('bot:test')
             ->sundays()
-            ->hourlyAt(mt_rand(30, 55))
+            ->everyThirtyMinutes()
             ->between('9:30', '10:55');
 
         $schedule->command('bot:test')
             ->sundays()
-            ->hourlyAt(mt_rand(30, 55))
+            ->everyThirtyMinutes()
             ->between('17:10', '19:25');
     }
 
