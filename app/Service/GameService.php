@@ -39,10 +39,15 @@ class GameService
         }
         $this->connector = $connector;
         $this->player    = $player;
-        $this->connector->login($player);
+        $logged = $this->connector->login($player);
 
-        $this->updateSpacesData();
-        $this->updateStock();
+        if($logged){
+            $this->updateSpacesData();
+            $this->updateStock();
+        }else{
+            throw new \Exception('User not logged in');
+        }
+
     }
 
     public function run()
