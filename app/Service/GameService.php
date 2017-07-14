@@ -39,17 +39,21 @@ class GameService
         }
         $this->connector = $connector;
         $this->player    = $player;
-        $this->connector->login($player);
+        $logged          = $this->connector->login($player);
 
-        $this->updateSpacesData();
-        $this->updateStock();
+        if ($logged) {
+            $this->updateSpacesData();
+            $this->updateStock();
+        }
     }
 
     public function run()
     {
-        /** @var Farm $farm */
-        foreach ($this->farms as $farm) {
-            $farm->process();
+        if (!empty($this->farms)) {
+            /** @var Farm $farm */
+            foreach ($this->farms as $farm) {
+                $farm->process();
+            }
         }
     }
 

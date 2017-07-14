@@ -87,7 +87,8 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
             $this->urlGenerator = new UrlGenerator($player, $this->token);
         } catch (\Exception $exception) {
-            // @TODO log error
+            Log::error('Error during login process -> ' . json_encode(['message' => $exception->getMessage(), 'strace' => $exception->getTraceAsString()]));
+
             return false;
         }
 
