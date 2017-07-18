@@ -82,6 +82,7 @@ class Farmland extends AbstractBuilding
                     'phase' => Product::PLANT_PHASE_BEGIN,
                     'gepflanzt' => time(),
                     'zeit' => time(),
+                    'iswater' => false,
                 ]);
             }
 
@@ -229,6 +230,7 @@ class Farmland extends AbstractBuilding
         $field->setPhase($fieldData['phase']);
         $field->setPlanted($fieldData['gepflanzt']);
         $field->setTime($fieldData['zeit']);
+        $field->setWater($fieldData['iswater']);
         return $this;
     }
 }

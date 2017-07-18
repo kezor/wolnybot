@@ -178,6 +178,8 @@ class WolniFarmerzyConnector implements ConnectorInterface
     private function callRequest($url)
     {
         try {
+            // small delay before each call
+            sleep(mt_rand(3,7)/10);
             $res = $this->client->request('GET', $url);
 
             return json_decode($res->getBody()->__toString(), true);

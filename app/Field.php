@@ -33,6 +33,8 @@ class Field
 
     private $product;
 
+    private $water;
+
     public function __construct($index)
     {
         $this->index       = $index;
@@ -59,8 +61,25 @@ class Field
     public function canWater()
     {
         return $this->phase != Product::PLANT_PHASE_EMPTY
+            && !$this->isWatered()
             && $this->time != 0
             && $this->isVegetable();
+    }
+
+    /**
+     * @param bool $iswater
+     * @return $this
+     */
+    public function setWater($iswater)
+    {
+        $this->water = $iswater;
+
+        return $this;
+    }
+
+    public function isWatered()
+    {
+        return $this->water;
     }
 
     public function drawField()
