@@ -73,7 +73,7 @@ class GameServiceTest extends TestCase
             ->times(10)
             ->shouldReceive('waterField')
             ->with(\Mockery::type(Farmland::class), \Mockery::type(Field::class))
-            ->times(102)
+            ->times(10)
             ->getMock();
 
         $gameService = new GameService($player, $connectorMock);

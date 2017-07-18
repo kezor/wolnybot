@@ -156,7 +156,7 @@ class FarmlandTest extends TestCase
                 'productToSeed' => 17,  //carrot
                 'productToSeedCount' => 120,
                 'seedCount' => 0,
-                'waterCount' => 120,
+                'waterCount' => 0,
             ],
             [
                 'prepareProductPid' => 17, //carrot
