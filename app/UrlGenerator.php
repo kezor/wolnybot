@@ -54,9 +54,21 @@ class UrlGenerator
         return $this->getMainPart() . '&mode=inner_feed&farm=' . $hovel->getFarmId() . '&position=' . $hovel->getPosition() . '&pid=1&c=1_1|&amount=1&guildjob=0';
     }
 
-    public function getLoadHovelData(Hovel $hovel)
+    public function getLoadHovelDataUrl(Hovel $hovel)
     {
         return $this->getMainPart() . '&mode=inner_init&farm=' . $hovel->getFarmId() . '&position=' . $hovel->getPosition();
+    }
+
+    public function getCollectEggsUrl(Hovel $hovel)
+    {
+        return $this->getMainPart() . '&mode=inner_crop&farm=' . $hovel->getFarmId() . '&position=' . $hovel->getPosition();
+    }
+
+    public function getFeedChickensUrl(Hovel $hovel, Product $plant)
+    {
+//        http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=8f8e72c933f7ed67fd832e960743ad4b&mode=inner_feed&farm=1&position=2&pid=2&c=2_1|&amount=1&guildjob=0
+//        http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=8f8e72c933f7ed67fd832e960743ad4b&mode=inner_feed&farm=1&position=2&pid=1&c=1_1|&amount=1&guildjob=0
+        return $this->getMainPart() . '&mode=inner_feed&farm=' . $hovel->getFarmId() . '&position=' . $hovel->getPosition(). '&pid='.$plant->getPid().'&c=1_1|&amount=1&guildjob=0';
     }
 
     private function getMainPart()
