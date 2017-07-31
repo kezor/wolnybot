@@ -70,4 +70,14 @@ abstract class TestCase extends BaseTestCase
     {
         return json_decode($this->loadJSON('getGardeninitSuccess'), true);
     }
+
+    protected function getHovelData()
+    {
+        return json_decode($this->loadJSON('getHovelInitData'), true);
+    }
+
+    protected function getHovelData2()
+    {
+        return json_decode($this->loadJSON('getHovelInitData2'), true);
+    }
 }

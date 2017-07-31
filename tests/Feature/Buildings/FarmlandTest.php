@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Buildings;
 
 use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
@@ -13,93 +13,6 @@ class FarmlandTest extends TestCase
 {
 
     use DatabaseTransactions;
-
-    public function testFarmland()
-    {
-        return;
-        $player = $this->getTestPlayer();
-
-        $farmland = new Farmland(['farm' => 1, 'position' => 2], $player);
-
-        $product = $this->getTestProduct($player, 17);
-
-        $connectorMock = \Mockery::mock(WolniFarmerzyConnector::class)
-            ->shouldReceive('collect')
-            ->times(3)
-            ->shouldReceive('seed')
-            ->times(119)
-            ->shouldReceive('waterField')
-            ->times(120)
-            ->getMock();
-
-        $farmland->setConnector($connectorMock);
-
-        $this->assertEquals(2, $farmland->getPosition());
-        $this->assertEquals(1, $farmland->getFarmId());
-
-        $fieldReadyToCollectData1x1 = [
-            'teil_nr' => '2',
-            'inhalt' => '20',
-            'gepflanzt' => '1497191115',
-            'zeit' => '1497218475',
-            'wasser' => '1497191120',
-            'guild' => '0',
-            'buildingid' => 'v',
-            'x' => 1,
-            'y' => 1,
-            'iswater' => true,
-            'phase' => 4
-        ];
-
-        $fieldReadyToCollectData2x1 = [
-            'teil_nr' => '3',
-            'inhalt' => '20',
-            'gepflanzt' => '1497191115',
-            'zeit' => '1497218475',
-            'wasser' => '1497191120',
-            'guild' => '0',
-            'buildingid' => 'v',
-            'x' => 2,
-            'y' => 1,
-            'iswater' => true,
-            'phase' => 4
-        ];
-
-        $fieldReadyToCollectData2x2 = [
-            'teil_nr' => '5',
-            'inhalt' => '20',
-            'gepflanzt' => '1497191115',
-            'zeit' => '1497218475',
-            'wasser' => '1497191120',
-            'guild' => '0',
-            'buildingid' => 'v',
-            'x' => 2,
-            'y' => 1,
-            'iswater' => true,
-            'phase' => 4
-        ];
-
-        $fieldInProgressData = [
-            'teil_nr' => '13',
-            'inhalt' => '20',
-            'gepflanzt' => '1497191115',
-            'zeit' => '1497218475',
-            'wasser' => '1497191120',
-            'guild' => '0',
-            'buildingid' => 'v',
-            'x' => 1,
-            'y' => 1,
-            'iswater' => true,
-            'phase' => 3
-        ];
-
-        $farmland->updateField($fieldReadyToCollectData1x1);
-        $farmland->updateField($fieldReadyToCollectData2x1);
-        $farmland->updateField($fieldReadyToCollectData2x2);
-        $farmland->updateField($fieldInProgressData);
-
-        $farmland->process();
-    }
 
     /**
      * @dataProvider getDataToFarmland

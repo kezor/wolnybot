@@ -3,8 +3,10 @@
 namespace App\Connector;
 
 use App\Building\Farmland;
+use App\Building\Hovel;
 use App\Field;
 use App\Player;
+use App\Product;
 use App\UrlGenerator;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
@@ -179,13 +181,45 @@ class WolniFarmerzyConnector implements ConnectorInterface
     {
         try {
             // small delay before each call
-            sleep(mt_rand(3,7)/10);
+            sleep(mt_rand(3, 7) / 10);
             $res = $this->client->request('GET', $url);
 
             return json_decode($res->getBody()->__toString(), true);
         } catch (\Exception $exception) {
             return false;
         }
+    }
+
+    public function initHovel(Hovel $hovel)
+    {
+        $url          = $this->urlGenerator->getLoadHovelDataUrl($hovel);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to get hovel data: url - ' . $url);
+        }
+
+        return $responseData;
+    }
+
+    public function collectEggs(Hovel $hovel)
+    {
+        $url          = $this->urlGenerator->getCollectEggsUrl($hovel);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to collect eggs from hovel data: url - ' . $url);
+        }
+
+        return $responseData;    }
+
+    public function feedChickens(Hovel $hovel, Product $product)
+    {
+        $url          = $this->urlGenerator->getFeedChickensUrl($hovel, $product);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to feed chickens data: url - ' . $url);
+        }
+
+        return $responseData;
     }
 
     //remove weed
