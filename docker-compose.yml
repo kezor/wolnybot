@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile/php.Dockerfile
+        volumes:
+            - "./:/var/www"
+        links:
+            - nginx
+    nginx:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile/nginx.Dockerfile
+        volumes:
+            - "./:/var/www"
+        ports:
+            - "8080:80"
+        links:
+            - db
+    db:
+        image: mysql:5.7
+        environment:
+            - "MYSQL_ROOT_PASSWORD=secret"
+            - "MYSQL_DATABASE=database"
+        ports:
+            - "33061:3306"
