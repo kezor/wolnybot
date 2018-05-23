@@ -12,7 +12,7 @@ class AddPlayer extends Command
      *
      * @var string
      */
-    protected $signature = 'player:add {username} {password} {serverId}';
+    protected $signature = 'player:add {username} {password} {serverId} {userId}';
 
     /**
      * The console command description.
@@ -32,6 +32,7 @@ class AddPlayer extends Command
         $player->username = $this->argument('username');
         $player->password = $this->argument('password');
         $player->server_id = $this->argument('serverId');
+        $player->user_id = $this->argument('userId');
         $player->active = true;
         $player->save();
     }

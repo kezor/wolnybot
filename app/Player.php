@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string username
  * @property string password
  * @property integer server_id
+ * @property integer user_id
  */
 class Player extends Model
 {

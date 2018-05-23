@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Player;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $players = Player::where('user_id', Auth::id())->get();
+//        Auth::id();
+        return view('home', [
+            'players' => $players
+        ]);
     }
 }
