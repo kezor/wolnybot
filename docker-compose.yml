@@ -7,8 +7,6 @@ services:
             dockerfile: ./Dockerfile/php.Dockerfile
         volumes:
             - "./:/var/www"
-        links:
-            - nginx
     nginx:
         build:
             context: ./
@@ -19,10 +17,12 @@ services:
             - "8080:80"
         links:
             - db
+        depends_on:
+            - app
     db:
         image: mysql:5.7
         environment:
             - "MYSQL_ROOT_PASSWORD=secret"
-            - "MYSQL_DATABASE=database"
+            - "MYSQL_DATABASE=homestead"
         ports:
             - "33061:3306"
