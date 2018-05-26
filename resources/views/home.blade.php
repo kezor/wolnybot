@@ -9,6 +9,9 @@
 
                     <div class="panel-body">
                         <p>Players list</p>
+                        <p>
+                            <a href="{{ route('player.create') }}" class="btn btn-default">Add new</a>
+                        </p>
                         <table class="table table-bordered">
                             <tr>
                                 <th>Username</th>
