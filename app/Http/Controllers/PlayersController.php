@@ -36,8 +36,10 @@ class PlayersController extends Controller
         return redirect('/home');
     }
 
-    public function updateData(Request $request, Player $player)
+    public function updateData(Request $request, $playerId)
     {
+        $player = Player::find($playerId);
+
         if ($player) {
             $gameService = new GameService($player);
             if ($gameService->isPlayerLoggedIn()) {
