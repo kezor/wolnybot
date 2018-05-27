@@ -32,6 +32,8 @@ class GameService
      */
     private $player;
 
+    private $loggedIn = false;
+
     public function __construct(Player $player, ConnectorInterface $connector = null)
     {
         if (!$connector) {
@@ -39,12 +41,15 @@ class GameService
         }
         $this->connector = $connector;
         $this->player    = $player;
-        $logged          = $this->connector->login($player);
+        $this->loggedIn  = $this->connector->login($player);
+    }
 
-        if ($logged) {
-            $this->updateSpacesData();
-            $this->updateStock();
-        }
+    /**
+     * @return bool
+     */
+    public function isPlayerLoggedIn()
+    {
+        return $this->loggedIn;
     }
 
     public function run()

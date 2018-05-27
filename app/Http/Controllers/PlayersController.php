@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Player;
+use App\Service\GameService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use \Illuminate\Http\Request;
 
 class PlayersController extends Controller
 {
@@ -32,6 +34,21 @@ class PlayersController extends Controller
         $player->save();
 
         return redirect('/home');
+    }
+
+    public function updateData(Request $request, Player $player)
+    {
+        if ($player) {
+            $gameService = new GameService($player);
+            if ($gameService->isPlayerLoggedIn()) {
+                $gameService->updateSpacesData();
+                $gameService->updateStock();
+                $request->session()->flash('success', 'Player data updated.');
+            } else {
+                $request->session()->flash('error', 'Error when try to log in the player.');
+            }
+        }
+        return redirect('home');
     }
 
 }
