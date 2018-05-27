@@ -36,7 +36,11 @@
                             </tr>
                             @foreach($players as $player )
                                 <tr>
-                                    <td>{{$player->username}}</td>
+                                    <td>
+                                        <a href="{{ route('player.show', $player->id) }}">
+                                            {{$player->username}}
+                                        </a>
+                                    </td>
                                     <td>{{$player->server_id}}</td>
                                     <td>
                                         <a href="{{ route('player.updateData', $player->id) }}" class="btn btn-sm btn-info">Update data</a>

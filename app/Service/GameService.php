@@ -12,6 +12,7 @@ use App\Farm;
 use App\Field;
 use App\Player;
 use App\ProductCategoryMapper;
+use App\Repository\FarmRepository;
 use App\Repository\FieldRepository;
 use App\Repository\SpaceRepository;
 use App\Repository\ProductRepository;
@@ -98,17 +99,21 @@ class GameService
 
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
-        foreach ($farms as $farmId => $farm) {
-            $this->farms[$farmId] = new Farm();
-            foreach ($farm as $spaceData) {
+        foreach ($farms as $farmId => $farmData) {
+//            $this->farms[$farmId] = new Farm();
+            $farm = FarmRepository::getFarm($farmId, $this->player);
+            $farm->save();
+            foreach ($farmData as $spaceData) {
                 if ($spaceData['status'] == 1) {
+                    $space = SpaceRepository::getSpace($farm, $this->player, $spaceData['position']);
+                    $space->save();
                     switch ($spaceData['buildingid']) {
                         case BuildingType::FARMLAND:
-                            $this->processFarmland($spaceData, $farmId);
+                            $this->updateFarmlandFields($spaceData, $space);
                             break;
-                        case BuildingType::HOVEL:
-                            $this->processHovel($spaceData, $farmId);
-                            break;
+//                        case BuildingType::HOVEL:
+//                            $this->processHovel($spaceData, $farmId);
+//                            break;
                     }
                     $this->usedSeeds = []; // reset used products for new space}
                 }
@@ -118,7 +123,7 @@ class GameService
         }
     }
 
-    private function processFarmland($spaceData, $farmId)
+    private function updateFarmlandFields($spaceData, Space $space)
     {
         $farmland = new Farmland($spaceData, $this->player);
         $farmland->setConnector($this->connector);
@@ -135,7 +140,7 @@ class GameService
             }
 
         }
-        $this->farms[$farmId]->addFarmland($farmland);
+//        $this->farms[$farm]->addFarmland($farmland);
     }
 
     private function processHovel($spaceData, $farmId)
@@ -164,7 +169,7 @@ class GameService
         $this->connector->getSpaceFields($space);
 
         //http://s8.wolnifarmerzy.pl/ajax/farm.php?rid=fe3faac43740b3f28e6d6bba45c633cb&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=3&felder[]=3&cid=12
-        $firstField        = new Field();
+        $firstField        = new Field(1);
         $firstField->index = 1;
         $carrot            = new Product($firstField);
         $this->connector->seed($carrot->getPid());

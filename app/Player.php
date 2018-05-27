@@ -18,4 +18,18 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'player');
+    }
+
+    public function farms()
+    {
+        return $this->hasMany(Farm::class);
+    }
+
+    public function spaces()
+    {
+        return $this->hasMany(Space::class, 'player');
+    }
 }

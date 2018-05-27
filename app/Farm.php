@@ -5,8 +5,9 @@ namespace App;
 
 use App\Building\AbstractBuilding;
 use App\Building\Farmland;
+use Illuminate\Database\Eloquent\Model;
 
-class Farm
+class Farm extends Model
 {
     /**
      * @var Farmland[]

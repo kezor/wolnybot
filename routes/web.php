@@ -23,3 +23,4 @@ Route::get('/players/create', 'PlayersController@create')->name('player.create')
 Route::post('/players/store', 'PlayersController@store')->name('player.store');
 
 Route::get('players/{id}/updateData', 'PlayersController@updateData')->name('player.updateData');
+Route::get('players/{id}', 'PlayersController@show')->name('player.show');

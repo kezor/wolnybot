@@ -6,6 +6,7 @@ use App\Connector\ConnectorInterface;
 use App\Field;
 use App\Product;
 use App\ProductCategoryMapper;
+use App\Repository\FieldRepository;
 
 class Farmland extends AbstractBuilding
 {
@@ -20,7 +21,9 @@ class Farmland extends AbstractBuilding
     {
         parent::__construct($spaceData, $player);
         for ($i = 1; $i <= 120; $i++) {
-            $this->fields[$i] = new Field($i);
+            $field = FieldRepository::getField($i, $this);
+            $field->save();
+            $this->fields[$i] = $field;
         }
     }
 
@@ -231,6 +234,7 @@ class Farmland extends AbstractBuilding
         $field->setPlanted($fieldData['gepflanzt']);
         $field->setTime($fieldData['zeit']);
         $field->setWater($fieldData['iswater']);
-        return $this;
+//        dd($field);
+        $field->save();
     }
 }

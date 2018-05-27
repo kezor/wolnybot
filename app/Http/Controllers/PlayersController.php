@@ -43,14 +43,21 @@ class PlayersController extends Controller
         if ($player) {
             $gameService = new GameService($player);
             if ($gameService->isPlayerLoggedIn()) {
-                $gameService->updateSpacesData();
                 $gameService->updateStock();
+                $gameService->updateSpacesData();
                 $request->session()->flash('success', 'Player data updated.');
             } else {
                 $request->session()->flash('error', 'Error when try to log in the player.');
             }
         }
         return redirect('home');
+    }
+
+    public function show($playerId)
+    {
+        return view('player.show', [
+            'player' => Player::find($playerId)
+        ]);
     }
 
 }

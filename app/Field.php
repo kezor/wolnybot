@@ -17,15 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed   planted
  * @property mixed   time
  */
-class Field
+class Field extends Model
 {
     private $phase;
 
     private $time;
 
-    private $offset_x;
-
-    private $offset_y;
+//    private $offset_x;
+//
+//    private $offset_y;
 
     private $index;
 
@@ -35,13 +35,19 @@ class Field
 
     private $water;
 
-    public function __construct($index)
+    protected $fillable = [
+        'index','phase', 'product_pid', 'time', 'offset_x', 'offset_y'
+    ];
+
+    public function __construct()
     {
-        $this->index       = $index;
+        $this->index       = null;
         $this->phase       = Product::PLANT_PHASE_EMPTY;
         $this->product_pid = null;
         $this->time        = 0;
         $this->product     = null;
+        $this->offset_x = 99;
+        $this->offset_y = 99;
     }
 
     public function canCollect()
