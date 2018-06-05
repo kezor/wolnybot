@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $players = Player::where('user_id', Auth::id())->get();
-//        Auth::id();
+
         return view('home', [
             'players' => $players
         ]);
