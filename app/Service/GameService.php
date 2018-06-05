@@ -109,7 +109,7 @@ class GameService
                     $space->save();
                     switch ($spaceData['buildingid']) {
                         case BuildingType::FARMLAND:
-                            $this->updateFarmlandFields($spaceData, $space);
+                            $this->updateFarmlandFields($spaceData, $farm);
                             break;
 //                        case BuildingType::HOVEL:
 //                            $this->processHovel($spaceData, $farmId);
@@ -123,10 +123,18 @@ class GameService
         }
     }
 
-    private function updateFarmlandFields($spaceData, Space $space)
+    private function updateFarmlandFields($spaceData, Farm $farm)
     {
-        $farmland = new Farmland($spaceData, $this->player);
-        $farmland->setConnector($this->connector);
+        $farmland = new Farmland();
+
+        $farmland->setPosition($spaceData['position'])
+            ->setFarm($farm)
+            ->setPlayer($this->player)
+            ->fillInFields();
+
+        $farmland->save();
+
+//        $farmland->setConnector($this->connector);
 
         $fieldsData = $this->connector->getSpaceFields($farmland);
         $fields = $fieldsData['datablock'][1];

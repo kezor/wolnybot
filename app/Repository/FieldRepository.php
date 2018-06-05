@@ -15,13 +15,13 @@ class FieldRepository
 
     public static function getField($index, Farmland $farmland)
     {
-        $farm = Field::where('space', $farmland->getPosition())
+        $farm = Field::where('space_id', $farmland->getPosition())
             ->where('index', $index)
             ->first();
         if (!$farm) {
             $farm = new Field();
             $farm->index = $index;
-            $farm->space = $farmland->getPosition();
+            $farm->space_id = $farmland->getPosition();
         }
         return $farm;
     }
@@ -29,7 +29,7 @@ class FieldRepository
     public static function getEmptyItems($ids, Player $player)
     {
         return Product::whereNotIn('id', $ids)
-            ->where('player', $player->id)
+            ->where('player_id', $player->id)
             ->get();
     }
 }

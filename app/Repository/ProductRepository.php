@@ -14,12 +14,12 @@ class ProductRepository
     public static function getStock($stockData, Player $player)
     {
         $stock = Product::where('pid', $stockData['pid'])
-            ->where('player', $player->id)
+            ->where('player_id', $player->id)
             ->first();
         if (!$stock) {
             $stock = new Product();
             $stock->pid = $stockData['pid'];
-            $stock->player = $player->id;
+            $stock->player_id = $player->id;
         }
         return $stock;
     }
@@ -27,7 +27,7 @@ class ProductRepository
     public static function getEmptyItems($ids, Player $player)
     {
         return Product::whereNotIn('id', $ids)
-            ->where('player', $player->id)
+            ->where('player_id', $player->id)
             ->get();
     }
 }

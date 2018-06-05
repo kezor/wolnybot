@@ -53,7 +53,7 @@ class Farm extends Model
 
     public function spaces()
     {
-        return $this->hasMany(Space::class, 'farm');
+        return $this->hasMany(Space::class);
     }
 
     public function getSpaceNameAtPosition($position)

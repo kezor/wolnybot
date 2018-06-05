@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Space
  * @package App
- * @property integer space
- * @property integer player
- * @property integer farm
+ * @property integer player_id
+ * @property integer farm_id
  * @property integer position
  * @property bool fields_in_database
  * @property integer building_type
@@ -18,9 +17,23 @@ use Illuminate\Database\Eloquent\Model;
 class Space extends Model
 {
 
+    protected $fillable = [
+        'player','farm', 'position', 'building_type'
+    ];
+
     public function getBuildingTypeName()
     {
         return SpaceMapper::getSpaceNameByPid($this->building_type);
     }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+//    public function getFarmId()
+//    {
+//        return $this->farm;
+//    }
 
 }

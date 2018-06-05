@@ -42,6 +42,13 @@
                                         <tr>
                                             <td>
                                                 {{ $farm->getSpaceNameAtPosition(1) }}
+                                                {!! Form::open(['url' => route('farmland.dispatchJob', 1) ]) !!}
+
+                                                    {{ Form::select('plant_id', $plantsToSeed) }}
+
+                                                    {{ Form::submit('Dispatch') }}
+
+                                                {!! Form::close() !!}
                                             </td>
                                             <td>
                                                 {{ $farm->getSpaceNameAtPosition(2) }}

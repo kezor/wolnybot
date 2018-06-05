@@ -15,8 +15,8 @@ class CreateSpacesTable extends Migration
     {
         Schema::create('spaces', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('player');
-            $table->integer('farm');
+            $table->integer('player_id');
+            $table->integer('farm_id');
             $table->integer('position');
             $table->boolean('fields_in_database')->default(false);
             $table->timestamps();

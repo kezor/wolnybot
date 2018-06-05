@@ -20,16 +20,11 @@ class Player extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'player');
+        return $this->hasMany(Product::class);
     }
 
     public function farms()
     {
         return $this->hasMany(Farm::class);
-    }
-
-    public function spaces()
-    {
-        return $this->hasMany(Space::class, 'player');
     }
 }

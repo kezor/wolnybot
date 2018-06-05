@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->integer('amount');
             $table->integer('duration');
             $table->integer('size');
-            $table->integer('player');
+            $table->integer('player_id');
             $table->timestamps();
         });
     }

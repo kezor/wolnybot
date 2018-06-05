@@ -15,7 +15,7 @@ class CreateFieldsTable extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('space');
+            $table->integer('space_id');
             $table->integer('index');
             $table->integer('product_pid')->nullable();
             $table->string('planted')->nullable();

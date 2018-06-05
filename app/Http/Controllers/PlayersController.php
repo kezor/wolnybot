@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Player;
+use App\Product;
 use App\Service\GameService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -50,14 +51,27 @@ class PlayersController extends Controller
                 $request->session()->flash('error', 'Error when try to log in the player.');
             }
         }
-        return redirect('home');
+        return back();
     }
 
     public function show($playerId)
     {
+        $player = Player::find($playerId);
         return view('player.show', [
-            'player' => Player::find($playerId)
+            'player' => $player,
+            'plantsToSeed' => $this->getPlantsToDropdown($player)
         ]);
+    }
+
+    private function getPlantsToDropdown(Player $player)
+    {
+        $plants = [];
+
+        /** @var Product $product */
+        foreach ($player->products as $product) {
+            $plants[$product->getPid()] = $product->getName();
+        }
+        return $plants;
     }
 
 }

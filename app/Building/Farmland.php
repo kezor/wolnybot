@@ -3,12 +3,15 @@
 namespace App\Building;
 
 use App\Connector\ConnectorInterface;
+use App\Farm;
 use App\Field;
+use App\Player;
 use App\Product;
 use App\ProductCategoryMapper;
 use App\Repository\FieldRepository;
+use App\Space;
 
-class Farmland extends AbstractBuilding
+class Farmland extends Space
 {
     private $usedSeeds = [];
 
@@ -16,15 +19,52 @@ class Farmland extends AbstractBuilding
      * @var Field[]
      */
     private $fields;
+    private $player;
+    private $farm;
 
-    public function __construct($spaceData, $player)
+    protected $table = 'spaces';
+
+    private $connector;
+
+    public function fillInFields()
     {
-        parent::__construct($spaceData, $player);
         for ($i = 1; $i <= 120; $i++) {
             $field = FieldRepository::getField($i, $this);
             $field->save();
             $this->fields[$i] = $field;
         }
+
+        return $this;
+    }
+
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    public function setConnector(ConnectorInterface $connector)
+    {
+        $this->connector = $connector;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    public function setPlayer(Player $player)
+    {
+        $this->player = $player;
+        $this->player_id = $player->id;
+        return $this;
+    }
+
+    public function setFarm(Farm $farm)
+    {
+        $this->farm = $farm;
+        $this->farm_id = $farm->id;
+        return $this;
     }
 
     public function process()
@@ -43,6 +83,7 @@ class Farmland extends AbstractBuilding
             }
         }
     }
+
 
     private function collectReady()
     {
@@ -199,7 +240,7 @@ class Farmland extends AbstractBuilding
     private function getProductToSeed()
     {
         /** @var Product $stockProduct */
-        $stockProduct = Product::where('player', $this->player->id)
+        $stockProduct = Product::where('player_id', $this->player_d)
             ->where('amount', '>', 0)
             ->whereIn('pid', ProductCategoryMapper::getVegetablesPids())
             ->whereNotIn('pid', $this->usedSeeds)
