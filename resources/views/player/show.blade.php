@@ -9,7 +9,8 @@
 
                     <div class="panel-body">
                         <p>
-                            <a href="{{ route('player.updateData', $player->id) }}" class="btn btn-sm btn-info">Update data</a>
+                            <a href="{{ route('player.updateData', $player->id) }}" class="btn btn-sm btn-info">Update
+                                data</a>
                         </p>
                         <table class="table">
                             <tr>
@@ -23,7 +24,7 @@
                             @foreach($player->products as $product)
                                 <tr>
                                     <td>
-                                        {{ $product->pid }}
+                                        {{ $product->getName() }}
                                     </td>
                                     <td>
                                         {{ $product->amount }}
@@ -32,11 +33,37 @@
                             @endforeach
                         </table>
 
-                        @foreach($player->farms as $farm)
+                        @foreach($player->farms as $key => $farm)
 
-                            @foreach($farm->spaces as $space)
-                                {{ $space->position }}
-                            @endforeach
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Farm #{{ $farm->farm_id }}</div>
+                                <div class="panel-body">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>
+                                                {{ $farm->getSpaceNameAtPosition(1) }}
+                                            </td>
+                                            <td>
+                                                {{ $farm->getSpaceNameAtPosition(2) }}
+                                            </td>
+                                            <td>
+                                                {{ $farm->getSpaceNameAtPosition(3) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {{ $farm->getSpaceNameAtPosition(4) }}
+                                            </td>
+                                            <td>
+                                                {{ $farm->getSpaceNameAtPosition(5) }}
+                                            </td>
+                                            <td>
+                                                {{ $farm->getSpaceNameAtPosition(6) }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         @endforeach
                     </div>
                 </div>

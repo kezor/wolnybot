@@ -18,4 +18,9 @@ use Illuminate\Database\Eloquent\Model;
 class Space extends Model
 {
 
+    public function getBuildingTypeName()
+    {
+        return SpaceMapper::getSpaceNameByPid($this->building_type);
+    }
+
 }

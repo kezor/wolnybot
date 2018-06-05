@@ -39,14 +39,14 @@ class Farm extends Model
 
     private function processFarmlands()
     {
-        foreach ($this->farmlands as $farmland){
+        foreach ($this->farmlands as $farmland) {
             $farmland->process();
         }
     }
 
     private function processBuildings()
     {
-        foreach ($this->buildings as $building){
+        foreach ($this->buildings as $building) {
             $building->process();
         }
     }
@@ -54,5 +54,16 @@ class Farm extends Model
     public function spaces()
     {
         return $this->hasMany(Space::class, 'farm');
+    }
+
+    public function getSpaceNameAtPosition($position)
+    {
+        /** @var Space $space */
+        foreach ($this->spaces as $space) {
+            if ($space->position === $position) {
+                return SpaceMapper::getSpaceNameByPid($space->building_type);
+            }
+        }
+        return 'Not in use';
     }
 }

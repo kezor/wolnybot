@@ -12,18 +12,19 @@ class SpaceRepository
 {
     use DatabaseTransactions;
 
-    public static function getSpace(Farm $farm, Player $player, $position)
+    public static function getSpace(Farm $farm, Player $player, $spaceData)
     {
         $space = Space::where('farm', $farm->id)
             ->where('player', $player->id)
-            ->where('position', $position)
+            ->where('position', $spaceData['position'])
             ->first();
         if (!$space) {
             $space = new Space();
             $space->farm = $farm->id;
             $space->player = $player->id;
-            $space->position = $position;
+            $space->position = $spaceData['position'];
         }
+        $space->building_type = $spaceData['buildingid'];
         return $space;
     }
 
