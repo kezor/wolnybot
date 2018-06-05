@@ -34,10 +34,9 @@
 
                         @foreach($player->farms as $farm)
 
-                            @foreach($farm as $space)
-                                {{ $space-> }}
+                            @foreach($farm->spaces as $space)
+                                {{ $space->position }}
                             @endforeach
-
                         @endforeach
                     </div>
                 </div>

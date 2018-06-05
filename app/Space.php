@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer farm
  * @property integer position
  * @property bool fields_in_database
+ * @property integer building_type
  */
 class Space extends Model
 {

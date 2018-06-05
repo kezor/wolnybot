@@ -50,4 +50,9 @@ class Farm extends Model
             $building->process();
         }
     }
+
+    public function spaces()
+    {
+        return $this->hasMany(Space::class, 'farm');
+    }
 }
