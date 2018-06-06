@@ -31,22 +31,22 @@ class UrlGenerator
 
     public function getSpaceFieldsUrl(Farmland $farmland)
     {
-        return $this->getMainPart() . '&mode=gardeninit&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition();
+        return $this->getMainPart() . '&mode=gardeninit&farm=' . $farmland->farm->id . '&position=' . $farmland->position;
     }
 
     public function getCollectUrl(Farmland $farmland, Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_harvest&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition() . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
+        return $this->getMainPart() . '&mode=garden_harvest&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }
 
     public function getSeedUrl(Farmland $farmland, Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition() . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
+        return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }
 
     public function getWaterUrl(Farmland $farmland, Field $field)
     {
-        return $this->getMainPart() . '&mode=garden_water&farm=' . $farmland->getFarmId() . '&position=' . $farmland->getPosition() . '&feld[]=' . $field->getIndex() . '&felder[]=' . $field->getRelatedFields();
+        return $this->getMainPart() . '&mode=garden_water&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }
 
     public function getFeedUrl(Hovel $hovel)

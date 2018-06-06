@@ -10,27 +10,16 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @property integer space
  * @property integer index
- * @property integer product_pid
  * @property integer offset_x
  * @property integer offset_y
  * @property integer phase
  * @property mixed   planted
  * @property mixed   time
+ * @property integer product_pid
+ * @property integer space_id
  */
 class Field extends Model
 {
-    private $phase;
-
-    private $time;
-
-//    private $offset_x;
-//
-//    private $offset_y;
-
-    private $index;
-
-    private $product_pid;
-
     private $product;
 
     private $water;
@@ -60,7 +49,7 @@ class Field extends Model
     public function canSeed()
     {
         return $this->phase == Product::PLANT_PHASE_EMPTY
-            && $this->getProductPid() === null
+            && $this->product_pid === null
             && $this->time == 0;
     }
 

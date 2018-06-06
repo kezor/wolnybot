@@ -22,12 +22,14 @@ class Farm extends Model
     public function addFarmland(Farmland $farmland)
     {
         $this->farmlands[] = $farmland;
+
         return $this;
     }
 
     public function addBuilding(AbstractBuilding $building)
     {
         $this->buildings[] = $building;
+
         return $this;
     }
 
@@ -64,6 +66,22 @@ class Farm extends Model
                 return SpaceMapper::getSpaceNameByPid($space->building_type);
             }
         }
+
         return 'Not in use';
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function player()
+    {
+        return $this->belongsTo(Player::class);
+    }
+
+    public function getPlayer()
+    {
+        return $this->player;
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer position
  * @property bool fields_in_database
  * @property integer building_type
+ * @property integer remain
  */
 class Space extends Model
 {
@@ -30,10 +31,4 @@ class Space extends Model
     {
         return $this->position;
     }
-
-//    public function getFarmId()
-//    {
-//        return $this->farm;
-//    }
-
 }

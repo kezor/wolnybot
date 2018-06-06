@@ -15,15 +15,15 @@ class FieldRepository
 
     public static function getField($index, Farmland $farmland)
     {
-        $farm = Field::where('space_id', $farmland->getPosition())
+        $field = Field::where('space_id', $farmland->getPosition())
             ->where('index', $index)
             ->first();
-        if (!$farm) {
-            $farm = new Field();
-            $farm->index = $index;
-            $farm->space_id = $farmland->getPosition();
+        if (!$field) {
+            $field = new Field();
+            $field->index = $index;
+            $field->space_id = $farmland->getPosition();
         }
-        return $farm;
+        return $field;
     }
 
     public static function getEmptyItems($ids, Player $player)

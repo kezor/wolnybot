@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -36,18 +37,21 @@ class ProcessFarmland implements ShouldQueue
      */
     public function handle()
     {
-$this->farmland->fillInFields();
-        $this->farmland->setConnector(new WolniFarmerzyConnector());
-//var_dump('adsa');die;
-//        $fields = $this->farmland->getFields();
-//        var_dump($fields[1]);die('aaaa');
+        $connector = new WolniFarmerzyConnector();
+        $player = $this->farmland->farm->player;
+        $connector->login($player);
+
+        $this->farmland->setConnector($connector);
+
+        $this->farmland->fillInFields();
+
+        $this->farmland->updateFields();
 
         $this->farmland->process();
 
+        $job = (new ProcessFarmland($this->farmland))
+            ->delay(Carbon::createFromTimestamp($this->farmland->remain)->addMinutes(2));
 
-                $fields = $this->farmland->getFields();
-        var_dump($fields[3]);die('aaaa');
-        $nextRunTime = $this->farmland->getNextHarvestTime();
-        dd($nextRunTime);
+        dispatch($job);
     }
 }

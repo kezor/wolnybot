@@ -10,4 +10,7 @@ RUN apt-get update && apt-get install -y apt-utils libmcrypt-dev git unzip mysql
     && apt-get install -y nodejs npm \
     && npm install hchs-vue-charts
 
+RUN pecl install xdebug-2.5.0 \
+    && docker-php-ext-enable xdebug
+
 WORKDIR /var/www

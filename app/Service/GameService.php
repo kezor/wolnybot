@@ -100,7 +100,6 @@ class GameService
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
         foreach ($farms as $farmId => $farmData) {
-//            $this->farms[$farmId] = new Farm();
             $farm = FarmRepository::getFarm($farmId, $this->player);
             $farm->save();
             foreach ($farmData as $spaceData) {
@@ -109,7 +108,17 @@ class GameService
                     $space->save();
                     switch ($spaceData['buildingid']) {
                         case BuildingType::FARMLAND:
-                            $this->updateFarmlandFields($spaceData, $farm);
+
+                            $farmland = new Farmland();
+
+                            $farmland->setPosition($spaceData['position'])
+                                ->setFarm($farm)
+                                ->setPlayer($this->player)
+                                ->fillInFields();
+
+                            $farmland->updateFields();
+
+                            $farmland->save();
                             break;
 //                        case BuildingType::HOVEL:
 //                            $this->processHovel($spaceData, $farmId);
@@ -121,34 +130,6 @@ class GameService
 
             }
         }
-    }
-
-    private function updateFarmlandFields($spaceData, Farm $farm)
-    {
-        $farmland = new Farmland();
-
-        $farmland->setPosition($spaceData['position'])
-            ->setFarm($farm)
-            ->setPlayer($this->player)
-            ->fillInFields();
-
-        $farmland->save();
-
-//        $farmland->setConnector($this->connector);
-
-        $fieldsData = $this->connector->getSpaceFields($farmland);
-        $fields = $fieldsData['datablock'][1];
-
-        if ($fields != 0) {
-            foreach ($fields as $key => $fieldData) {
-                if (!is_numeric($key)) {
-                    continue;
-                }
-                $farmland->updateField($fieldData);
-            }
-
-        }
-//        $this->farms[$farm]->addFarmland($farmland);
     }
 
     private function processHovel($spaceData, $farmId)

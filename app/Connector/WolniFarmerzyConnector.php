@@ -32,7 +32,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
     /**
      * @var UrlGenerator
      */
-    private $urlGenerator;
+    public $urlGenerator;
 
     public function __construct($client = null)
     {
@@ -93,7 +93,6 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
             return false;
         }
-
         return true;
     }
 
