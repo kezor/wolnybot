@@ -42,6 +42,8 @@ class WolniFarmerzyConnector implements ConnectorInterface
         $this->client = $client;
     }
 
+    private $loggedIn = false;
+
     public function login(Player $player)
     {
         $this->player = $player;
@@ -91,9 +93,18 @@ class WolniFarmerzyConnector implements ConnectorInterface
         } catch (\Exception $exception) {
             Log::error('Error during login process -> ' . json_encode(['message' => $exception->getMessage(), 'strace' => $exception->getTraceAsString()]));
 
+            $this->loggedIn = false;
+
             return false;
         }
+        $this->loggedIn = true;
+
         return true;
+    }
+
+    public function isLoggedIn()
+    {
+        return $this->loggedIn;
     }
 
     public function getDashboardData()
@@ -107,7 +118,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $responseData;
     }
 
-    public function getSpaceFields(Farmland $farmland)
+    public function getFarmlandFields(Farmland $farmland)
     {
         $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($farmland);
         $res        = $this->client->request('GET', $allDataUrl);

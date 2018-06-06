@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Repository\SpaceRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -75,16 +74,6 @@ class Field extends Model
     public function isWatered()
     {
         return $this->water;
-    }
-
-    public function drawField()
-    {
-        $char = $this->product_pid;
-        if (strlen($char) == 1) {
-            $char = ' ' . $char;
-        }
-
-        return '[' . $char . ']';
     }
 
     public function setProduct(Product $product)

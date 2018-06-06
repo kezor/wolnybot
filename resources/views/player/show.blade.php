@@ -4,6 +4,22 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+                <div>
+                    @if ( Session::has('success') )
+                        <div class="alert alert-success">
+                            <strong>Success!</strong> {{ Session::get('success') }}
+                        </div>
+                    @endif
+
+                    @if ( Session::has('error') )
+                        <div class="alert alert-warning">
+                            <strong>Warning!</strong> {{ Session::get('error') }}
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong>{{ $player->username }}</strong> details</div>
 

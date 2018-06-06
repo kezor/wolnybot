@@ -25,6 +25,7 @@ class SpaceRepository
             $space->position = $spaceData['position'];
         }
         $space->building_type = $spaceData['buildingid'];
+        $space->save();
         return $space;
     }
 

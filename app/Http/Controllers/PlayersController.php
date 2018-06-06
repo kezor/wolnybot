@@ -9,6 +9,8 @@ use App\Service\GameService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use \Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class PlayersController extends Controller
 {
@@ -45,13 +47,13 @@ class PlayersController extends Controller
             $gameService = new GameService($player);
             if ($gameService->isPlayerLoggedIn()) {
                 $gameService->updateStock();
-                $gameService->updateSpacesData();
-                $request->session()->flash('success', 'Player data updated.');
+                $gameService->updateBuildings();
+                Session::flash('success', 'Player data updated.');
             } else {
-                $request->session()->flash('error', 'Error when try to log in the player.');
+                Session::flash('error', 'Error when try to log in the player.');
             }
         }
-        return back();
+        return Redirect::back();
     }
 
     public function show($playerId)

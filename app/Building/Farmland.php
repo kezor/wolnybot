@@ -18,54 +18,16 @@ class Farmland extends Space
     /**
      * @var Field[]
      */
-    private $fields;
-    private $player;
-    private $farm;
+    public $fields;
 
     protected $table = 'spaces';
-
-    private $connector;
 
     public function fillInFields()
     {
         for ($i = 1; $i <= 120; $i++) {
             $field = FieldRepository::getField($i, $this);
-            $field->save();
             $this->fields[$i] = $field;
         }
-
-        return $this;
-    }
-
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
-    public function setConnector(ConnectorInterface $connector)
-    {
-        $this->connector = $connector;
-    }
-
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    public function setPlayer(Player $player)
-    {
-        $this->player    = $player;
-        $this->player_id = $player->id;
-
-        return $this;
-    }
-
-    public function setFarm(Farm $farm)
-    {
-        $this->farm    = $farm;
-        $this->farm_id = $farm->id;
 
         return $this;
     }
@@ -75,87 +37,7 @@ class Farmland extends Space
         return $this->belongsTo(Farm::class);
     }
 
-    /**
-     * @return Farm
-     */
-    public function getFarm()
-    {
-        return $this->farm;
-    }
-
-    public function process()
-    {
-        $this->collectReady();
-        $this->seed();
-        $this->water();
-        $this->save();
-    }
-
-    private function drawFields()
-    {
-        foreach ($this->fields as $field) {
-            echo '[' . $field->getProductPid() . ']';
-            if ($field->getIndex() % 12 == 0) {
-                echo PHP_EOL;
-            }
-        }
-    }
-
-
-    private function collectReady()
-    {
-        /** @var Field $finalFieldToReset */
-        foreach ($this->fields as $finalFieldToReset) {
-            if ($finalFieldToReset->canCollect()) {
-                $this->resetRelatedFields($finalFieldToReset);
-                $this->connector->collect($this, $finalFieldToReset);
-                $finalFieldToReset->removeProduct();
-            }
-        }
-    }
-
-    private function resetRelatedFields(Field $field)
-    {
-        for ($i = 0; $i < $field->getOffsetX(); $i++) {
-            for ($j = 0; $j < $field->getOffsetY(); $j++) {
-                $indexToRemove = $i + $field->getIndex() + ($j * 12);
-                if ($indexToRemove !== $field->getIndex()) {
-                    $this->fields[$indexToRemove]->removeProduct();
-                }
-            }
-        }
-    }
-
-    private function seed()
-    {
-        $fieldsToSeed = $this->getFieldsToSeed();
-
-        while (!empty($fieldsToSeed)) {
-            reset($fieldsToSeed);
-            /** @var Field[] $fieldsToSeed */
-            foreach ($fieldsToSeed as $field) {
-                $responseData = $this->connector->seed($this, $field);
-                $this->updateField([
-                    'teil_nr'   => $field->getIndex(),
-                    'inhalt'    => $field->getProduct()->getPid(),
-                    'x'         => $field->getProduct()->getLength(),
-                    'y'         => $field->getProduct()->getHeight(),
-                    'phase'     => Product::PLANT_PHASE_BEGIN,
-                    'gepflanzt' => time(),
-                    'zeit'      => time(),
-                    'iswater'   => false,
-                ]);
-            }
-
-            $fieldsToSeed = $this->getFieldsToSeed();
-        }
-        if (isset($responseData)) {
-            $remain       = $responseData['updateblock']['farms']['farms']['1']['1']['production']['0']['remain'];
-            $this->remain = time() + $remain;
-        }
-    }
-
-    private function getFieldsToSeed()
+    public function getFieldsToSeed()
     {
         do {
             $productToSeed = $this->getProductToSeed();
@@ -206,7 +88,7 @@ class Farmland extends Space
                 unset($fields[$index]);
             } else {
                 $finalFieldsAvailableToSeed[$index] = clone $fields[$index];
-                $indexesToRemove                    = $this->getIndexesToRemove($index, $product);
+                $indexesToRemove = $this->getIndexesToRemove($index, $product);
                 foreach ($indexesToRemove as $indexToRemove) {
                     unset($fields[$indexToRemove]);
                 }
@@ -232,7 +114,7 @@ class Farmland extends Space
 
         for ($i = 0; $i < $plant->getLength(); $i++) {
             for ($j = 0; $j < $plant->getHeight(); $j++) {
-                $indexToRemove           = $currentIndex + $i + (12 * $j);
+                $indexToRemove = $currentIndex + $i + (12 * $j);
                 $indexes[$indexToRemove] = $indexToRemove;
             }
         }
@@ -240,15 +122,15 @@ class Farmland extends Space
         return $indexes;
     }
 
-    protected function isNextIndexInNextRow($index, $nextIndex)
+    private function isNextIndexInNextRow($index, $nextIndex)
     {
         $currentColumn = $this->getColumn($index);
-        $nextColumn    = $this->getColumn($nextIndex);
+        $nextColumn = $this->getColumn($nextIndex);
 
         return $nextColumn < $currentColumn;
     }
 
-    protected function getColumn($index)
+    private function getColumn($index)
     {
         $column = $index % 12;
         if ($column == 0) {
@@ -276,40 +158,15 @@ class Farmland extends Space
         return $stockProduct;
     }
 
-    private function water()
-    {
-        /** @var Field $field */
-        foreach ($this->fields as $field) {
-            if ($field->canWater()) {
-                $this->connector->waterField($this, $field);
-            }
-        }
-    }
-
     public function updateField($fieldData)
     {
-        $field              = $this->fields[$fieldData['teil_nr']];
+        $field = $this->fields[$fieldData['teil_nr']];
         $field->product_pid = $fieldData['inhalt'];
-        $field->offset_x    = $fieldData['x'];
-        $field->offset_y    = $fieldData['y'];
-        $field->phase       = $fieldData['phase'];
-        $field->planted     = $fieldData['gepflanzt'];
-        $field->time        = $fieldData['zeit'];
+        $field->offset_x = $fieldData['x'];
+        $field->offset_y = $fieldData['y'];
+        $field->phase = $fieldData['phase'];
+        $field->planted = $fieldData['gepflanzt'];
+        $field->time = $fieldData['zeit'];
         $field->save();
-    }
-
-    public function updateFields()
-    {
-        $fieldsData = $this->connector->getSpaceFields($this);
-        $fields     = $fieldsData['datablock'][1];
-
-        if ($fields != 0) {
-            foreach ($fields as $key => $fieldData) {
-                if (!is_numeric($key)) {
-                    continue;
-                }
-                $this->updateField($fieldData);
-            }
-        }
     }
 }

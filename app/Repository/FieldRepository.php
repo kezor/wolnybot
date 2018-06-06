@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Building\Farmland;
-use App\Farm;
 use App\Field;
 use App\Player;
 use App\Product;
@@ -22,6 +21,7 @@ class FieldRepository
             $field = new Field();
             $field->index = $index;
             $field->space_id = $farmland->getPosition();
+            $field->save();
         }
         return $field;
     }

@@ -90,7 +90,7 @@ class WolniFarmerzyConnectorTest extends TestCase
 
         $wolniFarmerzyConnector = new WolniFarmerzyConnector($client);
         $this->assertTrue($wolniFarmerzyConnector->login($player));
-        $this->assertTrue(is_array($wolniFarmerzyConnector->getSpaceFields($farmland)));
+        $this->assertTrue(is_array($wolniFarmerzyConnector->getFarmlandFields($farmland)));
     }
 
     public function testCollectCall()

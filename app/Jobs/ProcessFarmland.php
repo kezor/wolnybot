@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
+use App\Service\GameService;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -37,17 +38,18 @@ class ProcessFarmland implements ShouldQueue
      */
     public function handle()
     {
-        $connector = new WolniFarmerzyConnector();
         $player = $this->farmland->farm->player;
-        $connector->login($player);
 
-        $this->farmland->setConnector($connector);
+        $gameService = new GameService($player);
+
+        $gameService->updateStock();
+        $gameService->updateBuildings();
 
         $this->farmland->fillInFields();
 
-        $this->farmland->updateFields();
-
-        $this->farmland->process();
+        $gameService->collectReadyPlants($this->farmland);
+        $gameService->seedPlants($this->farmland);
+        $gameService->waterPlants($this->farmland);
 
         $job = (new ProcessFarmland($this->farmland))
             ->delay(Carbon::createFromTimestamp($this->farmland->remain)->addMinutes(2));

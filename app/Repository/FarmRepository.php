@@ -20,6 +20,7 @@ class FarmRepository
             $farm = new Farm();
             $farm->farm_id = $farmId;
             $farm->player_id = $player->id;
+            $farm->save();
         }
         return $farm;
     }

@@ -37,7 +37,7 @@ class UpdateFields extends Command
 
             $gameService = new GameService($player);
 
-            $gameService->updateSpacesData();
+            $gameService->updateBuildings();
         }
     }
 }
