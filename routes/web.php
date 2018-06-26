@@ -25,5 +25,5 @@ Route::post('/players/store', 'PlayersController@store')->name('player.store');
 Route::get('players/{id}/updateData', 'PlayersController@updateData')->name('player.updateData');
 Route::get('players/{id}', 'PlayersController@show')->name('player.show');
 
-Route::post('farmland/{id}', 'FarmlandController@dispatchJob')->name('farmland.dispatchJob');
+Route::post('players/{id}/task', 'PlayersController@addTask')->name('player.addTask');
 

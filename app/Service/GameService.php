@@ -91,6 +91,7 @@ class GameService
                 if ($spaceData['status'] == 1) {
                     switch ($spaceData['buildingid']) {
                         case BuildingType::FARMLAND:
+//                            var_dump('Updating....');
                             $farmland = FarmlandRepository::getFarmland($farm, $this->player, $spaceData);
                             $farmland->fillInFields();
                             $this->updateFields($farmland);
@@ -184,6 +185,7 @@ class GameService
         /** @var Field $finalFieldToReset */
         foreach ($farmland->fields as $finalFieldToReset) {
             if ($finalFieldToReset->canCollect()) {
+//                var_dump('collecctiong field '.$finalFieldToReset->index);
                 $this->resetRelatedFields($farmland, $finalFieldToReset);
                 $this->connector->collect($farmland, $finalFieldToReset);
                 $finalFieldToReset->removeProduct();

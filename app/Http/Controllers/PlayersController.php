@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Building\Farmland;
+use App\Jobs\ProcessFarmland;
 use App\Player;
 use App\Product;
 use App\Service\GameService;
+use App\Task;
+use App\Tasks\CollectPlants;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use \Illuminate\Http\Request;
@@ -71,9 +75,43 @@ class PlayersController extends Controller
 
         /** @var Product $product */
         foreach ($player->products as $product) {
-            $plants[$product->getPid()] = $product->getName();
+            if($product->isPlant()){
+                $plants[$product->getPid()] = $product->getName();
+            }
         }
         return $plants;
+    }
+
+    public function addTask($playerId)
+    {
+        $player = Player::find($playerId);
+        $farmId = Input::get('farm_id');
+        $spaceId = Input::get('space_id');
+        $plantToSeed = Input::get('plant_id');
+
+        $farmland = Farmland::find($spaceId);
+
+        $productToSeed = Product::where('pid', $plantToSeed)
+            ->where('player_id', $player->id)
+            ->first();
+
+        $job = new CollectPlants();
+        $job->productToSeed = $productToSeed;
+        $job->farmland = $farmland;
+        $job->goal = 10000;
+
+        $task = new Task();
+        $task->job = serialize($job);
+//        $task->jobData = $job->toJson();
+        $task->player_id = $player->id;
+        $task->save();
+
+        $processFarmland = new ProcessFarmland($task);
+
+        $this->dispatch($processFarmland);
+
+
+        return back();
     }
 
 }

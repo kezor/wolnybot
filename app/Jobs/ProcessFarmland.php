@@ -3,8 +3,11 @@
 namespace App\Jobs;
 
 use App\Building\Farmland;
-use App\Connector\WolniFarmerzyConnector;
+use App\Player;
+use App\Product;
 use App\Service\GameService;
+use App\Task;
+use App\Tasks\CollectPlants;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -17,18 +20,18 @@ class ProcessFarmland implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Farmland
+     * @var Task
      */
-    private $farmland;
+    private $task;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Farmland $farmland)
+    public function __construct(Task $task)
     {
-        $this->farmland = $farmland;
+        $this->task = $task;
     }
 
     /**
@@ -38,22 +41,49 @@ class ProcessFarmland implements ShouldQueue
      */
     public function handle()
     {
-        $player = $this->farmland->farm->player;
+        $player = Player::find($this->task->player_id);
 
         $gameService = new GameService($player);
-
+//        var_dump('Update stocke');
         $gameService->updateStock();
+//        var_dump('Update buildings');
         $gameService->updateBuildings();
 
-        $this->farmland->fillInFields();
+        /** @var CollectPlants $collectPlants */
+        $collectPlants = unserialize($this->task->job);
 
-        $gameService->collectReadyPlants($this->farmland);
-        $gameService->seedPlants($this->farmland);
-        $gameService->waterPlants($this->farmland);
+        $farmland = Farmland::find($collectPlants->farmland->id);
 
-        $job = (new ProcessFarmland($this->farmland))
-            ->delay(Carbon::createFromTimestamp($this->farmland->remain)->addMinutes(2));
+        $farmland->fillInFields();
 
-        dispatch($job);
+//        var_dump($farmland->fields);
+
+//        var_dump('collect ready plants');
+        $gameService->collectReadyPlants($farmland);
+
+//        var_dump("collected");
+        /** @var Product $productFromStock */
+        $productFromStock = Product::where('player_id', $player->id)
+            ->where('pid', $collectPlants->productToSeed->pid)
+            ->first();
+//        var_dump($productFromStock);
+//var_dump($collectPlants->goal);
+//var_dump($productFromStock->amount);
+        if ($collectPlants->goal < $productFromStock->amount) {
+
+//            var_dump('seed plants');
+
+            $gameService->seedPlants($farmland);
+//            var_dump('water plants');
+
+            $gameService->waterPlants($farmland);
+
+//            var_dump('dispach new job plants');
+
+            $job = (new ProcessFarmland($this->task))
+                ->delay(Carbon::createFromTimestamp($farmland->remain)->addMinutes(2));
+//            var_dump(Carbon::createFromTimestamp($farmland->remain)->addMinutes(2));
+//            dispatch($job);
+        }
     }
 }

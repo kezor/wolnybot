@@ -29,6 +29,9 @@
                                 data</a>
                         </p>
                         <table class="table">
+                            <p>
+                                Storage
+                            </p>
                             <tr>
                                 <th>
                                     Item name
@@ -49,8 +52,25 @@
                             @endforeach
                         </table>
 
-                        @foreach($player->farms as $key => $farm)
 
+                        @foreach($player->farms as $key => $farm)
+                            <di>
+
+                                {!! Form::open(['url' => route('player.addTask', $player->id) ]) !!}
+                                {{ Form::hidden('farm_id', $farm->farm_id) }}
+                                {{ Form::hidden('space_id', 1) }}
+
+                                <div>
+                                    {{ Form::label('plant_id', 'Plant to seed') }}
+                                    {{ Form::select('plant_id', $plantsToSeed) }}
+                                </div>
+                                <div>
+                                    {{ Form::submit('Save') }}
+                                </div>
+
+                                {!! Form::close() !!}
+
+                            </di>
                             <div class="panel panel-default">
                                 <div class="panel-heading">Farm #{{ $farm->farm_id }}</div>
                                 <div class="panel-body">
@@ -58,13 +78,6 @@
                                         <tr>
                                             <td>
                                                 {{ $farm->getSpaceNameAtPosition(1) }}
-                                                {!! Form::open(['url' => route('farmland.dispatchJob', 1) ]) !!}
-
-                                                    {{ Form::select('plant_id', $plantsToSeed) }}
-
-                                                    {{ Form::submit('Dispatch') }}
-
-                                                {!! Form::close() !!}
                                             </td>
                                             <td>
                                                 {{ $farm->getSpaceNameAtPosition(2) }}

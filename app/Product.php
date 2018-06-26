@@ -59,4 +59,9 @@ class Product extends Model
     {
         return ProductMapper::getProductNameByPid($this->pid);
     }
+
+    public function isPlant()
+    {
+        return in_array($this->getPid(), ProductCategoryMapper::getVegetablesPids());
+    }
 }
