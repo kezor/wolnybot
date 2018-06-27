@@ -6,21 +6,21 @@ namespace App\Http\Controllers;
 use App\Building\Farmland;
 use App\Jobs\ProcessFarmland;
 use App\Space;
+use App\Task;
 
-class TaskController extends Controller
+class TasksController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function dispatchJob($spaceId)
+    public function changeStatus($taskId, $status)
     {
-        $farmland = Farmland::find($spaceId);
+        $task = Task::find($taskId);
 
-        $processFarmland = new ProcessFarmland($farmland);
-
-        $this->dispatch($processFarmland);
+        $task->status = $status;
+        $task->save();
 
         return back();
     }

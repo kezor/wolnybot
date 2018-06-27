@@ -27,4 +27,9 @@ class Player extends Model
     {
         return $this->hasMany(Farm::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

@@ -26,4 +26,5 @@ Route::get('players/{id}/updateData', 'PlayersController@updateData')->name('pla
 Route::get('players/{id}', 'PlayersController@show')->name('player.show');
 
 Route::post('players/{id}/task', 'PlayersController@addTask')->name('player.addTask');
+Route::get('tasks/{id}/changeStatus/{status}', 'TasksController@changeStatus')->name('tasks.changeStatus');
 

@@ -41,12 +41,15 @@ class ProcessFarmland implements ShouldQueue
      */
     public function handle()
     {
+        if ($this->task->isCanceled()) {
+            return;
+        }
         $player = Player::find($this->task->player_id);
 
         $gameService = new GameService($player);
-//        var_dump('Update stocke');
+
         $gameService->updateStock();
-//        var_dump('Update buildings');
+
         $gameService->updateBuildings();
 
         /** @var CollectPlants $collectPlants */
@@ -56,34 +59,29 @@ class ProcessFarmland implements ShouldQueue
 
         $farmland->fillInFields();
 
-//        var_dump($farmland->fields);
-
-//        var_dump('collect ready plants');
         $gameService->collectReadyPlants($farmland);
 
-//        var_dump("collected");
+        if($this->task->isCancelationPending()){
+            $this->task->status = Task::TASK_STATUS_CANCELED;
+            $this->task->save();
+            return;
+        }
+
         /** @var Product $productFromStock */
         $productFromStock = Product::where('player_id', $player->id)
             ->where('pid', $collectPlants->productToSeed->pid)
             ->first();
-//        var_dump($productFromStock);
-//var_dump($collectPlants->goal);
-//var_dump($productFromStock->amount);
-        if ($collectPlants->goal < $productFromStock->amount) {
 
-//            var_dump('seed plants');
+        if ($collectPlants->goal > $productFromStock->amount) {
 
-            $gameService->seedPlants($farmland);
-//            var_dump('water plants');
+            $gameService->seedPlants($farmland, $productFromStock);
 
             $gameService->waterPlants($farmland);
 
-//            var_dump('dispach new job plants');
 
             $job = (new ProcessFarmland($this->task))
                 ->delay(Carbon::createFromTimestamp($farmland->remain)->addMinutes(2));
-//            var_dump(Carbon::createFromTimestamp($farmland->remain)->addMinutes(2));
-//            dispatch($job);
+            dispatch($job);
         }
     }
 }

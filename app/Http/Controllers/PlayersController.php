@@ -104,6 +104,7 @@ class PlayersController extends Controller
         $task->job = serialize($job);
 //        $task->jobData = $job->toJson();
         $task->player_id = $player->id;
+        $task->status = Task::TASK_STATUS_ACTIVE;
         $task->save();
 
         $processFarmland = new ProcessFarmland($task);

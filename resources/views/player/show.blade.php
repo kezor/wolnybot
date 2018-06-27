@@ -28,10 +28,10 @@
                             <a href="{{ route('player.updateData', $player->id) }}" class="btn btn-sm btn-info">Update
                                 data</a>
                         </p>
+                        <p>
+                            Storage
+                        </p>
                         <table class="table">
-                            <p>
-                                Storage
-                            </p>
                             <tr>
                                 <th>
                                     Item name
@@ -51,6 +51,40 @@
                                 </tr>
                             @endforeach
                         </table>
+
+                        <div>
+                            <p>
+                                Tasks list
+                            </p>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Task
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                                @foreach($player->tasks as $task)
+                                    <tr>
+                                        <td>
+                                            {{ $task->job }}
+                                        </td>
+                                        <td>
+                                            {{ $task->getStatusName() }}
+                                        </td>
+                                        <td>
+                                            @if ($task->isActive())
+                                                <a href="{{ route('tasks.changeStatus', ['id' => $task->id, 'status' => \App\Task::TASK_STATUS_CANCELLATON_PENDING]) }}">Disable</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
 
 
                         @foreach($player->farms as $key => $farm)
