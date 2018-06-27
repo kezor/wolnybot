@@ -71,7 +71,7 @@
                                 @foreach($player->tasks as $task)
                                     <tr>
                                         <td>
-                                            {{ $task->job }}
+                                            {{ $task->getJobName() }}
                                         </td>
                                         <td>
                                             {{ $task->getStatusName() }}
@@ -91,7 +91,6 @@
                             <di>
 
                                 {!! Form::open(['url' => route('player.addTask', $player->id) ]) !!}
-                                {{ Form::hidden('farm_id', $farm->farm_id) }}
                                 {{ Form::hidden('space_id', 1) }}
 
                                 <div>

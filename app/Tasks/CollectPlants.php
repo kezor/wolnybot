@@ -8,6 +8,8 @@ use App\Product;
 
 class CollectPlants
 {
+    public const NAME = 'Collect Plants';
+
     /**
      * @var Product
      */
@@ -23,19 +25,8 @@ class CollectPlants
      */
     public $goal;
 
-//    public function __construct($data = [])
-//    {
-//        if (!empty($data)) {
-//            $this->productToSeed = Product::find()
-//        }
-//    }
-
-//    public function toJson($options = 0)
-//    {
-//        return [
-//            'product_to_seed_pid' => $this->productToSeed->pid,
-//            'farm_id' => $this->farmland->farm_id,
-//            'position' => $this->farmland->position
-//        ];
-//    }
+    public function getName()
+    {
+        return self::NAME;
+    }
 }

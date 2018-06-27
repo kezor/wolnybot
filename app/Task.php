@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Tasks\CollectPlants;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,19 +11,23 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer player_id
  * @property string job
  * @property integer status
+ * @property string job_name
+ * @property integer space_id
  */
 class Task extends Model
 {
-    public const TASK_STATUS_ACTIVE              = 1;
+    public const TASK_STATUS_ACTIVE = 1;
     public const TASK_STATUS_CANCELLATON_PENDING = 2;
-    public const TASK_STATUS_CANCELED            = 3;
-    public const TASK_STATUS_DONE                = 4;
+    public const TASK_STATUS_CANCELED = 3;
+    public const TASK_STATUS_DONE = 4;
+
+    private $jobObject = null;
 
     public $statuses = [
-        self::TASK_STATUS_ACTIVE              => 'Active',
+        self::TASK_STATUS_ACTIVE => 'Active',
         self::TASK_STATUS_CANCELLATON_PENDING => 'Cancellation Pending',
-        self::TASK_STATUS_CANCELED            => 'Canceled',
-        self::TASK_STATUS_DONE                => 'Done'
+        self::TASK_STATUS_CANCELED => 'Canceled',
+        self::TASK_STATUS_DONE => 'Done'
     ];
 
     public function isActive()
@@ -43,6 +48,23 @@ class Task extends Model
     public function getStatusName()
     {
         return $this->statuses[$this->status];
+    }
+
+    /**
+     * @return CollectPlants|null
+     */
+    private function getJobObject()
+    {
+        if (null === $this->jobObject) {
+            $this->jobObject = unserialize($this->job);
+        }
+        return $this->jobObject;
+    }
+
+    public function getJobName()
+    {
+        $jobObject = $this->getJobObject();
+        return $jobObject->getName() . '(plant: "' . $jobObject->productToSeed->getName() . '")';
     }
 
 }

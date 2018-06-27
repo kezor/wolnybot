@@ -15,6 +15,8 @@ class TaskTableAddStatusColumn extends Migration
     {
         Schema::table('tasks', function($table) {
             $table->integer('status');
+            $table->integer('space_id');
+            $table->string('job_name');
         });
     }
 
@@ -27,6 +29,8 @@ class TaskTableAddStatusColumn extends Migration
     {
         Schema::table('tasks', function($table) {
             $table->dropColumn('status');
+            $table->dropColumn('job_name');
+            $table->dropColumn('space_id');
         });
     }
 }
