@@ -82,48 +82,4 @@ class PlayersController extends Controller
         return $plants;
     }
 
-    public function addTask($playerId)
-    {
-        $player = Player::find($playerId);
-        $spaceId = Input::get('space_id');
-        $plantToSeed = Input::get('plant_id');
-
-        $job = new CollectPlants();
-
-        $currentTasks = Task::where('space_id', $spaceId)
-            ->where('job_name', $job->getName())
-            ->where('status', Task::TASK_STATUS_ACTIVE)
-            ->get();
-
-        if($currentTasks->count() !== 0){
-            Session::flash('error', 'You already have this kind of job for this space.');
-            return back();
-        }
-
-        $farmland = Farmland::find($spaceId);
-
-        $productToSeed = Product::where('pid', $plantToSeed)
-            ->where('player_id', $player->id)
-            ->first();
-
-        $job->productToSeed = $productToSeed;
-        $job->farmland = $farmland;
-        $job->goal = 10000;
-
-        $task = new Task();
-        $task->job = serialize($job);
-        $task->player_id = $player->id;
-        $task->status = Task::TASK_STATUS_ACTIVE;
-        $task->job_name = $job->getName();
-        $task->space_id = $spaceId;
-        $task->save();
-
-        $processFarmland = new ProcessFarmland($task);
-
-        $this->dispatch($processFarmland);
-
-
-        return back();
-    }
-
 }

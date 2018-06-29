@@ -21,10 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/players/create', 'PlayersController@create')->name('player.create');
 Route::post('/players/store', 'PlayersController@store')->name('player.store');
-
 Route::get('players/{id}/updateData', 'PlayersController@updateData')->name('player.updateData');
 Route::get('players/{id}', 'PlayersController@show')->name('player.show');
 
-Route::post('players/{id}/task', 'PlayersController@addTask')->name('player.addTask');
-Route::get('tasks/{id}/changeStatus/{status}', 'TasksController@changeStatus')->name('tasks.changeStatus');
+Route::post('spaces/{id}/addTask', 'SpacesController@addTask')->name('spaces.addTask');
+
+Route::get('tasks/{id}/cancel', 'TasksController@cancel')->name('tasks.cancel');
 

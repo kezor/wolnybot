@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Building\Farmland;
-use App\Jobs\ProcessFarmland;
-use App\Space;
 use App\Task;
 
 class TasksController extends Controller
@@ -15,11 +11,10 @@ class TasksController extends Controller
         $this->middleware('auth');
     }
 
-    public function changeStatus($taskId, $status)
-    {
+    public function cancel($taskId){
         $task = Task::find($taskId);
 
-        $task->status = $status;
+        $task->status = Task::TASK_STATUS_CANCELLATON_PENDING;
         $task->save();
 
         return back();

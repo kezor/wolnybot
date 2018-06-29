@@ -12,6 +12,21 @@ class Farm extends Model
         return $this->hasMany(Space::class);
     }
 
+    public function getSpace($position)
+    {
+        foreach ($this->spaces as $space) {
+            if ($space->position === $position) {
+                return $space;
+            }
+        }
+        return null;
+    }
+
+    public function hasSpaceAt($positon)
+    {
+        return (bool)$this->getSpace($positon);
+    }
+
     public function getSpaceNameAtPosition($position)
     {
         /** @var Space $space */

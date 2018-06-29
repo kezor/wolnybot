@@ -78,10 +78,15 @@ class ProcessFarmland implements ShouldQueue
 
             $gameService->waterPlants($farmland);
 
+            $secondsToAdd = random_int(30, 110);
 
             $job = (new ProcessFarmland($this->task))
-                ->delay(Carbon::createFromTimestamp($farmland->remain)->addMinutes(2));
+                ->delay(Carbon::createFromTimestamp($farmland->remain)->addSeconds($secondsToAdd));
+
             dispatch($job);
+        } else {
+            $this->task->status = Task::TASK_STATUS_DONE;
+            $this->task->save();
         }
     }
 }

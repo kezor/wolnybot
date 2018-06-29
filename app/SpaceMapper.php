@@ -7,8 +7,8 @@ class SpaceMapper
 {
 
     private static $spaces = [
-        1 => 'Farmland',
-        2 => 'Hovel',
+        Space::TYPE_FARMLAND => 'Farmland',
+        Space::TYPE_HOVEL => 'Hovel',
     ];
 
     public static function getSpaceNameByPid($pid)
