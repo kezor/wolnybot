@@ -55,26 +55,15 @@ class Field extends Model
     public function canWater()
     {
         return $this->phase != Product::PLANT_PHASE_EMPTY
-            && !$this->water
+            && !$this->isWatered()
             && $this->time != 0
             && $this->isVegetable();
     }
-//
-//    /**
-//     * @param bool $iswater
-//     * @return $this
-//     */
-//    public function setWater($iswater)
-//    {
-//        $this->water = $iswater;
-//
-//        return $this;
-//    }
-//
-//    public function isWatered()
-//    {
-//        return (bool)$this->water;
-//    }
+
+    public function isWatered()
+    {
+        return (bool)$this->water;
+    }
 
     public function setProduct(Product $product)
     {
