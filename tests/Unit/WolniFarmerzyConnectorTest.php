@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
-use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
-use App\Field;
 use App\Product;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
@@ -86,7 +84,8 @@ class WolniFarmerzyConnectorTest extends TestCase
             ->andReturn($responseMock);
 
         $player = $this->getTestPlayer();
-        $farmland = new Farmland(['farm' => 2, 'position' => 2], $player);
+        $farm = $this->getTestFarm($player);
+        $farmland = $this->getTestFarmland($farm);
 
         $wolniFarmerzyConnector = new WolniFarmerzyConnector($client);
         $this->assertTrue($wolniFarmerzyConnector->login($player));
@@ -110,9 +109,10 @@ class WolniFarmerzyConnectorTest extends TestCase
             ->andReturn($responseMock);
 
         $player = $this->getTestPlayer();
-        $farmland = new Farmland(['farm' => 2, 'position' => 2], $player);
-        $field = new Field(3);
-        $field->setProduct((new Product())->setPid(17));
+        $product = (new Product())->setPid(17);
+        $field = $this->getTestField($product);
+        $farm = $this->getTestFarm($player);
+        $farmland = $this->getTestFarmland($farm);
 
         $wolniFarmerzyConnector = new WolniFarmerzyConnector($client);
         $this->assertTrue($wolniFarmerzyConnector->login($player));
@@ -136,9 +136,10 @@ class WolniFarmerzyConnectorTest extends TestCase
             ->andReturn($responseMock);
 
         $player = $this->getTestPlayer();
-        $farmland = new Farmland(['farm' => 2, 'position' => 2], $player);
-        $field = new Field(3);
-        $field->setProduct((new Product())->setPid(17));
+        $product = (new Product())->setPid(17);
+        $field = $this->getTestField($product);
+        $farm = $this->getTestFarm($player);
+        $farmland = $this->getTestFarmland($farm);
 
         $wolniFarmerzyConnector = new WolniFarmerzyConnector($client);
         $this->assertTrue($wolniFarmerzyConnector->login($player));
@@ -162,9 +163,10 @@ class WolniFarmerzyConnectorTest extends TestCase
             ->andReturn($responseMock);
 
         $player = $this->getTestPlayer();
-        $farmland = new Farmland(['farm' => 2, 'position' => 2], $player);
-        $field = new Field(3);
-        $field->setProduct((new Product())->setPid(17));
+        $product = (new Product())->setPid(17);
+        $field = $this->getTestField($product);
+        $farm = $this->getTestFarm($player);
+        $farmland = $this->getTestFarmland($farm);
 
         $wolniFarmerzyConnector = new WolniFarmerzyConnector($client);
         $this->assertTrue($wolniFarmerzyConnector->login($player));

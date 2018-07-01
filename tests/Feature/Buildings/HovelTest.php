@@ -8,6 +8,7 @@ class HovelTest extends \Tests\TestCase
 
     public function testHoverInProgressCanFeed()
     {
+        $this->markTestIncomplete('Out of date code');
         $player = $this->getTestPlayer();
 
         $hovel = new Hovel(['farm' => 2, 'position' => 6], $player);
@@ -33,6 +34,8 @@ class HovelTest extends \Tests\TestCase
 
     public function testHoverInProgressCantFeed()
     {
+        $this->markTestIncomplete('Out of date code');
+
         $player = $this->getTestPlayer();
 
         $hovel = new Hovel(['farm' => 2, 'position' => 6], $player);

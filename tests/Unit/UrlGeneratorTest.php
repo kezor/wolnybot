@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
-use App\Building\Farmland;
 use App\Building\Hovel;
-use App\BuildingType;
 use App\UrlGenerator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -20,29 +18,31 @@ class UrlGeneratorTest extends TestCase
         $product = $this->getTestProduct($player, 1); // wheat
         $field = $this->getTestField($product);
 
-        $farmland = new Farmland(['farm' => 1, 'position' => 1], $player);
+        $farm = $this->getTestFarm($player);
+
+        $farmland = $this->getTestFarmland($farm);
 
         $hovel = new Hovel(['farm' => 1, 'position' => 2], $player);
         $url = new UrlGenerator($player, $token);
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=getfarms&farm=1&position=0',
-            $url->getDashboardDataUrl()
+            $url->getGetFarmUrl()
         );
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=gardeninit&farm=1&position=1',
-            $url->getSpaceFieldsUrl($farmland)
+            $url->getGardenInitUrl($farmland)
         );
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_harvest&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
-            $url->getCollectUrl($farmland, $field)
+            $url->getGardenHarvestUrl($farmland, $field)
         );
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
-            $url->getSeedUrl($farmland, $field)
+            $url->getGardenPlantUrl($farmland, $field)
         );
 
         $this->assertEquals(
@@ -52,7 +52,7 @@ class UrlGeneratorTest extends TestCase
 
         $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_water&farm=1&position=1&feld[]=1&felder[]=1,2',
-            $url->getWaterUrl($farmland, $field)
+            $url->getGardenWaterUrl($farmland, $field)
         );
 
         $this->assertEquals(

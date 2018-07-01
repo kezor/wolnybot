@@ -5,6 +5,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ * Class Farm
+ * @package App
+ * @property int $id
+ * @property int $farm_id
+ * @property int $player_id
+ *
+ */
 class Farm extends Model
 {
     public function spaces()

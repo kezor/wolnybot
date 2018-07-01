@@ -109,7 +109,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function getDashboardData()
     {
-        $url          = $this->urlGenerator->getDashboardDataUrl();
+        $url          = $this->urlGenerator->getGetFarmUrl();
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to get dashboard data: url - ' . $url);
@@ -120,7 +120,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function getFarmlandFields(Farmland $farmland)
     {
-        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($farmland);
+        $allDataUrl = $this->urlGenerator->getGardenInitUrl($farmland);
         $res        = $this->client->request('GET', $allDataUrl);
 
         return json_decode($res->getBody()->__toString(), true);
@@ -128,7 +128,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function collect(Farmland $farmland, Field $field)
     {
-        $url          = $this->urlGenerator->getCollectUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenHarvestUrl($farmland, $field);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to collect field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
@@ -139,7 +139,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function seed(Farmland $farmland, Field $field)
     {
-        $url          = $this->urlGenerator->getSeedUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenPlantUrl($farmland, $field);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to seed field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
@@ -178,7 +178,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function waterField(Farmland $farmland, Field $field)
     {
-        $url          = $this->urlGenerator->getWaterUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenWaterUrl($farmland, $field);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to water field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);

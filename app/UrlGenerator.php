@@ -24,27 +24,27 @@ class UrlGenerator
         $this->token = $token;
     }
 
-    public function getDashboardDataUrl()
+    public function getGetFarmUrl()
     {
         return $this->getMainPart() . '&mode=getfarms&farm=1&position=0';
     }
 
-    public function getSpaceFieldsUrl(Farmland $farmland)
+    public function getGardenInitUrl(Farmland $farmland)
     {
         return $this->getMainPart() . '&mode=gardeninit&farm=' . $farmland->farm->id . '&position=' . $farmland->position;
     }
 
-    public function getCollectUrl(Farmland $farmland, Field $field)
+    public function getGardenHarvestUrl(Farmland $farmland, Field $field)
     {
         return $this->getMainPart() . '&mode=garden_harvest&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }
 
-    public function getSeedUrl(Farmland $farmland, Field $field)
+    public function getGardenPlantUrl(Farmland $farmland, Field $field)
     {
         return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }
 
-    public function getWaterUrl(Farmland $farmland, Field $field)
+    public function getGardenWaterUrl(Farmland $farmland, Field $field)
     {
         return $this->getMainPart() . '&mode=garden_water&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }

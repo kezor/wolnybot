@@ -12,30 +12,30 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer offset_x
  * @property integer offset_y
  * @property integer phase
- * @property mixed   planted
- * @property mixed   time
+ * @property mixed planted
+ * @property mixed time
  * @property integer product_pid
  * @property integer space_id
+ * @property bool water
  */
 class Field extends Model
 {
     private $product;
 
-    private $water;
-
     protected $fillable = [
-        'index','phase', 'product_pid', 'time', 'offset_x', 'offset_y'
+        'index', 'phase', 'product_pid', 'time', 'offset_x', 'offset_y', 'water'
     ];
 
     public function __construct()
     {
-        $this->index       = null;
-        $this->phase       = Product::PLANT_PHASE_EMPTY;
+        $this->index = null;
+        $this->phase = Product::PLANT_PHASE_EMPTY;
         $this->product_pid = null;
-        $this->time        = 0;
-        $this->product     = null;
+        $this->time = 0;
+        $this->product = null;
         $this->offset_x = 99;
         $this->offset_y = 99;
+        $this->water = false;
     }
 
     public function canCollect()
@@ -55,30 +55,30 @@ class Field extends Model
     public function canWater()
     {
         return $this->phase != Product::PLANT_PHASE_EMPTY
-            && !$this->isWatered()
+            && !$this->water
             && $this->time != 0
             && $this->isVegetable();
     }
-
-    /**
-     * @param bool $iswater
-     * @return $this
-     */
-    public function setWater($iswater)
-    {
-        $this->water = $iswater;
-
-        return $this;
-    }
-
-    public function isWatered()
-    {
-        return $this->water;
-    }
+//
+//    /**
+//     * @param bool $iswater
+//     * @return $this
+//     */
+//    public function setWater($iswater)
+//    {
+//        $this->water = $iswater;
+//
+//        return $this;
+//    }
+//
+//    public function isWatered()
+//    {
+//        return (bool)$this->water;
+//    }
 
     public function setProduct(Product $product)
     {
-        $this->product     = $product;
+        $this->product = $product;
         $this->product_pid = $product->pid;
 
         return $this;
@@ -87,10 +87,10 @@ class Field extends Model
     public function removeProduct()
     {
         $this->product_pid = null;
-        $this->time        = 0;
-        $this->planted     = 0;
-        $this->phase       = Product::PLANT_PHASE_EMPTY;
-        $this->product     = null;
+        $this->time = 0;
+        $this->planted = 0;
+        $this->phase = Product::PLANT_PHASE_EMPTY;
+        $this->product = null;
 
         return $this;
     }

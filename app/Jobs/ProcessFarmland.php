@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Building\Farmland;
 use App\Player;
 use App\Product;
-use App\Service\GameService;
+use App\Service\BuildingsService\FarmlandService;
 use App\Task;
 use App\Tasks\CollectPlants;
 use Carbon\Carbon;
@@ -46,7 +46,7 @@ class ProcessFarmland implements ShouldQueue
         }
         $player = Player::find($this->task->player_id);
 
-        $gameService = new GameService($player);
+        $gameService = new FarmlandService($player);
 
         $gameService->updateStock();
 
@@ -55,6 +55,7 @@ class ProcessFarmland implements ShouldQueue
         /** @var CollectPlants $collectPlants */
         $collectPlants = unserialize($this->task->job);
 
+        /** @var Farmland $farmland */
         $farmland = Farmland::find($collectPlants->farmland->id);
 
         $farmland->fillInFields();

@@ -1,31 +1,37 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: maciek
+ * Date: 01.07.18
+ * Time: 14:42
+ */
 
-namespace Tests\Feature\Buildings;
+namespace Tests\Unit\Service\BuildingService;
 
-use App\Building\Farmland;
 use App\Connector\WolniFarmerzyConnector;
 use App\Product;
 use App\ProductSizeService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Service\BuildingsService\FarmlandService;
 use Tests\TestCase;
 
-class FarmlandTest extends TestCase
+class FarmlandServiceTest extends TestCase
 {
-
-    use DatabaseTransactions;
-
     /**
      * @dataProvider getDataToFarmland
      */
-    public function testFarmlandNotReadyToCollect($prepareProductPid, $preparePhase, $collectCount, $productToSeed, $productToSeedCount, $seedCount, $waterCount)
+    public function testFarmlandNotReadyToCollect($prepareProductPid, $preparePhase, $collectCount, $productToSeed, $productToSeedStockAmount, $seedCount, $waterCount)
     {
         $player = $this->getTestPlayer();
 
-        $farmland = new Farmland(['farm' => 2, 'position' => 6], $player);
+        $farm = $this->getTestFarm($player, ['farm_id' => 2]);
 
-        $product = $this->getTestProduct($player, $productToSeed, $productToSeedCount);
+        $farmland = $this->getTestFarmland($farm, ['position' => 6]);
+
+        $product = $this->getTestProduct($player, $productToSeed, $productToSeedStockAmount);
 
         $connectorMock = \Mockery::mock(WolniFarmerzyConnector::class)
+            ->shouldReceive('login')
+            ->andReturn(true)
             ->shouldReceive('collect')
             ->times($collectCount)
             ->shouldReceive('seed')
@@ -34,10 +40,10 @@ class FarmlandTest extends TestCase
             ->times($waterCount)
             ->getMock();
 
-        $farmland->setConnector($connectorMock);
+        $farmlandService = new FarmlandService($player, $connectorMock);
 
         $this->assertEquals(6, $farmland->getPosition());
-        $this->assertEquals(2, $farmland->getFarmId());
+        $this->assertEquals(2, $farmland->farm->farm_id);
 
         for ($i = 1; $i <= 120; $i++) {
             $fieldData = [
@@ -56,7 +62,9 @@ class FarmlandTest extends TestCase
             $farmland->updateField($fieldData);
         }
 
-        $farmland->process();
+        $farmlandService->collectReadyPlants($farmland);
+        $farmlandService->seedPlants($farmland, $product);
+        $farmlandService->waterPlants($farmland);
     }
 
     public function getDataToFarmland()
@@ -67,7 +75,7 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_BEGIN,
                 'collectCount' => 0,
                 'productToSeed' => 17,  //carrot
-                'productToSeedCount' => 120,
+                'productToSeedStockAmount' => 120,
                 'seedCount' => 0,
                 'waterCount' => 0,
             ],
@@ -76,7 +84,7 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_FINAL,
                 'collectCount' => 120,
                 'productToSeed' => 17,  //carrot
-                'productToSeedCount' => 120,
+                'productToSeedStockAmount' => 120,
                 'seedCount' => 120,
                 'waterCount' => 120,
             ],
@@ -85,7 +93,7 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_FINAL,
                 'collectCount' => 60,
                 'productToSeed' => 17,  //carrot
-                'productToSeedCount' => 120,
+                'productToSeedStockAmount' => 120,
                 'seedCount' => 120,
                 'waterCount' => 120,
             ],
@@ -94,7 +102,7 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_FINAL,
                 'collectCount' => 30,
                 'productToSeed' => 17,  //carrot
-                'productToSeedCount' => 120,
+                'productToSeedStockAmount' => 120,
                 'seedCount' => 120,
                 'waterCount' => 120,
             ],
@@ -103,7 +111,7 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_FINAL,
                 'collectCount' => 30,
                 'productToSeed' => 2,  //corn
-                'productToSeedCount' => 120,
+                'productToSeedStockAmount' => 120,
                 'seedCount' => 30,
                 'waterCount' => 30,
             ],
@@ -112,7 +120,7 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_FINAL,
                 'collectCount' => 60,
                 'productToSeed' => 1,  //wheat
-                'productToSeedCount' => 120,
+                'productToSeedStockAmount' => 120,
                 'seedCount' => 60,
                 'waterCount' => 60,
             ],
@@ -121,12 +129,10 @@ class FarmlandTest extends TestCase
                 'preparePhase' => Product::PLANT_PHASE_FINAL,
                 'collectCount' => 60,
                 'productToSeed' => 2,  //corn
-                'productToSeedCount' => 10,
+                'productToSeedStockAmount' => 10,
                 'seedCount' => 10,
                 'waterCount' => 10,
             ],
         ];
     }
-
-
 }

@@ -146,8 +146,8 @@ class Farmland extends Space
     public function clearFields($updatedIndexed)
     {
         /** @var Field $field */
-        foreach ($this->fields as $field){
-            if(!in_array($field->index, $updatedIndexed)){
+        foreach ($this->fields as $field) {
+            if (!in_array($field->index, $updatedIndexed)) {
                 $field->removeProduct()->save();
             }
         }
@@ -162,6 +162,6 @@ class Farmland extends Space
         $field->phase = $fieldData['phase'];
         $field->planted = $fieldData['gepflanzt'];
         $field->time = $fieldData['zeit'];
-        $field->save();
+        $field->water = (bool)$fieldData['iswater'];
     }
 }
