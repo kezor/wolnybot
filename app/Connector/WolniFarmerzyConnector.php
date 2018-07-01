@@ -118,6 +118,14 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $responseData;
     }
 
+    public function cropGarden(Farmland $farmland)
+    {
+        $allDataUrl = $this->urlGenerator->getCropGardenUrl($farmland);
+        $res        = $this->client->request('GET', $allDataUrl);
+
+        return json_decode($res->getBody()->__toString(), true);
+    }
+
     public function getFarmlandFields(Farmland $farmland)
     {
         $allDataUrl = $this->urlGenerator->getGardenInitUrl($farmland);

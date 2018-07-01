@@ -72,5 +72,11 @@ class UrlGeneratorTest extends TestCase
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=inner_feed&farm=1&position=2&pid=1&c=1_1|&amount=1&guildjob=0',
             $url->getFeedChickensUrl($hovel, $product)
         );
+
+        $this->assertEquals(
+//            http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=cropgarden&farm=1&position=1
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=cropgarden&farm=1&position=1',
+            $url->getCropGardenUrl($farmland)
+        );
     }
 }

@@ -16,7 +16,12 @@ class Farmland extends Space
     /**
      * @var Field[]
      */
-    public $fields;
+//    public $fields;
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class, 'space_id');
+    }
 
     protected $table = 'spaces';
 
@@ -53,7 +58,7 @@ class Farmland extends Space
         /** @var Field $field */
         foreach ($this->fields as $field) {
             if (!in_array($field->index, $updatedIndexed)) {
-                $field->removeProduct()->save();
+                $field->removeProduct();
             }
         }
     }

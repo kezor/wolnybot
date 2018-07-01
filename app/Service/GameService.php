@@ -90,7 +90,7 @@ class GameService
                         case BuildingType::FARMLAND:
 //                            var_dump('Updating....');
                             $farmland = FarmlandRepository::getFarmland($farm, $this->player, $spaceData);
-                            $farmland->fillInFields();
+//                            $farmland->fillInFields();
                             $this->updateFields($farmland);
                             break;
 //                        case BuildingType::HOVEL:
@@ -102,6 +102,7 @@ class GameService
 
 
             }
+            $farm->push();
         }
     }
 

@@ -10,6 +10,18 @@ use App\Service\GameService;
 
 class FarmlandService extends GameService
 {
+    public function cropGarden(Farmland $farmland)
+    {
+        foreach ($farmland->fields as $finalFieldToReset) {
+            if ($finalFieldToReset->canCollect()) {
+                $responseData = $this->connector->cropGarden($farmland);
+                //$farmland->
+                break;
+            }
+
+        }
+    }
+
     public function collectReadyPlants(Farmland $farmland)
     {
         /** @var Field $finalFieldToReset */

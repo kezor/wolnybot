@@ -39,6 +39,11 @@ class UrlGenerator
         return $this->getMainPart() . '&mode=garden_harvest&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
     }
 
+    public function getCropGardenUrl(Farmland $farmland)
+    {
+        return $this->getMainPart() . '&mode=cropgarden&farm=' . $farmland->farm->id . '&position=' . $farmland->position;
+    }
+
     public function getGardenPlantUrl(Farmland $farmland, Field $field)
     {
         return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
@@ -68,7 +73,7 @@ class UrlGenerator
     {
 //        http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=8f8e72c933f7ed67fd832e960743ad4b&mode=inner_feed&farm=1&position=2&pid=2&c=2_1|&amount=1&guildjob=0
 //        http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=8f8e72c933f7ed67fd832e960743ad4b&mode=inner_feed&farm=1&position=2&pid=1&c=1_1|&amount=1&guildjob=0
-        return $this->getMainPart() . '&mode=inner_feed&farm=' . $hovel->getFarmId() . '&position=' . $hovel->getPosition(). '&pid='.$plant->getPid().'&c=1_1|&amount=1&guildjob=0';
+        return $this->getMainPart() . '&mode=inner_feed&farm=' . $hovel->getFarmId() . '&position=' . $hovel->getPosition() . '&pid=' . $plant->getPid() . '&c=1_1|&amount=1&guildjob=0';
     }
 
     private function getMainPart()

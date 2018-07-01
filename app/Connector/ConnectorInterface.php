@@ -14,6 +14,8 @@ interface ConnectorInterface
 
     public function getDashboardData();
 
+    public function cropGarden(Farmland $farmland);
+
     public function getFarmlandFields(Farmland $farmland);
 
     public function collect(Farmland $farmland, Field $field);
