@@ -4,9 +4,9 @@ namespace App\Service\BuildingsService;
 
 
 use App\Building\Farmland;
+use App\Facades\ActivitiesService;
 use App\Field;
 use App\Product;
-use App\Service\ActivitiesService;
 use App\Service\GameService;
 
 class FarmlandService extends GameService
@@ -26,32 +26,16 @@ class FarmlandService extends GameService
     public function collectReadyPlants(Farmland $farmland)
     {
         $fieldsReadyToCollect = $farmland->getFieldsReadyToCollect();
-
-
+        ActivitiesService::foundReadyToCollect($farmland, count($fieldsReadyToCollect));
 
         $collectedPlantsCount = 0;
         /** @var Field $finalFieldToReset */
-        foreach ($farmland->fields as $finalFieldToReset) {
-            if ($finalFieldToReset->canCollect()) {
-                $this->resetRelatedFields($farmland, $finalFieldToReset);
-                $this->connector->collect($farmland, $finalFieldToReset);
-                $finalFieldToReset->removeProduct();
-                $collectedPlantsCount++;
-            }
+        foreach ($fieldsReadyToCollect as $finalFieldToReset) {
+            $this->connector->collect($farmland, $finalFieldToReset);
+            $finalFieldToReset->removeProduct();
+            $collectedPlantsCount++;
         }
         ActivitiesService::collectedFields($farmland, $collectedPlantsCount);
-    }
-
-    private function resetRelatedFields(Farmland $farmland, Field $field)
-    {
-        for ($i = 0; $i < $field->getOffsetX(); $i++) {
-            for ($j = 0; $j < $field->getOffsetY(); $j++) {
-                $indexToRemove = $i + $field->getIndex() + ($j * 12);
-                if ($indexToRemove !== $field->getIndex()) {
-                    $farmland->fields[$indexToRemove]->removeProduct();
-                }
-            }
-        }
     }
 
     public function seedPlants(Farmland $farmland, Product $productToSeed)

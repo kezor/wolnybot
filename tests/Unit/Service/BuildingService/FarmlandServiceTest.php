@@ -9,9 +9,12 @@
 namespace Tests\Unit\Service\BuildingService;
 
 use App\Connector\WolniFarmerzyConnector;
+use App\Facades\ActivitiesService;
 use App\Product;
 use App\ProductSizeService;
+use App\Service\ActivitiesInterface;
 use App\Service\BuildingsService\FarmlandService;
+use Tests\Stubs\ActivitiesServiceStub;
 use Tests\TestCase;
 
 class FarmlandServiceTest extends TestCase
@@ -61,6 +64,9 @@ class FarmlandServiceTest extends TestCase
             ];
             $farmland->updateField($fieldData);
         }
+
+        ActivitiesService::shouldReceive('foundReadyToCollect')->once()->withArgs([$farmland, $collectCount]);
+        ActivitiesService::shouldReceive('collectedFields')->once()->withArgs([$farmland, $collectCount]);
 
         $farmlandService->collectReadyPlants($farmland);
         $farmlandService->seedPlants($farmland, $product);

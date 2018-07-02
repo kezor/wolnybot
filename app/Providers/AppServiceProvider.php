@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Connector\ConnectorInterface;
 use App\Connector\WolniFarmerzyConnector;
+use App\Service\ActivitiesInterface;
+use App\Service\ActivitiesService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

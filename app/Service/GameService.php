@@ -7,12 +7,12 @@ use App\Building\Farmland;
 use App\BuildingType;
 use App\Connector\ConnectorInterface;
 use App\Connector\WolniFarmerzyConnector;
-use App\Field;
 use App\Player;
 use App\Repository\FarmlandRepository;
 use App\Repository\FarmRepository;
 use App\Repository\ProductRepository;
 use App\Product;
+use \App\Facades\ActivitiesService;
 
 class GameService
 {
@@ -21,6 +21,8 @@ class GameService
      */
     protected $connector;
 
+    protected $activitiesService;
+
     /**
      * @var Player
      */
@@ -28,7 +30,7 @@ class GameService
 
     private $loggedIn = false;
 
-    public function __construct(Player $player, ConnectorInterface $connector = null)
+    public function __construct(Player $player, ConnectorInterface $connector)
     {
         if (!$connector) {
             $connector = new WolniFarmerzyConnector();

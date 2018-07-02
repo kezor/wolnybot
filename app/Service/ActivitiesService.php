@@ -16,6 +16,11 @@ class ActivitiesService
         self::add($farmland, 'Collected '. $amount. ' fields.');
     }
 
+    public static function foundReadyToCollect(Farmland $farmland, $amount)
+    {
+        self::add($farmland, 'Found '. $amount. ' fields ready to collect.');
+    }
+
     public static function stockUpdated(Player $player)
     {
         self::add($player, 'Stock updated.');

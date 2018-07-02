@@ -72,6 +72,28 @@ class Farmland extends Space
 
     public function getFieldsReadyToCollect()
     {
+        $fieldsReadyToCollect = [];
+        /** @var Field $finalFieldToReset */
+        foreach ($this->fields as $finalFieldToReset) {
+            if ($finalFieldToReset->canCollect()) {
+                $this->resetRelatedFields($finalFieldToReset);
 
+                $fieldsReadyToCollect[$finalFieldToReset->index] = $finalFieldToReset;
+//                $finalFieldToReset->removeProduct();
+            }
+        }
+        return $fieldsReadyToCollect;
+    }
+
+    private function resetRelatedFields(Field $field)
+    {
+        for ($i = 0; $i < $field->getOffsetX(); $i++) {
+            for ($j = 0; $j < $field->getOffsetY(); $j++) {
+                $indexToRemove = $i + $field->getIndex() + ($j * 12);
+                if ($indexToRemove !== $field->getIndex()) {
+                    $this->fields[$indexToRemove]->removeProduct();
+                }
+            }
+        }
     }
 }
