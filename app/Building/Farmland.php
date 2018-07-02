@@ -69,4 +69,9 @@ class Farmland extends Space
         $field->time = $fieldData['zeit'];
         $field->water = (bool)$fieldData['iswater'];
     }
+
+    public function getFieldsReadyToCollect()
+    {
+
+    }
 }

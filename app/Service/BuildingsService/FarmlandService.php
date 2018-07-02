@@ -25,6 +25,10 @@ class FarmlandService extends GameService
 
     public function collectReadyPlants(Farmland $farmland)
     {
+        $fieldsReadyToCollect = $farmland->getFieldsReadyToCollect();
+
+
+
         $collectedPlantsCount = 0;
         /** @var Field $finalFieldToReset */
         foreach ($farmland->fields as $finalFieldToReset) {
