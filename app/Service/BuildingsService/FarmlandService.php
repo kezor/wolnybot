@@ -6,6 +6,7 @@ namespace App\Service\BuildingsService;
 use App\Building\Farmland;
 use App\Field;
 use App\Product;
+use App\Service\ActivitiesService;
 use App\Service\GameService;
 
 class FarmlandService extends GameService
@@ -24,14 +25,17 @@ class FarmlandService extends GameService
 
     public function collectReadyPlants(Farmland $farmland)
     {
+        $collectedPlantsCount = 0;
         /** @var Field $finalFieldToReset */
         foreach ($farmland->fields as $finalFieldToReset) {
             if ($finalFieldToReset->canCollect()) {
                 $this->resetRelatedFields($farmland, $finalFieldToReset);
                 $this->connector->collect($farmland, $finalFieldToReset);
                 $finalFieldToReset->removeProduct();
+                $collectedPlantsCount++;
             }
         }
+        ActivitiesService::collectedFields($farmland, $collectedPlantsCount);
     }
 
     private function resetRelatedFields(Farmland $farmland, Field $field)

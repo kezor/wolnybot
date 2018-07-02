@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Repository\SpaceRepository;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * Class Space
  * @package App
+ * @property integer id
  * @property integer player_id
  * @property integer farm_id
  * @property integer position
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer building_type
  * @property integer remain
  */
-class Space extends Model
+class Space extends BaseModel
 {
 
     public const TYPE_FARMLAND = 1;

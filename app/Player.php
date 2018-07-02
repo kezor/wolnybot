@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\Repository\SpaceRepository;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * Class Player
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer server_id
  * @property integer user_id
  */
-class Player extends Model
+class Player extends BaseModel
 {
 
     public function products()

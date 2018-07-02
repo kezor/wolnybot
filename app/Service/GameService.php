@@ -74,6 +74,8 @@ class GameService
             $item->amount = 0;
             $item->save();
         }
+
+        ActivitiesService::stockUpdated($this->player);
     }
 
     public function updateBuildings()

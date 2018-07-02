@@ -35,6 +35,11 @@
                         @include('common.storage')
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @include('common.activities', ['activities' => $player->getActivities()])
+                    </div>
+                </div>
             </div>
             <div class="col-md-10">
                 <div class="panel panel-default">

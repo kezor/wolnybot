@@ -13,11 +13,6 @@ use App\Space;
 
 class Farmland extends Space
 {
-    /**
-     * @var Field[]
-     */
-//    public $fields;
-
     public function fields()
     {
         return $this->hasMany(Field::class, 'space_id');

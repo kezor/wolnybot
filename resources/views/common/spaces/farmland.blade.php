@@ -10,3 +10,5 @@
     {{ Form::submit('Save', ['class' => 'btn btn-default btn-sm']) }}
 
 {!! Form::close() !!}
+
+@include('common.activities', ['activities' => $space->getActivities()])
