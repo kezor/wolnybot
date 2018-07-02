@@ -13,9 +13,20 @@ use App\Space;
 
 class Farmland extends Space
 {
+
+
     public function fields()
     {
-        return $this->hasMany(Field::class, 'space_id');
+        $fields = $this->hasMany(Field::class, 'space_id')->get();
+
+        $newArray = [];
+
+        /** @var Field $field */
+        foreach ($fields as $field) {
+            $newArray[$field->index] = $field;
+        }
+
+        return $newArray;
     }
 
     protected $table = 'spaces';
