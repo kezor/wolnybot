@@ -30,7 +30,7 @@ class GameService
 
     private $loggedIn = false;
 
-    public function __construct(Player $player, ConnectorInterface $connector)
+    public function __construct(Player $player, ConnectorInterface $connector = null)
     {
         if (!$connector) {
             $connector = new WolniFarmerzyConnector();
@@ -96,23 +96,22 @@ class GameService
                             $farmland = FarmlandRepository::getFarmland($farm, $this->player, $spaceData);
 //                            $farmland->fillInFields();
                             $this->updateFields($farmland);
+                            $farmland->push();
                             break;
 //                        case BuildingType::HOVEL:
 //                            $this->processHovel($spaceData, $farmId);
 //                            break;
                     }
-                    $this->usedSeeds = []; // reset used products for new space}
+//                    $this->usedSeeds = []; // reset used products for new space}
                 }
-
-
             }
-            $farm->push();
         }
     }
 
     public function updateFields(Farmland $farmland)
     {
         $fieldsData = $this->connector->getFarmlandFields($farmland);
+
         $fields     = $fieldsData['datablock'][1];
 
         $updatedFieldIndexes = [];

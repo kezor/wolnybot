@@ -179,6 +179,7 @@ return [
         \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         \Arcanedev\LogViewer\LogViewerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
