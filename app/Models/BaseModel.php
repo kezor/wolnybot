@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    public function getActivities()
+    public function getActivities($classname = null)
     {
-        return Activity::where('entity_id', $this->id)
-            ->where('class_name', get_class($this))
+        $entityId = $this->id;
+        if (null === $classname) {
+            $classname = get_class($this);
+        }
+
+        return Activity::where('entity_id', $entityId)
+            ->where('class_name', $classname)
             ->orderBy('created_at', 'DESC')
             ->limit(5)
             ->get();

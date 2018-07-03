@@ -40,4 +40,9 @@ class Space extends BaseModel
     {
         return $this->hasMany(Task::class, 'space_id');
     }
+
+    public function getActivities($classname = null)
+    {
+        return parent::getActivities(__CLASS__);
+    }
 }

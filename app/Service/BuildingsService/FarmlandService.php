@@ -41,13 +41,12 @@ class FarmlandService extends GameService
     public function seedPlants(Farmland $farmland, Product $productToSeed)
     {
         $emptyFields = $farmland->getEmptyFields();
+        ActivitiesService::foundReadyToSeed($farmland, count($emptyFields));
 
         $fieldsToSeed = $this->selectFields($emptyFields, $productToSeed);
 
         $responseData = null;
 
-//        while (!empty($fieldsToSeed)) {
-//            reset($fieldsToSeed);
         /** @var Field[] $fieldsToSeed */
         foreach ($fieldsToSeed as $field) {
             $responseData = $this->connector->seed($farmland, $field);
@@ -63,12 +62,12 @@ class FarmlandService extends GameService
             ]);
         }
 
-//            $fieldsToSeed = $farmland->getFieldsToSeed();
-//        }
+        ActivitiesService::seededFields($farmland, count($fieldsToSeed), $productToSeed);
+
         if (null !== $responseData) {
             $remain = $responseData['updateblock']['farms']['farms']['1']['1']['production']['0']['remain'];
             $farmland->remain = time() + $remain;
-            $farmland->save();
+            $farmland->push();
         }
     }
 

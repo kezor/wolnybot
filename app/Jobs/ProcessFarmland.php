@@ -58,8 +58,6 @@ class ProcessFarmland implements ShouldQueue
         /** @var Farmland $farmland */
         $farmland = Farmland::find($collectPlants->farmland->id);
 
-        $farmland->fillInFields();
-
         $gameService->collectReadyPlants($farmland);
 
         if($this->task->isCancelationPending()){

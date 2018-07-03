@@ -2,31 +2,23 @@
 
 namespace App\Building;
 
-use App\Connector\ConnectorInterface;
 use App\Farm;
 use App\Field;
-use App\Player;
-use App\Product;
-use App\ProductCategoryMapper;
 use App\Repository\FieldRepository;
 use App\Space;
 
+/**
+ * Class Farmland
+ * @package App\Building
+ * @property Field[] fields
+ */
 class Farmland extends Space
 {
 
 
     public function fields()
     {
-        $fields = $this->hasMany(Field::class, 'space_id')->get();
-
-        $newArray = [];
-
-        /** @var Field $field */
-        foreach ($fields as $field) {
-            $newArray[$field->index] = $field;
-        }
-
-        return $newArray;
+        return $this->hasMany(Field::class, 'space_id');
     }
 
     protected $table = 'spaces';
@@ -71,7 +63,8 @@ class Farmland extends Space
 
     public function updateField($fieldData)
     {
-        $field = $this->fields[$fieldData['teil_nr']];
+        $index = $fieldData['teil_nr'] - 1;
+        $field = $this->fields[$index];
         $field->product_pid = $fieldData['inhalt'];
         $field->offset_x = $fieldData['x'];
         $field->offset_y = $fieldData['y'];
@@ -90,7 +83,6 @@ class Farmland extends Space
                 $this->resetRelatedFields($finalFieldToReset);
 
                 $fieldsReadyToCollect[$finalFieldToReset->index] = $finalFieldToReset;
-//                $finalFieldToReset->removeProduct();
             }
         }
         return $fieldsReadyToCollect;
@@ -102,9 +94,19 @@ class Farmland extends Space
             for ($j = 0; $j < $field->getOffsetY(); $j++) {
                 $indexToRemove = $i + $field->getIndex() + ($j * 12);
                 if ($indexToRemove !== $field->getIndex()) {
-                    $this->fields[$indexToRemove]->removeProduct();
+                    $this->getFieldAtIndex($indexToRemove)->removeProduct();
                 }
             }
         }
+    }
+
+    private function getFieldAtIndex($index)
+    {
+        foreach ($this->fields as $field){
+            if($field->index === $index){
+                return $field;
+            }
+        }
+        return null;
     }
 }
