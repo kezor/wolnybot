@@ -12,13 +12,8 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use App\Space;
 
-class WolniFarmerzyConnector implements ConnectorInterface
+class WolniFarmerzyConnector extends BaseConnector implements ConnectorInterface
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
     /**
      * @var string
      */
@@ -128,10 +123,8 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function getFarmlandFields(Farmland $farmland)
     {
-        $allDataUrl = $this->urlGenerator->getGardenInitUrl($farmland);
-        $res        = $this->client->request('GET', $allDataUrl);
-
-        return json_decode($res->getBody()->__toString(), true);
+        $url = $this->urlGenerator->getGardenInitUrl($farmland);
+        return $this->callRequest($url);
     }
 
     public function collect(Farmland $farmland, Field $field)
@@ -193,19 +186,6 @@ class WolniFarmerzyConnector implements ConnectorInterface
         }
 
         return $responseData;
-    }
-
-    private function callRequest($url)
-    {
-        try {
-            // small delay before each call
-            sleep(mt_rand(3, 7) / 10);
-            $res = $this->client->request('GET', $url);
-
-            return json_decode($res->getBody()->__toString(), true);
-        } catch (\Exception $exception) {
-            return false;
-        }
     }
 
     public function initHovel(Hovel $hovel)
