@@ -49,35 +49,24 @@ class GameService
         return $this->loggedIn;
     }
 
+    public function update()
+    {
+        $dashboardData = $this->connector->getDashboardData();
+
+        $stocks = $dashboardData['updateblock']['stock']['stock'];
+        $this->updateStockData($stocks);
+
+        $farms = $dashboardData['updateblock']['farms']['farms'];
+        $this->updateFarmsData($farms);
+    }
+
     public function updateStock()
     {
         $dashboardData = $this->connector->getDashboardData();
 
         $stocks = $dashboardData['updateblock']['stock']['stock'];
 
-        $updatedItemsInStock = [];
-
-        foreach ($stocks as $product) {
-            foreach ($product as $level1) {
-                foreach ($level1 as $level2) {
-                    /** @var Product $product */
-                    $product = ProductRepository::getStock($level2, $this->player);
-                    $product->amount = $level2['amount'];
-                    $product->save();
-                    $updatedItemsInStock[] = $product->id;
-                }
-            }
-        }
-
-        $emptyItemsInStock = ProductRepository::getEmptyItems($updatedItemsInStock, $this->player);
-
-        /** @var Product $item */
-        foreach ($emptyItemsInStock as $item) {
-            $item->amount = 0;
-            $item->save();
-        }
-
-        ActivitiesService::stockUpdated($this->player);
+        $this->updateStockData($stocks);
     }
 
     public function updateBuildings()
@@ -86,26 +75,7 @@ class GameService
 
         $farms = $dashboardData['updateblock']['farms']['farms'];
 
-        foreach ($farms as $farmId => $farmData) {
-            $farm = FarmRepository::getFarm($farmId, $this->player);
-            foreach ($farmData as $spaceData) {
-                if ($spaceData['status'] == 1) {
-                    switch ($spaceData['buildingid']) {
-                        case BuildingType::FARMLAND:
-//                            var_dump('Updating....');
-                            $farmland = FarmlandRepository::getFarmland($farm, $this->player, $spaceData);
-//                            $farmland->fillInFields();
-                            $this->updateFields($farmland);
-                            $farmland->push();
-                            break;
-//                        case BuildingType::HOVEL:
-//                            $this->processHovel($spaceData, $farmId);
-//                            break;
-                    }
-//                    $this->usedSeeds = []; // reset used products for new space}
-                }
-            }
-        }
+        $this->updateFarmsData($farms);
     }
 
     public function updateFields(Farmland $farmland)
@@ -126,5 +96,62 @@ class GameService
             }
         }
         $farmland->clearFields($updatedFieldIndexes);
+    }
+
+    /**
+     * @param $stocks
+     */
+    protected function updateStockData($stocks): void
+    {
+        $updatedItemsInStock = [];
+
+        foreach ($stocks as $product) {
+            foreach ($product as $level1) {
+                foreach ($level1 as $level2) {
+                    /** @var Product $product */
+                    $product         = ProductRepository::getStock($level2, $this->player);
+                    $product->amount = $level2['amount'];
+                    $product->save();
+                    $updatedItemsInStock[] = $product->id;
+                }
+            }
+        }
+
+        $emptyItemsInStock = ProductRepository::getEmptyItems($updatedItemsInStock, $this->player);
+
+        /** @var Product $item */
+        foreach ($emptyItemsInStock as $item) {
+            $item->amount = 0;
+            $item->save();
+        }
+
+        ActivitiesService::stockUpdated($this->player);
+    }
+
+    /**
+     * @param $farms
+     */
+    protected function updateFarmsData($farms): void
+    {
+        foreach ($farms as $farmId => $farmData) {
+            $farm = FarmRepository::getFarm($farmId, $this->player);
+            foreach ($farmData as $spaceData) {
+                if ($spaceData['status'] == 1) {
+                    switch ($spaceData['buildingid']) {
+                        case BuildingType::FARMLAND:
+//                            var_dump('Updating....');
+                            $farmland = FarmlandRepository::getFarmland($farm, $this->player, $spaceData);
+//                            $farmland->fillInFields();
+                            $this->updateFields($farmland);
+                            $farmland->push();
+                            break;
+//                        case BuildingType::HOVEL:
+//                            $this->processHovel($spaceData, $farmId);
+//                            break;
+                    }
+//                    $this->usedSeeds = []; // reset used products for new space}
+                }
+            }
+        }
     }
 }

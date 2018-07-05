@@ -50,8 +50,7 @@ class PlayersController extends Controller
         if ($player) {
             $gameService = new GameService($player);
             if ($gameService->isPlayerLoggedIn()) {
-                $gameService->updateStock();
-                $gameService->updateBuildings();
+                $gameService->update();
                 Session::flash('success', 'Player data updated.');
             } else {
                 Session::flash('error', 'Error when try to log in the player.');
