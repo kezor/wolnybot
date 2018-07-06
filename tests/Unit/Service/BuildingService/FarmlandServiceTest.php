@@ -30,6 +30,7 @@ class FarmlandServiceTest extends TestCase
 
         $farmland = $this->getTestFarmland($farm, ['position' => 6]);
 
+        /** @var Product $product */
         $product = $this->getTestProduct($player, $productToSeed, $productToSeedStockAmount);
 
         $connectorMock = \Mockery::mock(WolniFarmerzyConnector::class)
@@ -67,6 +68,8 @@ class FarmlandServiceTest extends TestCase
 
         ActivitiesService::shouldReceive('foundReadyToCollect')->once()->withArgs([$farmland, $collectCount]);
         ActivitiesService::shouldReceive('collectedFields')->once()->withArgs([$farmland, $collectCount]);
+        ActivitiesService::shouldReceive('foundReadyToSeed')->once()->withArgs([$farmland, $collectCount > 0 ? 120 : 0]);
+        ActivitiesService::shouldReceive('seededFields')->once()->withArgs([$farmland, $seedCount, $product]);
 
         $farmlandService->collectReadyPlants($farmland);
         $farmlandService->seedPlants($farmland, $product);

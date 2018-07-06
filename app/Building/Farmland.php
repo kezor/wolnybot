@@ -63,7 +63,7 @@ class Farmland extends Space
 
     public function updateField($fieldData)
     {
-        $index = $fieldData['teil_nr'] - 1;
+        $index = $fieldData['teil_nr'];
         $field = $this->fields[$index];
         $field->product_pid = $fieldData['inhalt'];
         $field->offset_x = $fieldData['x'];
