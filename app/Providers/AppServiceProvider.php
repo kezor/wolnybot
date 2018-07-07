@@ -7,6 +7,7 @@ use App\Connector\WolniFarmerzyConnector;
 use App\Service\ActivitiesInterface;
 use App\Service\ActivitiesService;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+Schema::defaultStringLength(191);
         //
     }
 
