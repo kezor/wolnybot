@@ -44,9 +44,9 @@ class UrlGenerator
         return $this->getMainPart() . '&mode=cropgarden&farm=' . $farmland->farm->id . '&position=' . $farmland->position;
     }
 
-    public function getGardenPlantUrl(Farmland $farmland, Field $field)
+    public function getGardenPlantUrl(Farmland $farmland, SingleBunchOfFields $singleBunchOfFields, Product $product)
     {
-        return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $field->getProduct()->getPid() . '&feld[]=' . $field->index . '&felder[]=' . $field->getRelatedFields();
+        return $this->getMainPart() . '&mode=garden_plant&farm=' . $farmland->farm->id . '&position=' . $farmland->position . '&pflanze[]=' . $product->getPid() . '&feld[]=' . $singleBunchOfFields->getIndexes() . '&felder[]=' . $singleBunchOfFields->getRelatedFields();
     }
 
     public function getGardenWaterUrl(Farmland $farmland, Field $field)

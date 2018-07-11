@@ -23,16 +23,16 @@ class Farmland extends Space
     }
 
     protected $table = 'spaces';
-
-    public function fillInFields()
-    {
-        for ($i = 1; $i <= 120; $i++) {
-            $field = FieldRepository::getField($i, $this);
-            $this->fields[$i] = $field;
-        }
-
-        return $this;
-    }
+//
+//    public function fillInFields()
+//    {
+//        for ($i = 1; $i <= 120; $i++) {
+//            $field = FieldRepository::getField($i, $this);
+//            $this->fields[$i] = $field;
+//        }
+//
+//        return $this;
+//    }
 
     public function farm()
     {
@@ -111,7 +111,6 @@ class Farmland extends Space
                 return $field;
             }
         }
-        $this->fields[$index] = FieldRepository::getField($index, $this);
-        return $this->fields[$index];
+        return $this->fields[] = FieldRepository::getField($index, $this);
     }
 }

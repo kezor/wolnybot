@@ -4,10 +4,12 @@ namespace App\Service\BuildingsService;
 
 
 use App\Building\Farmland;
+use App\BunchesCollection;
 use App\Facades\ActivitiesService;
 use App\Field;
 use App\Product;
 use App\Service\GameService;
+use App\SingleBunchOfFields;
 use Illuminate\Support\Collection;
 
 class FarmlandService extends GameService
@@ -47,31 +49,51 @@ class FarmlandService extends GameService
 
         $fieldsToSeed = $this->selectFields($emptyFields, $productToSeed);
 
+        $bunchesCollection = $this->getBunchesCollection($fieldsToSeed);
+
         $responseData = null;
 
         /** @var Field[] $fieldsToSeed */
-        foreach ($fieldsToSeed as $field) {
+        foreach ($bunchesCollection as $singleBunch) {
 
-            $responseData = $this->connector->seed($farmland, $field);
-            $farmland->updateField([
-                'teil_nr'   => $field->getIndex(),
-                'inhalt'    => $productToSeed->getPid(),
-                'x'         => $productToSeed->getLength(),
-                'y'         => $productToSeed->getHeight(),
-                'phase'     => Product::PLANT_PHASE_BEGIN,
-                'gepflanzt' => time(),
-                'zeit'      => time(),
-                'iswater'   => false,
-            ]);
+            $responseData = $this->connector->seed($farmland, $singleBunch);
+//            $farmland->updateField([
+//                'teil_nr'   => $field->getIndex(),
+//                'inhalt'    => $productToSeed->getPid(),
+//                'x'         => $productToSeed->getLength(),
+//                'y'         => $productToSeed->getHeight(),
+//                'phase'     => Product::PLANT_PHASE_BEGIN,
+//                'gepflanzt' => time(),
+//                'zeit'      => time(),
+//                'iswater'   => false,
+//            ]);
         }
 
         ActivitiesService::seededFields($farmland, count($fieldsToSeed), $productToSeed);
 
         if (null !== $responseData) {
-            $remain = $responseData['updateblock']['farms']['farms'][$farmland->farm->id][$farmland->position]['production']['0']['remain'];
+            $remain           = $responseData['updateblock']['farms']['farms'][$farmland->farm->id][$farmland->position]['production']['0']['remain'];
             $farmland->remain = time() + $remain;
             $farmland->push();
         }
+    }
+
+    private function getBunchesCollection(Collection $fields)
+    {
+        $fields->shuffle(time());
+
+        $bunchesCollection = new BunchesCollection();
+
+        while ($fields->isNotEmpty()) {
+            $amountForBunch = random_int(1, $fields->count() < 5 ? $fields->count() : 5);
+            $singleBunch    = new SingleBunchOfFields();
+            for ($i = 0; $i < $amountForBunch; $i++) {
+                $singleBunch->push($fields->pop());
+            }
+            $bunchesCollection->push($singleBunch);
+        }
+
+        return $bunchesCollection;
     }
 
     /**
@@ -128,7 +150,7 @@ class FarmlandService extends GameService
 
         for ($i = 0; $i < $plant->getLength(); $i++) {
             for ($j = 0; $j < $plant->getHeight(); $j++) {
-                $indexToRemove = $currentIndex + $i + (12 * $j);
+                $indexToRemove           = $currentIndex + $i + (12 * $j);
                 $indexes[$indexToRemove] = $indexToRemove;
             }
         }
@@ -139,7 +161,7 @@ class FarmlandService extends GameService
     private function isNextIndexInNextRow($index, $nextIndex)
     {
         $currentColumn = $this->getColumn($index);
-        $nextColumn = $this->getColumn($nextIndex);
+        $nextColumn    = $this->getColumn($nextIndex);
 
         return $nextColumn < $currentColumn;
     }

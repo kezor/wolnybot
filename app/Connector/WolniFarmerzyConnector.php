@@ -7,6 +7,7 @@ use App\Building\Hovel;
 use App\Field;
 use App\Player;
 use App\Product;
+use App\SingleBunchOfFields;
 use App\UrlGenerator;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
@@ -138,9 +139,9 @@ class WolniFarmerzyConnector extends BaseConnector implements ConnectorInterface
         return $responseData;
     }
 
-    public function seed(Farmland $farmland, Field $field)
+    public function seed(Farmland $farmland, SingleBunchOfFields $singleBunchOfFields)
     {
-        $url          = $this->urlGenerator->getGardenPlantUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenPlantUrl($farmland, $singleBunchOfFields);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to seed field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);

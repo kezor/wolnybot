@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Building\Hovel;
+use App\SingleBunchOfFields;
 use App\UrlGenerator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -41,11 +42,6 @@ class UrlGeneratorTest extends TestCase
         );
 
         $this->assertEquals(
-            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
-            $url->getGardenPlantUrl($farmland, $field)
-        );
-
-        $this->assertEquals(
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=inner_feed&farm=1&position=2&pid=1&c=1_1|&amount=1&guildjob=0',
             $url->getFeedUrl($hovel)
         );
@@ -77,6 +73,50 @@ class UrlGeneratorTest extends TestCase
 //            http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=cropgarden&farm=1&position=1
             'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=cropgarden&farm=1&position=1',
             $url->getCropGardenUrl($farmland)
+        );
+    }
+
+    public function testGardenPlantsUrlSinglePlant()
+    {
+
+        $player = $this->getTestPlayer();
+        $token = 'yghjurtdvbhytrfvbnrec';
+        $product = $this->getTestProduct($player, 1); // wheat
+        $field = $this->getTestField($product);
+        $farm = $this->getTestFarm($player);
+
+        $farmland = $this->getTestFarmland($farm);
+
+        $singleBunchOfFields = new SingleBunchOfFields();
+        $singleBunchOfFields->push($field);
+
+        $url = new UrlGenerator($player, $token);
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
+            $url->getGardenPlantUrl($farmland, $singleBunchOfFields, $product)
+        );
+    }
+
+    public function testGardenPlantsUrlFewPlants()
+    {
+
+        $player = $this->getTestPlayer();
+        $token = 'yghjurtdvbhytrfvbnrec';
+        $product = $this->getTestProduct($player, 1); // wheat
+        $field = $this->getTestField($product);
+        $farm = $this->getTestFarm($player);
+
+        $farmland = $this->getTestFarmland($farm);
+
+        $singleBunchOfFields = new SingleBunchOfFields();
+        $singleBunchOfFields->push($field);
+
+        $url = new UrlGenerator($player, $token);
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
+            $url->getGardenPlantUrl($farmland, $singleBunchOfFields, $product)
         );
     }
 }
