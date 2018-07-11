@@ -6,6 +6,7 @@ use App\Farm;
 use App\Field;
 use App\Repository\FieldRepository;
 use App\Space;
+use Illuminate\Support\Collection;
 
 /**
  * Class Farmland
@@ -38,13 +39,16 @@ class Farmland extends Space
         return $this->belongsTo(Farm::class);
     }
 
+    /**
+     * @return Collection
+     */
     public function getEmptyFields()
     {
-        $fieldsToSeed = [];
+        $fieldsToSeed = new Collection();
 
         foreach ($this->fields as $field) {
             if ($field->canSeed()) {
-                $fieldsToSeed[$field->index] = $field;
+                $fieldsToSeed->put($field->index, $field);
             }
         }
 

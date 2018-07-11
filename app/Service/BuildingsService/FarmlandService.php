@@ -8,6 +8,7 @@ use App\Facades\ActivitiesService;
 use App\Field;
 use App\Product;
 use App\Service\GameService;
+use Illuminate\Support\Collection;
 
 class FarmlandService extends GameService
 {
@@ -41,7 +42,8 @@ class FarmlandService extends GameService
     public function seedPlants(Farmland $farmland, Product $productToSeed)
     {
         $emptyFields = $farmland->getEmptyFields();
-        ActivitiesService::foundReadyToSeed($farmland, count($emptyFields));
+
+        ActivitiesService::foundReadyToSeed($farmland, $emptyFields->count());
 
         $fieldsToSeed = $this->selectFields($emptyFields, $productToSeed);
 
@@ -52,14 +54,14 @@ class FarmlandService extends GameService
 
             $responseData = $this->connector->seed($farmland, $field);
             $farmland->updateField([
-                'teil_nr' => $field->getIndex(),
-                'inhalt' => $field->getProduct()->getPid(),
-                'x' => $field->getProduct()->getLength(),
-                'y' => $field->getProduct()->getHeight(),
-                'phase' => Product::PLANT_PHASE_BEGIN,
+                'teil_nr'   => $field->getIndex(),
+                'inhalt'    => $productToSeed->getPid(),
+                'x'         => $productToSeed->getLength(),
+                'y'         => $productToSeed->getHeight(),
+                'phase'     => Product::PLANT_PHASE_BEGIN,
                 'gepflanzt' => time(),
-                'zeit' => time(),
-                'iswater' => false,
+                'zeit'      => time(),
+                'iswater'   => false,
             ]);
         }
 
@@ -72,44 +74,39 @@ class FarmlandService extends GameService
         }
     }
 
-    private function selectFields($fields, Product $product)
+    /**
+     * @param         $fields
+     * @param Product $product
+     * @return Collection
+     */
+    private function selectFields(Collection $fields, Product $product)
     {
-        reset($fields);
-        $index = key($fields);
+        $finalFieldsAvailableToSeed = new Collection();
 
-        $finalFieldsAvailableToSeed = [];
+        while ($fields->isNotEmpty()) {
 
-        while (isset($fields[$index])) {
-            $availableToSeed = true;
+            /** @var Field $field */
+
+            $field = $fields->first();
+            $index = $field->index;
 
             for ($xIndex = 0; $xIndex < $product->getLength(); $xIndex++) {
                 for ($yIndex = 0; $yIndex < $product->getHeight(); $yIndex++) {
                     $checkingIndex = $index + $xIndex + ($yIndex * 12);
-                    if (!isset($fields[$checkingIndex]) || $this->isNextIndexInNextRow($index, $checkingIndex)) {
-                        $availableToSeed = false;
+                    if (!$fields->has($checkingIndex) || $this->isNextIndexInNextRow($index, $checkingIndex)) {
+                        $fields->forget($checkingIndex);
+                    } else {
+                        $finalFieldsAvailableToSeed->put($index, $field);
+                        $indexesToRemove = $this->getIndexesToRemove($index, $product);
+                        foreach ($indexesToRemove as $indexToRemove) {
+                            $fields->forget($indexToRemove);
+                        }
                     }
                 }
             }
-
-            if (!$availableToSeed) {
-                unset($fields[$index]);
-            } else {
-                $finalFieldsAvailableToSeed[$index] = clone $fields[$index];
-                $indexesToRemove = $this->getIndexesToRemove($index, $product);
-                foreach ($indexesToRemove as $indexToRemove) {
-                    unset($fields[$indexToRemove]);
-                }
-                if ($product->getAmount() <= count($finalFieldsAvailableToSeed)) {
-                    break;
-                }
+            if ($product->getAmount() <= $finalFieldsAvailableToSeed->count()) {
+                break;
             }
-            reset($fields);
-            $index = key($fields);
-        }
-
-        /** @var Field $field */
-        foreach ($finalFieldsAvailableToSeed as $field) {
-            $field->setProduct($product);
         }
 
         return $finalFieldsAvailableToSeed;

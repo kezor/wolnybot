@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maciek
- * Date: 01.07.18
- * Time: 14:42
- */
 
 namespace Tests\Unit\Service\BuildingService;
 
@@ -12,13 +6,61 @@ use App\Connector\WolniFarmerzyConnector;
 use App\Facades\ActivitiesService;
 use App\Product;
 use App\ProductSizeService;
-use App\Service\ActivitiesInterface;
 use App\Service\BuildingsService\FarmlandService;
-use Tests\Stubs\ActivitiesServiceStub;
 use Tests\TestCase;
 
 class FarmlandServiceTest extends TestCase
 {
+
+    public function testSeedFunctionCarrot()
+    {
+        $player = $this->getTestPlayer();
+
+        $connectorMock = \Mockery::mock(WolniFarmerzyConnector::class)
+            ->shouldReceive('login')
+            ->andReturn(true)
+            ->shouldReceive('seed')
+            ->getMock();
+
+        $farm = $this->getTestFarm($player, ['farm_id' => 2]);
+
+        $farmland = $this->getTestFarmland($farm, ['position' => 6]);
+
+        /** @var Product $product */
+        $product = $this->getTestProduct($player, 17, 1000);
+
+        $farmlandService = new FarmlandService($player, $connectorMock);
+
+        ActivitiesService::shouldReceive('foundReadyToSeed')->once()->withArgs([$farmland, 120]);
+        ActivitiesService::shouldReceive('seededFields')->once()->withArgs([$farmland, 120, $product]);
+
+        $farmlandService->seedPlants($farmland, $product);
+    }
+
+    public function testSeedFunctionCorn()
+    {
+        $player = $this->getTestPlayer();
+
+        $connectorMock = \Mockery::mock(WolniFarmerzyConnector::class)
+            ->shouldReceive('login')
+            ->andReturn(true)
+            ->shouldReceive('seed')
+            ->getMock();
+
+        $farm = $this->getTestFarm($player, ['farm_id' => 2]);
+
+        $farmland = $this->getTestFarmland($farm, ['position' => 6]);
+
+        /** @var Product $product */
+        $product = $this->getTestProduct($player, 4, 1000);
+
+        $farmlandService = new FarmlandService($player, $connectorMock);
+
+        ActivitiesService::shouldReceive('foundReadyToSeed')->once()->withArgs([$farmland, 120]);
+        ActivitiesService::shouldReceive('seededFields')->once()->withArgs([$farmland, 30, $product]);
+        $farmlandService->seedPlants($farmland, $product);
+    }
+
     /**
      * @dataProvider getDataToFarmland
      */

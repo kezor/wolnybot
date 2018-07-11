@@ -3,7 +3,9 @@
 namespace App;
 
 
-class BunchOfFields
-{
+use Illuminate\Support\Collection;
 
+class BunchOfFields extends Collection
+{
+    
 }
