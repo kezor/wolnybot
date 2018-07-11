@@ -5,7 +5,7 @@
     <div class="panel-body">
         @switch($space->building_type)
             @case(\App\Space::TYPE_FARMLAND)
-                @include('common.spaces.farmland')
+                @include('common.spaces.farmland', ['farmland' => $space])
             @break
         @endswitch
     </div>

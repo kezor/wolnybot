@@ -1,4 +1,3 @@
-@php( $farmland = $space)
 {!! Form::open(['url' => route('spaces.addTask', $farmland->id), 'class' => 'form-inline' ]) !!}
 {{ Form::hidden('player_id', $player->id) }}
 
@@ -15,10 +14,9 @@
     @for($i = 0; $i <10; $i++)
         <tr>
             @for($j = 1; $j <=12; $j++)
-                @php ($index = (($i * 12) + $j)-1)
+                @php ($index = (($i * 12) + $j))
                 <td>
-                    {{--{{$index}}--}}
-                    @php ($field = $farmland->fields[$index])
+                    @php ($field = $farmland->getFieldAtIndex($index))
                     {{$field->phase}}
                 </td>
             @endfor

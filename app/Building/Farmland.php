@@ -64,8 +64,7 @@ class Farmland extends Space
     public function updateField($fieldData)
     {
         $index = $fieldData['teil_nr'];
-$field = $this->getFieldAtIndex($index);
-       // $field = $this->fields[$index];
+        $field = $this->getFieldAtIndex($index);
         $field->product_pid = $fieldData['inhalt'];
         $field->offset_x = $fieldData['x'];
         $field->offset_y = $fieldData['y'];
@@ -101,14 +100,14 @@ $field = $this->getFieldAtIndex($index);
         }
     }
 
-    private function getFieldAtIndex($index)
+    public function getFieldAtIndex($index)
     {
         foreach ($this->fields as $field){
             if($field->index === $index){
                 return $field;
             }
         }
-$this->fields[$index] = FieldRepository::getField($index, $this);
+        $this->fields[$index] = FieldRepository::getField($index, $this);
         return $this->fields[$index];
     }
 }

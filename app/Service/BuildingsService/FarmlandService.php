@@ -49,6 +49,7 @@ class FarmlandService extends GameService
 
         /** @var Field[] $fieldsToSeed */
         foreach ($fieldsToSeed as $field) {
+
             $responseData = $this->connector->seed($farmland, $field);
             $farmland->updateField([
                 'teil_nr' => $field->getIndex(),
@@ -65,7 +66,7 @@ class FarmlandService extends GameService
         ActivitiesService::seededFields($farmland, count($fieldsToSeed), $productToSeed);
 
         if (null !== $responseData) {
-            $remain = $responseData['updateblock']['farms']['farms']['1']['1']['production']['0']['remain'];
+            $remain = $responseData['updateblock']['farms']['farms'][$farmland->farm->id][$farmland->position]['production']['0']['remain'];
             $farmland->remain = time() + $remain;
             $farmland->push();
         }
