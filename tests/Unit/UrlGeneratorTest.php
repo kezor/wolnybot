@@ -98,24 +98,58 @@ class UrlGeneratorTest extends TestCase
         );
     }
 
-    public function testGardenPlantsUrlFewPlants()
+    public function testGardenPlantsUrlFewPlantsCarrot()
     {
 
         $player = $this->getTestPlayer();
         $token = 'yghjurtdvbhytrfvbnrec';
-        $product = $this->getTestProduct($player, 1); // wheat
-        $field = $this->getTestField($product);
+        $product = $this->getTestProduct($player, 17); // carrot
+
         $farm = $this->getTestFarm($player);
 
         $farmland = $this->getTestFarmland($farm);
 
         $singleBunchOfFields = new SingleBunchOfFields();
-        $singleBunchOfFields->push($field);
+
+        $fieldsIndexes = [36, 48, 60, 72];
+
+        foreach ($fieldsIndexes as $index){
+            $field = $this->getTestField($product, ['index' => $index]);
+            $singleBunchOfFields->push($field);
+        }
 
         $url = new UrlGenerator($player, $token);
 
         $this->assertEquals(
-            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=1&felder[]=1,2',
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=17&feld[]=36&felder[]=36&pflanze[]=17&feld[]=48&felder[]=48&pflanze[]=17&feld[]=60&felder[]=60&pflanze[]=17&feld[]=72&felder[]=72',
+            $url->getGardenPlantUrl($farmland, $singleBunchOfFields, $product)
+        );
+    }
+
+    public function testGardenPlantsUrlFewPlantsWheat()
+    {
+
+        $player = $this->getTestPlayer();
+        $token = 'yghjurtdvbhytrfvbnrec';
+        $product = $this->getTestProduct($player, 1); // carrot
+
+        $farm = $this->getTestFarm($player);
+
+        $farmland = $this->getTestFarmland($farm);
+
+        $singleBunchOfFields = new SingleBunchOfFields();
+
+        $fieldsIndexes = [49, 61, 73, 85, 97];
+
+        foreach ($fieldsIndexes as $index){
+            $field = $this->getTestField($product, ['index' => $index]);
+            $singleBunchOfFields->push($field);
+        }
+
+        $url = new UrlGenerator($player, $token);
+
+        $this->assertEquals(
+            'http://s1.wolnifarmerzy.pl/ajax/farm.php?rid=yghjurtdvbhytrfvbnrec&mode=garden_plant&farm=1&position=1&pflanze[]=1&feld[]=49&felder[]=49,50&pflanze[]=1&feld[]=61&felder[]=61,62&pflanze[]=1&feld[]=73&felder[]=73,74&pflanze[]=1&feld[]=85&felder[]=85,86&pflanze[]=1&feld[]=97&felder[]=97,98',
             $url->getGardenPlantUrl($farmland, $singleBunchOfFields, $product)
         );
     }

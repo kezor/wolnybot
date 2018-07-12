@@ -32,4 +32,19 @@ class SingleBunchOfFields extends Collection
         return $returnString;
     }
 
+    public function getUrlPartWithProduct(Product $product)
+    {
+        $returnString = '';
+
+        /** @var Field $item */
+        foreach ($this->items as $item) {
+            //&pflanze[]=17&feld[]=36&felder[]=36
+            $returnString .= '&pflanze[]=' . $product->pid;
+            $returnString .= '&feld[]=' . $item->index;
+            $returnString .= '&felder[]=' . $item->getRelatedFields();
+        }
+
+        return $returnString;
+    }
+
 }
