@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Connector\WolniFarmerzyConnector;
 use App\Product;
+use App\SingleBunchOfFields;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
@@ -141,9 +142,11 @@ class WolniFarmerzyConnectorTest extends TestCase
         $farm = $this->getTestFarm($player);
         $farmland = $this->getTestFarmland($farm);
 
+        $singleBunchOfFields = new SingleBunchOfFields([$field]);
+
         $wolniFarmerzyConnector = new WolniFarmerzyConnector($client);
         $this->assertTrue($wolniFarmerzyConnector->login($player));
-        $this->assertTrue(is_array($wolniFarmerzyConnector->seed($farmland, $field)));
+        $this->assertInternalType('array', $wolniFarmerzyConnector->seed($farmland, $singleBunchOfFields, $product));
     }
 
     public function testWaterCall()

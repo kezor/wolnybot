@@ -81,9 +81,7 @@ class FarmlandServiceTest extends TestCase
             ->shouldReceive('collect')
             ->times($collectCount)
             ->shouldReceive('seed')
-            ->times($seedCount)
             ->shouldReceive('waterField')
-            ->times($waterCount)
             ->getMock();
 
         $farmlandService = new FarmlandService($player, $connectorMock);

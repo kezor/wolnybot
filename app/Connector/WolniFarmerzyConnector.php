@@ -139,9 +139,9 @@ class WolniFarmerzyConnector extends BaseConnector implements ConnectorInterface
         return $responseData;
     }
 
-    public function seed(Farmland $farmland, SingleBunchOfFields $singleBunchOfFields)
+    public function seed(Farmland $farmland, SingleBunchOfFields $singleBunchOfFields, Product $product)
     {
-        $url          = $this->urlGenerator->getGardenPlantUrl($farmland, $singleBunchOfFields);
+        $url          = $this->urlGenerator->getGardenPlantUrl($farmland, $singleBunchOfFields, $product);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to seed field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);

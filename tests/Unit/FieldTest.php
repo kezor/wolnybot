@@ -52,7 +52,8 @@ class FieldTest extends TestCase
     private function getField($phase = Product::PLANT_PHASE_FINAL)
     {
         $player = $this->getTestPlayer();
-        $product = $this->getTestProduct($player, 17); // carrot
-        return $this->getTestField($product, $phase);
+        $product = $this->getTestProduct($player, 17); // carro
+        //t
+        return $this->getTestField($product, ['phase' => $phase]    );
     }
 }

@@ -49,14 +49,14 @@ class FarmlandService extends GameService
 
         $fieldsToSeed = $this->selectFields($emptyFields, $productToSeed);
 
-        $bunchesCollection = $this->getBunchesCollection($fieldsToSeed);
+        $bunchesCollection = $this->getBunchesCollection(clone $fieldsToSeed);
 
         $responseData = null;
 
         /** @var Field[] $fieldsToSeed */
         foreach ($bunchesCollection as $singleBunch) {
 
-            $responseData = $this->connector->seed($farmland, $singleBunch);
+            $responseData = $this->connector->seed($farmland, $singleBunch, $productToSeed);
 //            $farmland->updateField([
 //                'teil_nr'   => $field->getIndex(),
 //                'inhalt'    => $productToSeed->getPid(),
@@ -69,7 +69,7 @@ class FarmlandService extends GameService
 //            ]);
         }
 
-        ActivitiesService::seededFields($farmland, count($fieldsToSeed), $productToSeed);
+        ActivitiesService::seededFields($farmland, $fieldsToSeed->count(), $productToSeed);
 
         if (null !== $responseData) {
             $remain           = $responseData['updateblock']['farms']['farms'][$farmland->farm->id][$farmland->position]['production']['0']['remain'];
