@@ -28,5 +28,5 @@ Route::post('spaces/{id}/addTask', 'SpacesController@addTask')->name('spaces.add
 
 Route::get('tasks/{id}/cancel', 'TasksController@cancel')->name('tasks.cancel');
 
-Route::get('farmland/{id}/collect', 'FarmlandsController@collect')->name('farmland.collect');
+Route::get('farmland/{id}/cropGarden', 'FarmlandsController@cropGarden')->name('farmland.cropGarden');
 Route::post('farmland/{id}/seedOnce', 'FarmlandsController@seedOnce')->name('farmland.seedOnce');

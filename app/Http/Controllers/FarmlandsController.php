@@ -27,14 +27,15 @@ class FarmlandsController extends Controller
         return back();
     }
 
-    public function collect($farmlandId)
+    public function cropGarden($farmlandId)
     {
         /** @var Farmland $farmland */
         $farmland = Farmland::find($farmlandId);
 
         $gameService = new FarmlandService($farmland->farm->player);
 
-        $gameService->collectReadyPlants($farmland);
+        $gameService->cropGarden($farmland);
+        $gameService->update();
 
         return back();
     }

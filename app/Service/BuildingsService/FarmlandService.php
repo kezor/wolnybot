@@ -16,14 +16,7 @@ class FarmlandService extends GameService
 {
     public function cropGarden(Farmland $farmland)
     {
-        foreach ($farmland->fields as $finalFieldToReset) {
-            if ($finalFieldToReset->canCollect()) {
-                $responseData = $this->connector->cropGarden($farmland);
-                //$farmland->
-                break;
-            }
-
-        }
+        $this->connector->cropGarden($farmland);
     }
 
     public function collectReadyPlants(Farmland $farmland)

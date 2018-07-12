@@ -23,7 +23,7 @@
         </tr>
     @endfor
 </table>
-<a href="{{ route('farmland.collect', $farmland->id) }}" class="btn btn-default">Collect</a>
+<a href="{{ route('farmland.cropGarden', $farmland->id) }}" class="btn btn-default btn-sm">Crop Garden</a>
 
 {!! Form::open(['url' => route('farmland.seedOnce', $farmland->id), 'class' => 'form-inline' ]) !!}
 
