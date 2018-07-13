@@ -52,6 +52,7 @@ class FarmlandsController extends Controller
         $gameService = new FarmlandService($farmland->farm->player);
 
         $gameService->seedPlants($farmland, $plant);
+        $gameService->update();
 
         return back();
     }
