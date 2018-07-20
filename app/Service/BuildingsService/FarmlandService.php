@@ -48,18 +48,8 @@ class FarmlandService extends GameService
 
         /** @var Field[] $fieldsToSeed */
         foreach ($bunchesCollection as $singleBunch) {
-
             $responseData = $this->connector->seed($farmland, $singleBunch, $productToSeed);
-//            $farmland->updateField([
-//                'teil_nr'   => $field->getIndex(),
-//                'inhalt'    => $productToSeed->getPid(),
-//                'x'         => $productToSeed->getLength(),
-//                'y'         => $productToSeed->getHeight(),
-//                'phase'     => Product::PLANT_PHASE_BEGIN,
-//                'gepflanzt' => time(),
-//                'zeit'      => time(),
-//                'iswater'   => false,
-//            ]);
+            $this->updateFieldBasedOnResponseData($responseData, $farmland);
         }
 
         ActivitiesService::seededFields($farmland, $fieldsToSeed->count(), $productToSeed);
@@ -68,6 +58,20 @@ class FarmlandService extends GameService
             $remain           = $responseData['updateblock']['farms']['farms'][$farmland->farm->id][$farmland->position]['production']['0']['remain'];
             $farmland->remain = time() + $remain;
             $farmland->push();
+        }
+    }
+
+    private function updateFieldBasedOnResponseData($responseData, Farmland $farmland)
+    {
+        $fieldsData = $responseData['datablock'][$farmland->position][1];
+        if (null === $fieldsData) {
+            return;
+        }
+
+        foreach ($fieldsData as $key => $fieldData) {
+            if (is_numeric($key)) {
+                $farmland->updateField($fieldData);
+            }
         }
     }
 

@@ -22,29 +22,29 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><strong>{{ $player->username }}</strong> details <a href="{{ route('player.updateData', $player->id) }}"
-                                                                                                   class="btn btn-sm btn-info">Update data</a></div>
+                <div class="card ">
+                    <div class="card-header"><strong>{{ $player->username }}</strong> details <a href="{{ route('player.updateData', $player->id) }}"
+                                                                                                 class="btn btn-sm btn-info">Update data</a></div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         @include('common.storage')
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         @include('common.activities', ['activities' => $player->getActivities()])
                     </div>
                 </div>
             </div>
             <div class="col-md-10">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Farms</div>
-                    <div class="panel-body">
+                <div class="card ">
+                    <div class="card-header">Farms</div>
+                    <div class="card-body">
                         @foreach($player->farms as $key => $farm)
                             <div class="row">
                                 <div class="col-md-12">
@@ -56,6 +56,5 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection

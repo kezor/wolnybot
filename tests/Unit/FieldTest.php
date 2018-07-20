@@ -36,7 +36,7 @@ class FieldTest extends TestCase
         $this->assertNull($field->getProduct());
         $this->assertEquals(Product::PLANT_PHASE_EMPTY, $field->getPhase());
         $this->assertEquals(null, $field->getProductPid());
-        $this->assertEquals(0, $field->getTime());
+        $this->assertEquals(0, $field->time);
         $this->assertEquals(0, $field->getPlanted());
     }
 

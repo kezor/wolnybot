@@ -1,6 +1,6 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Farm #{{ $farm->farm_id }}</div>
-    <div class="panel-body">
+<div class="card ">
+    <div class="card-header">Farm #{{ $farm->farm_id }}</div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-4">
                 @if ($farm->hasSpaceAt(1))

@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-sm">
     <tr>
         <th>
             Task name

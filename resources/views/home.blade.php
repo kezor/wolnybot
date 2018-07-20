@@ -21,12 +21,12 @@
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Dashboard</div>
-                    <div class="panel-body">
+                <div class="card ">
+                    <div class="card-header">Dashboard</div>
+                    <div class="card-body">
                         <p>Players list</p>
                         <p>
-                            <a href="{{ route('player.create') }}" class="btn btn-default">Add new</a>
+                            <a href="{{ route('player.create') }}" class="btn btn-secondary">Add new</a>
                         </p>
                         <table class="table table-bordered">
                             <tr>

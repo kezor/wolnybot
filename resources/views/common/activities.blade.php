@@ -1,9 +1,9 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card ">
+    <div class="card-header">
         Activities
     </div>
 
-    <table class="table">
+    <table class="table table-sm">
         <tr>
             <th>
                 Datetime

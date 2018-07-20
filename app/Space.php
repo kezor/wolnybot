@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\BaseModel;
+use Carbon\Carbon;
 
 /**
  * Class Space
@@ -44,5 +45,27 @@ class Space extends BaseModel
     public function getActivities($classname = null)
     {
         return parent::getActivities(__CLASS__);
+    }
+
+    public function getStatus()
+    {
+        if($this->remain === null){
+            return 'Ready to work';
+        }
+
+        $finishDate = Carbon::createFromTimestamp($this->remain);
+        $now = Carbon::now();
+
+        if($now->lessThanOrEqualTo($finishDate)){
+            /** @var \DateInterval $diff */
+            $diff = $finishDate->diff($now);
+            return 'In progress (remaining: '. $diff->format('%d days %hh %im %ss'). ')';
+        }
+
+        if($finishDate->lessThanOrEqualTo(Carbon::now())){
+            return 'Done - ready to collect';
+        }
+
+        return 'Ready to work';
     }
 }

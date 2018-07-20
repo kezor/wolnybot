@@ -1,3 +1,3 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Not in use</div>
+<div class="card ">
+    <div class="card-header">Not in use</div>
 </div>

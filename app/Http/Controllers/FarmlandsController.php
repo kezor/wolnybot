@@ -36,6 +36,8 @@ class FarmlandsController extends Controller
 
         $gameService->cropGarden($farmland);
         $gameService->update();
+        $farmland->remain = null;
+        $farmland->save();
 
         return back();
     }

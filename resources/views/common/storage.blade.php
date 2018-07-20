@@ -1,26 +1,13 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         Storage
     </div>
-
-    <table class="table">
-        <tr>
-            <th>
-                Item name
-            </th>
-            <th>
-                Count
-            </th>
-        </tr>
+    <ul class="list-group list-group-flush">
         @foreach($player->products as $product)
-            <tr>
-                <td>
-                    {{ $product->getName() }}
-                </td>
-                <td>
-                    {{ $product->amount }}
-                </td>
-            </tr>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ $product->getName() }}
+                <span class="badge badge-primary badge-pill">{{ $product->amount }}</span>
+            </li>
         @endforeach
-    </table>
+    </ul>
 </div>

@@ -12,30 +12,36 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer offset_x
  * @property integer offset_y
  * @property integer phase
- * @property mixed planted
- * @property mixed time
+ * @property mixed   planted
+ * @property mixed   time
  * @property integer product_pid
  * @property integer space_id
- * @property bool water
+ * @property bool    water
  */
 class Field extends Model
 {
     private $product;
 
     protected $fillable = [
-        'index', 'phase', 'product_pid', 'time', 'offset_x', 'offset_y', 'water'
+        'index',
+        'phase',
+        'product_pid',
+        'time',
+        'offset_x',
+        'offset_y',
+        'water'
     ];
 
     public function __construct()
     {
-        $this->index = null;
-        $this->phase = Product::PLANT_PHASE_EMPTY;
+        $this->index       = null;
+        $this->phase       = Product::PLANT_PHASE_EMPTY;
         $this->product_pid = null;
-        $this->time = 0;
-        $this->product = null;
-        $this->offset_x = 99;
-        $this->offset_y = 99;
-        $this->water = false;
+        $this->time        = 0;
+        $this->product     = null;
+        $this->offset_x    = 99;
+        $this->offset_y    = 99;
+        $this->water       = false;
     }
 
     public function canCollect()
@@ -67,7 +73,7 @@ class Field extends Model
 
     public function setProduct(Product $product)
     {
-        $this->product = $product;
+        $this->product     = $product;
         $this->product_pid = $product->pid;
 
         return $this;
@@ -76,10 +82,10 @@ class Field extends Model
     public function removeProduct()
     {
         $this->product_pid = null;
-        $this->time = 0;
-        $this->planted = 0;
-        $this->phase = Product::PLANT_PHASE_EMPTY;
-        $this->product = null;
+        $this->time        = 0;
+        $this->planted     = 0;
+        $this->phase       = Product::PLANT_PHASE_EMPTY;
+        $this->product     = null;
 
         return $this;
     }
@@ -118,18 +124,6 @@ class Field extends Model
     public function isVegetable()
     {
         return in_array($this->getProductPid(), ProductCategoryMapper::getVegetablesPids());
-    }
-
-    public function setTime($time)
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
-    public function getTime()
-    {
-        return $this->time;
     }
 
     public function setPlanted($planted)
@@ -195,5 +189,22 @@ class Field extends Model
     public function getIndex()
     {
         return $this->index;
+    }
+
+    public function getStatusIcon()
+    {
+        if ($this->getProduct() && $this->getProduct()->isPlant()) {
+            if ($this->phase === Product::PLANT_PHASE_FINAL) {
+                return '<span class="badge badge-success">&nbsp;&nbsp;</span>';
+            } else {
+                return '<span class="badge badge-warning">&nbsp;&nbsp;</span>';
+            }
+        }
+
+        if ($this->phase === Product::PLANT_PHASE_FINAL) {
+            return '<span class="badge badge-dark">&nbsp;&nbsp;</span>';
+        }
+
+        return '<span class="badge badge-light">&nbsp;&nbsp;</span>';
     }
 }

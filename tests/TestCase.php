@@ -47,7 +47,7 @@ abstract class TestCase extends BaseTestCase
         $field = new Field();
         $field->setProductPid($product->getPid());
         $field->setPhase($plantPhase);
-        $field->setTime(($plantPhase > 1) ? time() : '');
+        $field->time = $plantPhase > 1 ? time() : '';
         $field->setProduct($product);
         $field->setOffsetX(1);
         $field->setOffsetY(1);

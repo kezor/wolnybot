@@ -45,8 +45,9 @@ class Farmland extends Space
     public function getEmptyFields()
     {
         $fieldsToSeed = new Collection();
+        $fields = $this->fields()->orderBy('index')->get();
 
-        foreach ($this->fields as $field) {
+        foreach ($fields as $field) {
             if ($field->canSeed()) {
                 $fieldsToSeed->put($field->index, $field);
             }
