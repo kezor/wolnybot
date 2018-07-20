@@ -6,7 +6,7 @@ namespace App\Tasks;
 use App\Building\Farmland;
 use App\Product;
 
-class CollectPlants
+class CollectPlants extends AbstractTask
 {
     public const NAME = 'Collect Plants';
 
@@ -25,8 +25,4 @@ class CollectPlants
      */
     public $goal;
 
-    public function getName()
-    {
-        return self::NAME;
-    }
 }

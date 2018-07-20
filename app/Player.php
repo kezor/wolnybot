@@ -13,6 +13,7 @@ use App\Models\BaseModel;
  * @property string password
  * @property integer server_id
  * @property integer user_id
+ * @property Task[] tasks
  */
 class Player extends BaseModel
 {
@@ -27,6 +28,9 @@ class Player extends BaseModel
         return $this->hasMany(Farm::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|Task[]
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class);
