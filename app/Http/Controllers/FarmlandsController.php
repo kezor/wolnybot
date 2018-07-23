@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Building\Farmland;
-use App\Jobs\ProcessFarmland;
 use App\Product;
 use App\Service\BuildingsService\FarmlandService;
 use Illuminate\Support\Facades\Input;
@@ -14,17 +13,6 @@ class FarmlandsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    public function dispatchJob($spaceId)
-    {
-        $farmland = Farmland::find($spaceId);
-
-        $processFarmland = new ProcessFarmland($farmland);
-
-        $this->dispatch($processFarmland);
-
-        return back();
     }
 
     public function cropGarden($farmlandId)

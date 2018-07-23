@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Building\Farmland;
-use App\Jobs\ProcessFarmland;
 use App\Player;
 use App\Product;
 use App\Service\GameService;
-use App\Task;
-use App\Tasks\CollectPlants;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use \Illuminate\Http\Request;

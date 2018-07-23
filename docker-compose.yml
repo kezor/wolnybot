@@ -7,6 +7,7 @@ services:
             dockerfile: ./Dockerfile/php.Dockerfile
         volumes:
             - "./:/var/www"
+        user: ${UID}
     nginx:
         build:
             context: ./

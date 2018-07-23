@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Building\Farmland;
-use App\Jobs\ProcessFarmland;
 use App\Player;
 use App\Product;
 use App\Task;
@@ -48,10 +47,6 @@ class SpacesController extends Controller
         $task->job_name = $job->getName();
         $task->space_id = $spaceId;
         $task->save();
-
-        $processFarmland = new ProcessFarmland($task);
-
-        $this->dispatch($processFarmland);
 
         return back();
     }
