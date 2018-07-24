@@ -1,13 +1,13 @@
-{{--{!! Form::open(['url' => route('spaces.addTask', $farmland->id), 'class' => 'form-inline' ]) !!}--}}
-{{--{{ Form::hidden('player_id', $player->id) }}--}}
+{!! Form::open(['url' => route('spaces.addTask', $farmland->id), 'class' => 'form-inline' ]) !!}
+{{ Form::hidden('player_id', $player->id) }}
 
-{{--<div class="form-group">--}}
-    {{--{{ Form::label('plant_id', 'Plant', ['class' => 'sr-only']) }}--}}
-    {{--{{ Form::select('plant_id', $plantsToSeed, null, ['placeholder' => '--- Select ---', 'class' => 'form-control  form-control-sm']) }}--}}
-{{--</div>--}}
-{{--{{ Form::submit('Save', ['class' => 'btn btn-secondary btn-sm']) }}--}}
+<div class="form-group">
+    {{ Form::label('plant_id', 'Plant', ['class' => 'sr-only']) }}
+    {{ Form::select('plant_id', $plantsToSeed, null, ['placeholder' => '--- Select ---', 'class' => 'form-control  form-control-sm']) }}
+</div>
+{{ Form::submit('Save', ['class' => 'btn btn-secondary btn-sm']) }}
 
-{{--{!! Form::close() !!}--}}
+{!! Form::close() !!}
 
 
 <table class="table table-sm table-borderless">

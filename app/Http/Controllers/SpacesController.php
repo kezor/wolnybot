@@ -18,15 +18,15 @@ class SpacesController extends Controller
         $player = Player::find(Input::get('player_id'));
         $plantToSeed = Input::get('plant_id');
 
-        $job = new CollectPlants();
+        $collectPlantsJob = new CollectPlants();
 
         $currentTasks = Task::where('space_id', $spaceId)
-            ->where('job_name', $job->getName())
+            ->where('job_name', $collectPlantsJob->getName())
             ->where('status', Task::TASK_STATUS_ACTIVE)
             ->get();
 
         if($currentTasks->count() !== 0){
-            Session::flash('error', 'You already have this kind of job for this space.');
+            Session::flash('error', 'You already have task for this field.');
             return back();
         }
 
@@ -36,15 +36,15 @@ class SpacesController extends Controller
             ->where('player_id', $player->id)
             ->first();
 
-        $job->productToSeed = $productToSeed;
-        $job->farmland = $farmland;
-        $job->goal = 10000;
+        $collectPlantsJob->productToSeed = $productToSeed;
+        $collectPlantsJob->farmland = $farmland;
+        $collectPlantsJob->goal = 10000;
 
         $task = new Task();
-        $task->job = serialize($job);
+        $task->job = serialize($collectPlantsJob);
         $task->player_id = $player->id;
         $task->status = Task::TASK_STATUS_ACTIVE;
-        $task->job_name = $job->getName();
+        $task->job_name = $collectPlantsJob->getName();
         $task->space_id = $spaceId;
         $task->save();
 

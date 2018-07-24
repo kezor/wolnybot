@@ -32,14 +32,27 @@ class GameProcess extends Command
     {
         $players = PlayerRepository::getAllActive();
 
-        foreach ($players as $player){
+
+        $this->info('I found: ' . $players->count() . ' players.');
+        foreach ($players as $player) {
+            $this->info('Starting working with: ' . $player->username);
 
             $gameService = new GameService($player);
+            $this->info('Updating stock...');
 
-            $task = TaskRepository::getPlayerTaskReadyToRun($player);
+            $gameService->updateStock();
 
+            $this->info('Updating buildings data...');
+            $gameService->updateBuildings();
 
+            $tasks = TaskRepository::getPlayerTaskReadyToRun($player);
 
+            $this->info('Player ' . $player->username . ' has ' . $tasks->count() . ' active tasks.');
+
+            foreach ($tasks as $task) {
+                $this->info('Starting working with task: ' . $task->getJobName());
+                $gameService->processFarmland($task->getJobObject());
+            }
         }
     }
 }

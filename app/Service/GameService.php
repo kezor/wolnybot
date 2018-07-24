@@ -13,6 +13,8 @@ use App\Repository\FarmRepository;
 use App\Repository\ProductRepository;
 use App\Product;
 use \App\Facades\ActivitiesService;
+use App\Service\BuildingsService\FarmlandService;
+use App\Tasks\CollectPlants;
 
 class GameService
 {
@@ -153,5 +155,34 @@ class GameService
                 }
             }
         }
+
+
+
+    }
+
+    public function processFarmland(CollectPlants $collectPlantsTask)
+    {
+        $farmlandService = new FarmlandService($this->connector);
+
+        /** @var Farmland $farmland */
+        $farmland = Farmland::find($collectPlantsTask->farmland->id);
+
+        $farmlandService->cropGarden($farmland);
+        $this->update();
+
+        /** @var Product $productFromStock */
+        $productFromStock = Product::where('player_id', $this->player->id)
+            ->where('pid', $collectPlantsTask->productToSeed->pid)
+            ->first();
+
+        if ($productFromStock && $collectPlantsTask->goal > $productFromStock->amount) {
+
+            $farmlandService->seedPlants($farmland, $productFromStock);
+
+            $farmlandService->waterPlants($farmland);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -11,6 +11,10 @@ class TaskRepository
 {
     use DatabaseTransactions;
 
+    /**
+     * @param Player $player
+     * @return Collection|Task[]
+     */
     public static function getPlayerTaskReadyToRun(Player $player)
     {
         return Task::where('player_id', $player->id)

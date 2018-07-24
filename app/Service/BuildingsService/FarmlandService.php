@@ -5,6 +5,7 @@ namespace App\Service\BuildingsService;
 
 use App\Building\Farmland;
 use App\BunchesCollection;
+use App\Connector\ConnectorInterface;
 use App\Facades\ActivitiesService;
 use App\Field;
 use App\Product;
@@ -12,8 +13,15 @@ use App\Service\GameService;
 use App\SingleBunchOfFields;
 use Illuminate\Support\Collection;
 
-class FarmlandService extends GameService
+class FarmlandService
 {
+    private $connector;
+
+    public function __construct(ConnectorInterface $connector)
+    {
+        $this->connector = $connector;
+    }
+
     public function cropGarden(Farmland $farmland)
     {
         $this->connector->cropGarden($farmland);

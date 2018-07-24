@@ -53,7 +53,7 @@ class Task extends Model
     /**
      * @return CollectPlants|null
      */
-    private function getJobObject()
+    public function getJobObject()
     {
         if (null === $this->jobObject) {
             $this->jobObject = unserialize($this->job);
@@ -64,7 +64,7 @@ class Task extends Model
     public function getJobName()
     {
         $jobObject = $this->getJobObject();
-        return $jobObject->getName() . '(plant: "' . $jobObject->productToSeed->getName() . '")';
+        return $jobObject->getName() . ' (plant: "' . $jobObject->productToSeed->getName() . '")';
     }
 
 }

@@ -3,7 +3,7 @@ FROM php:7.1-fpm
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN apt-get update && apt-get install -y apt-utils libmcrypt-dev git unzip mysql-client gnupg \
+RUN apt-get update && apt-get install -y apt-utils libmcrypt-dev git unzip mysql-client gnupg cron nano \
 	&& docker-php-ext-install pdo_mysql mbstring mysqli \
 	&& pecl install mcrypt-1.0.0 \
 	&& docker-php-ext-enable mcrypt \

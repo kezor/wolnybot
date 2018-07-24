@@ -4,7 +4,7 @@
         {{ \App\SpaceMapper::getSpaceNameByPid($space->building_type) }}
         Status: {{ $space->getStatus() }}
     </div>
-    {{--@include('common.tasks', ['tasks' => $space->tasks])--}}
+    @include('common.tasks', ['tasks' => $space->tasks])
     <div class="card-body">
         @switch($space->building_type)
             @case(\App\Space::TYPE_FARMLAND)
