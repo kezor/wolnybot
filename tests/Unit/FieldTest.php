@@ -16,23 +16,23 @@ class FieldTest extends TestCase
         $fieldReadyToCollect = $this->getField();
 
         $this->assertNotNull($fieldReadyToCollect->getProduct());
-        $this->assertTrue($fieldReadyToCollect->canCollect());
+        $this->assertTrue($fieldReadyToCollect->isReadyToCrop());
 
         $fieldNotReadyToCollect = $this->getField(Product::PLANT_PHASE_BEGIN);
 
         $this->assertNotNull($fieldReadyToCollect->getProduct());
-        $this->assertFalse($fieldNotReadyToCollect->canCollect());
+        $this->assertFalse($fieldNotReadyToCollect->isReadyToCrop());
     }
 
     public function testSetAsEmpty()
     {
         $field = $this->getField();
 
-        $this->assertTrue($field->canCollect());
+        $this->assertTrue($field->isReadyToCrop());
 
         $field->removeProduct();
 
-        $this->assertFalse($field->canCollect());
+        $this->assertFalse($field->isReadyToCrop());
         $this->assertNull($field->getProduct());
         $this->assertEquals(Product::PLANT_PHASE_EMPTY, $field->getPhase());
         $this->assertEquals(null, $field->getProductPid());
@@ -44,7 +44,7 @@ class FieldTest extends TestCase
     {
         $field = $this->getField();
 
-        $this->assertTrue($field->canCollect());
+        $this->assertTrue($field->isReadyToCrop());
         $field->removeProduct();
         $this->assertFalse($field->getRelatedFields());
     }

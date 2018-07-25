@@ -39,8 +39,8 @@ class GameService
         }
 
         $this->connector = $connector;
-        $this->player = $player;
-        $this->loggedIn = $this->connector->login($player);
+        $this->player    = $player;
+        $this->loggedIn  = $this->connector->login($player);
     }
 
     /**
@@ -84,7 +84,7 @@ class GameService
     {
         $fieldsData = $this->connector->getFarmlandFields($farmland);
 
-        $fields     = $fieldsData['datablock'][1];
+        $fields = $fieldsData['datablock'][1];
 
         $updatedFieldIndexes = [];
 
@@ -157,7 +157,6 @@ class GameService
         }
 
 
-
     }
 
     public function processFarmland(CollectPlants $collectPlantsTask)
@@ -166,6 +165,10 @@ class GameService
 
         /** @var Farmland $farmland */
         $farmland = Farmland::find($collectPlantsTask->farmland->id);
+
+        if (!$farmland->isReadyToCrop()) {
+            return false;
+        }
 
         $farmlandService->cropGarden($farmland);
         $this->update();
@@ -180,6 +183,7 @@ class GameService
             $farmlandService->seedPlants($farmland, $productFromStock);
 
             $farmlandService->waterPlants($farmland);
+
             return true;
         }
 

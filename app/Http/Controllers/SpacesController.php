@@ -38,7 +38,7 @@ class SpacesController extends Controller
 
         $collectPlantsJob->productToSeed = $productToSeed;
         $collectPlantsJob->farmland = $farmland;
-        $collectPlantsJob->goal = 10000;
+        $collectPlantsJob->goal = 50000;
 
         $task = new Task();
         $task->job = serialize($collectPlantsJob);

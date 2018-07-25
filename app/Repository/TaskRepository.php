@@ -18,6 +18,7 @@ class TaskRepository
     public static function getPlayerTaskReadyToRun(Player $player)
     {
         return Task::where('player_id', $player->id)
+            ->where('status', Task::TASK_STATUS_ACTIVE)
             ->whereNull('nextrun')
             ->get();
     }

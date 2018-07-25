@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Repository\PlayerRepository;
 use App\Repository\TaskRepository;
 use App\Service\GameService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class GameProcess extends Command
@@ -32,6 +33,7 @@ class GameProcess extends Command
     {
         $players = PlayerRepository::getAllActive();
 
+        $this->info('Start time: ' . Carbon::now()->format('Y-m-d H:i:s'));
 
         $this->info('I found: ' . $players->count() . ' players.');
         foreach ($players as $player) {
@@ -50,9 +52,11 @@ class GameProcess extends Command
             $this->info('Player ' . $player->username . ' has ' . $tasks->count() . ' active tasks.');
 
             foreach ($tasks as $task) {
-                $this->info('Starting working with task: ' . $task->getJobName());
+                $this->info('Starting working with task: ' . $task->getJobName() . ' (' . Carbon::now()->format('Y-m-d H:i:s') . ')');
                 $gameService->processFarmland($task->getJobObject());
+                $this->info('Working with task is done (' . Carbon::now()->format('Y-m-d H:i:s') . ')');
             }
         }
+        $this->info('End time: ' . Carbon::now()->format('Y-m-d H:i:s'));
     }
 }

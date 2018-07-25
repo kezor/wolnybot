@@ -16,21 +16,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        TestBot::class,
-        UpdateStock::class,
-        SeedPlants::class,
-        CollectPlants::class,
-        UpdateFields::class,
-        DisableTutorial::class,
-        AddPlayer::class,
-    ];
-
-    /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule $schedule
@@ -38,12 +23,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $now = Carbon::now()->format('Y-m-d-H-i-s');
+        sleep(rand(23, 194));
+
+        $now = Carbon::now()->format('Y-m-d');
         // run at work :)
         $schedule->command('game:process')
             ->everyTenMinutes()
             ->appendOutputTo(storage_path('logs/scheduler_' . $now . '.log'))
             ->withoutOverlapping();
+
+
     }
 
     /**

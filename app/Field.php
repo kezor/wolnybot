@@ -44,7 +44,7 @@ class Field extends Model
         $this->water       = false;
     }
 
-    public function canCollect()
+    public function isReadyToCrop()
     {
         return $this->phase == Product::PLANT_PHASE_FINAL
             && $this->getProduct()

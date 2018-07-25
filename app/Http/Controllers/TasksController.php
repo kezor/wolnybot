@@ -14,7 +14,7 @@ class TasksController extends Controller
     public function cancel($taskId){
         $task = Task::find($taskId);
 
-        $task->status = Task::TASK_STATUS_CANCELLATON_PENDING;
+        $task->status = Task::TASK_STATUS_CANCELED;
         $task->save();
 
         return back();

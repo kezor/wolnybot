@@ -45,7 +45,7 @@ class Farmland extends Space
     public function getEmptyFields()
     {
         $fieldsToSeed = new Collection();
-        $fields = $this->fields()->orderBy('index')->get();
+        $fields       = $this->fields()->orderBy('index')->get();
 
         foreach ($fields as $field) {
             if ($field->canSeed()) {
@@ -68,15 +68,15 @@ class Farmland extends Space
 
     public function updateField($fieldData)
     {
-        $index = $fieldData['teil_nr'];
-        $field = $this->getFieldAtIndex($index);
+        $index              = $fieldData['teil_nr'];
+        $field              = $this->getFieldAtIndex($index);
         $field->product_pid = $fieldData['inhalt'];
-        $field->offset_x = $fieldData['x'];
-        $field->offset_y = $fieldData['y'];
-        $field->phase = $fieldData['phase'];
-        $field->planted = $fieldData['gepflanzt'];
-        $field->time = $fieldData['zeit'];
-        $field->water = (bool)$fieldData['iswater'];
+        $field->offset_x    = $fieldData['x'];
+        $field->offset_y    = $fieldData['y'];
+        $field->phase       = $fieldData['phase'];
+        $field->planted     = $fieldData['gepflanzt'];
+        $field->time        = $fieldData['zeit'];
+        $field->water       = (bool)$fieldData['iswater'];
     }
 
     public function getFieldsReadyToCollect()
@@ -84,12 +84,13 @@ class Farmland extends Space
         $fieldsReadyToCollect = [];
         /** @var Field $finalFieldToReset */
         foreach ($this->fields as $finalFieldToReset) {
-            if ($finalFieldToReset->canCollect()) {
+            if ($finalFieldToReset->isReadyToCrop()) {
                 $this->resetRelatedFields($finalFieldToReset);
 
                 $fieldsReadyToCollect[$finalFieldToReset->index] = $finalFieldToReset;
             }
         }
+
         return $fieldsReadyToCollect;
     }
 
@@ -107,11 +108,26 @@ class Farmland extends Space
 
     public function getFieldAtIndex($index)
     {
-        foreach ($this->fields as $field){
-            if($field->index === $index){
+        foreach ($this->fields as $field) {
+            if ($field->index === $index) {
                 return $field;
             }
         }
+
         return $this->fields[] = FieldRepository::getField($index, $this);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReadyToCrop()
+    {
+        foreach ($this->fields as $field) {
+            if ($field->isReadyToCrop()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
