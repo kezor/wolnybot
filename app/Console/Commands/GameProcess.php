@@ -31,9 +31,17 @@ class GameProcess extends Command
      */
     public function handle()
     {
-        $players = PlayerRepository::getAllActive();
-
         $this->info('Start time: ' . Carbon::now()->format('Y-m-d H:i:s'));
+
+        $secondsForSleep = rand(23, 194);
+
+        $this->info('Sleeping for: ' . $secondsForSleep . ' seconds.');
+
+        sleep($secondsForSleep);
+
+        $this->info('Logging for active users.');
+
+        $players = PlayerRepository::getAllActive();
 
         $this->info('I found: ' . $players->count() . ' players.');
         foreach ($players as $player) {
