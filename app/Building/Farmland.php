@@ -130,4 +130,18 @@ class Farmland extends Space
 
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasFieldsRadyToSeed()
+    {
+        foreach ($this->fields as $field) {
+            if ($field->canSeed()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

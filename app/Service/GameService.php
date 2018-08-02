@@ -167,11 +167,16 @@ class GameService
         $farmland = Farmland::find($collectPlantsTask->farmland->id);
 
         if (!$farmland->isReadyToCrop()) {
-            return false;
+            ActivitiesService::farmlandNotReadyToCrop($farmland);
+        } else {
+            $farmlandService->cropGarden($farmland);
         }
 
-        $farmlandService->cropGarden($farmland);
         $this->update();
+
+        if (!$farmland->hasFieldsRadyToSeed()) {
+            return false;
+        }
 
         /** @var Product $productFromStock */
         $productFromStock = Product::where('player_id', $this->player->id)

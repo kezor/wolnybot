@@ -37,6 +37,11 @@ class ActivitiesService
         self::add($player, 'Stock updated.');
     }
 
+    public static function farmlandNotReadyToCrop(Farmland $farmland)
+    {
+        self::add($farmland, 'Farmland is not ready to crop.');
+    }
+
     private static function add(Model $entity, $message)
     {
         $classname = get_class($entity);

@@ -71,7 +71,7 @@ class FarmlandService
 
     private function updateFieldBasedOnResponseData($responseData, Farmland $farmland)
     {
-        $fieldsData = $responseData['datablock'][$farmland->position][1];
+        $fieldsData = $responseData['datablock'][3][1];
         if (null === $fieldsData) {
             return;
         }
