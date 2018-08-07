@@ -34,7 +34,9 @@ abstract class BaseConnector
 
             $resJson = json_decode($res->getBody()->__toString(), true);
 
-            Log::debug($url . ':' . $method, $resJson);
+            if (Config::get('app.logAllRequests')) {
+                Log::debug($url . ':' . $method, $resJson);
+            }
 
             return $resJson;
         } catch (\Exception $exception) {

@@ -39,7 +39,7 @@ class Space extends BaseModel
 
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'space_id');
+        return $this->hasMany(Task::class, 'space_id')->limit(2)->orderBy('created_at', 'DESC');
     }
 
     public function getActivities($classname = null)

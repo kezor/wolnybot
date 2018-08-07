@@ -232,4 +232,6 @@ return [
         'Html'         => Collective\Html\HtmlFacade::class,
     ],
 
+    'logAllRequests' => env('LOG_ALL_REQUESTS', false),
+
 ];
