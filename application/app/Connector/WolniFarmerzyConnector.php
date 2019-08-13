@@ -44,55 +44,47 @@ class WolniFarmerzyConnector implements ConnectorInterface
     {
         $this->player = $player;
 
-        try {
-            $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
-                'form_params' => [
-                    'server'   => $player->server_id,
-                    'username' => $player->username,
-                    'password' => $player->password,
-                    'ref'      => '',
-                    'retid'    => '',
-                    '_'        => '',
-                ],
-            ]);
+        $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
+            'form_params' => [
+                'server'   => $player->server_id,
+                'username' => $player->username,
+                'password' => $player->password,
+                'ref'      => '',
+                'retid'    => '',
+                '_'        => '',
+            ],
+        ]);
 
-            $responseBody = $res->getBody()->__toString();
+        $responseBody = $res->getBody()->__toString();
 
-            $matches = null;
-            preg_match('^\[1,"[a-z\:]+^', $responseBody, $matches);
-            if (empty($matches)) {
-                throw new \Exception('Wrong login credentials');
-            }
-
-            $url = substr($responseBody, 4, strlen($responseBody) - 6);
-
-            $url = str_replace('\\', '', $url);
-
-            $res = $this->client->request('GET', $url);
-
-            $body = $res->getBody()->__toString();
-
-            $needle   = 'var rid = \'';
-            $startPos = strpos($body, $needle) + strlen($needle);
-
-            $body = substr($body, $startPos);
-
-            $length = strpos($body, '\'');
-
-            $this->token = substr($body, 0, $length);
-
-            if (empty($this->token)) {
-                throw new \Exception('Token is invalid');
-            }
-
-            $this->urlGenerator = new UrlGenerator($player, $this->token);
-        } catch (\Exception $exception) {
-            Log::error('Error during login process -> ' . json_encode(['message' => $exception->getMessage(), 'strace' => $exception->getTraceAsString()]));
-
-            return false;
+        $matches = null;
+        preg_match('^\[1,"[a-z\:]+^', $responseBody, $matches);
+        if (empty($matches)) {
+            throw new \Exception('Wrong login credentials');
         }
 
-        return true;
+        $url = substr($responseBody, 4, strlen($responseBody) - 6);
+
+        $url = str_replace('\\', '', $url);
+
+        $res = $this->client->request('GET', $url);
+
+        $body = $res->getBody()->__toString();
+
+        $needle   = 'var rid = \'';
+        $startPos = strpos($body, $needle) + strlen($needle);
+
+        $body = substr($body, $startPos);
+
+        $length = strpos($body, '\'');
+
+        $this->token = substr($body, 0, $length);
+
+        if (empty($this->token)) {
+            throw new \Exception('Token is invalid');
+        }
+
+        $this->urlGenerator = new UrlGenerator($player, $this->token);
     }
 
     public function getDashboardData()
@@ -179,7 +171,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
     {
         try {
             // small delay before each call
-            sleep(mt_rand(3,7)/10);
+            sleep(mt_rand(3, 7) / 10);
             $res = $this->client->request('GET', $url);
 
             return json_decode($res->getBody()->__toString(), true);

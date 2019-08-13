@@ -17,6 +17,10 @@ use App\Repository\SpaceRepository;
 use App\Repository\ProductRepository;
 use App\Space;
 use App\Product;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use function json_encode;
+use function throwException;
 
 class GameService
 {
@@ -39,12 +43,18 @@ class GameService
         }
         $this->connector = $connector;
         $this->player    = $player;
-        $logged          = $this->connector->login($player);
+        try {
 
-        if ($logged) {
+            $this->connector->login($player);
+
             $this->updateSpacesData();
             $this->updateStock();
+
+        } catch (\Exception $exception) {
+            Log::error('Error during login process -> ' . json_encode(['message' => $exception->getMessage(), 'strace' => $exception->getTraceAsString()]));
+            throw $exception;
         }
+
     }
 
     public function run()
