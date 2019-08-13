@@ -2,15 +2,9 @@
 
 namespace App\Connector;
 
-use App\Building\Farmland;
-use App\Building\Hovel;
-use App\Field;
-use App\Player;
-use App\Product;
-use App\UrlGenerator;
+use Config;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
-use App\Space;
 
 abstract class BaseConnector
 {
