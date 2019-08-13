@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Space
  * @package App
  * @property integer id
- * @property integer player
+ * @property integer player_id
  * @property integer pid
  * @property integer amount
  */
@@ -58,5 +58,10 @@ class Product extends Model
     public function getName()
     {
         return ProductMapper::getProductNameByPid($this->pid);
+    }
+
+    public function isPlant()
+    {
+        return in_array($this->getPid(), ProductCategoryMapper::getVegetablesPids());
     }
 }

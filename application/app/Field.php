@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Repository\SpaceRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,41 +9,42 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @property integer space
  * @property integer index
- * @property integer product_pid
  * @property integer offset_x
  * @property integer offset_y
  * @property integer phase
  * @property mixed   planted
  * @property mixed   time
+ * @property integer product_pid
+ * @property integer space_id
+ * @property bool    water
  */
-class Field
+class Field extends Model
 {
-    private $phase;
-
-    private $time;
-
-    private $offset_x;
-
-    private $offset_y;
-
-    private $index;
-
-    private $product_pid;
-
     private $product;
 
-    private $water;
+    protected $fillable = [
+        'index',
+        'phase',
+        'product_pid',
+        'time',
+        'offset_x',
+        'offset_y',
+        'water'
+    ];
 
-    public function __construct($index)
+    public function __construct()
     {
-        $this->index       = $index;
+        $this->index       = null;
         $this->phase       = Product::PLANT_PHASE_EMPTY;
         $this->product_pid = null;
         $this->time        = 0;
         $this->product     = null;
+        $this->offset_x    = 99;
+        $this->offset_y    = 99;
+        $this->water       = false;
     }
 
-    public function canCollect()
+    public function isReadyToCrop()
     {
         return $this->phase == Product::PLANT_PHASE_FINAL
             && $this->getProduct()
@@ -54,7 +54,7 @@ class Field
     public function canSeed()
     {
         return $this->phase == Product::PLANT_PHASE_EMPTY
-            && $this->getProductPid() === null
+            && $this->product_pid === null
             && $this->time == 0;
     }
 
@@ -66,30 +66,9 @@ class Field
             && $this->isVegetable();
     }
 
-    /**
-     * @param bool $iswater
-     * @return $this
-     */
-    public function setWater($iswater)
-    {
-        $this->water = $iswater;
-
-        return $this;
-    }
-
     public function isWatered()
     {
-        return $this->water;
-    }
-
-    public function drawField()
-    {
-        $char = $this->product_pid;
-        if (strlen($char) == 1) {
-            $char = ' ' . $char;
-        }
-
-        return '[' . $char . ']';
+        return (bool)$this->water;
     }
 
     public function setProduct(Product $product)
@@ -145,18 +124,6 @@ class Field
     public function isVegetable()
     {
         return in_array($this->getProductPid(), ProductCategoryMapper::getVegetablesPids());
-    }
-
-    public function setTime($time)
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
-    public function getTime()
-    {
-        return $this->time;
     }
 
     public function setPlanted($planted)
@@ -222,5 +189,22 @@ class Field
     public function getIndex()
     {
         return $this->index;
+    }
+
+    public function getStatusIcon()
+    {
+        if ($this->getProduct() && $this->getProduct()->isPlant()) {
+            if ($this->phase === Product::PLANT_PHASE_FINAL) {
+                return '<span class="badge badge-success">&nbsp;&nbsp;</span>';
+            } else {
+                return '<span class="badge badge-warning">&nbsp;&nbsp;</span>';
+            }
+        }
+
+        if ($this->phase === Product::PLANT_PHASE_FINAL) {
+            return '<span class="badge badge-dark">&nbsp;&nbsp;</span>';
+        }
+
+        return '<span class="badge badge-light">&nbsp;&nbsp;</span>';
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\Repository\SpaceRepository;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * Class Player
@@ -13,8 +12,27 @@ use Illuminate\Database\Eloquent\Model;
  * @property string username
  * @property string password
  * @property integer server_id
+ * @property integer user_id
+ * @property Task[] tasks
  */
-class Player extends Model
+class Player extends BaseModel
 {
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function farms()
+    {
+        return $this->hasMany(Farm::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|Task[]
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

@@ -3,20 +3,18 @@
 namespace App\Connector;
 
 use App\Building\Farmland;
+use App\Building\Hovel;
 use App\Field;
 use App\Player;
+use App\Product;
+use App\SingleBunchOfFields;
 use App\UrlGenerator;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use App\Space;
 
-class WolniFarmerzyConnector implements ConnectorInterface
+class WolniFarmerzyConnector extends BaseConnector implements ConnectorInterface
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
     /**
      * @var string
      */
@@ -30,7 +28,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
     /**
      * @var UrlGenerator
      */
-    private $urlGenerator;
+    public $urlGenerator;
 
     public function __construct($client = null)
     {
@@ -40,56 +38,74 @@ class WolniFarmerzyConnector implements ConnectorInterface
         $this->client = $client;
     }
 
+    private $loggedIn = false;
+
     public function login(Player $player)
     {
         $this->player = $player;
 
-        $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
-            'form_params' => [
-                'server'   => $player->server_id,
-                'username' => $player->username,
-                'password' => $player->password,
-                'ref'      => '',
-                'retid'    => '',
-                '_'        => '',
-            ],
-        ]);
+        try {
+            $res = $this->client->request('POST', 'https://www.wolnifarmerzy.pl/ajax/createtoken2.php?n=' . time(), [
+                'form_params' => [
+                    'server'   => $player->server_id,
+                    'username' => $player->username,
+                    'password' => $player->password,
+                    'ref'      => '',
+                    'retid'    => '',
+                    '_'        => '',
+                ],
+            ]);
 
-        $responseBody = $res->getBody()->__toString();
+            $responseBody = $res->getBody()->__toString();
 
-        $matches = null;
-        preg_match('^\[1,"[a-z\:]+^', $responseBody, $matches);
-        if (empty($matches)) {
-            throw new \Exception('Wrong login credentials');
+            $matches = null;
+            preg_match('^\[1,"[a-z\:]+^', $responseBody, $matches);
+            if (empty($matches)) {
+                throw new \Exception('Wrong login credentials');
+            }
+
+            $url = substr($responseBody, 4, strlen($responseBody) - 6);
+
+            $url = str_replace('\\', '', $url);
+
+            $res = $this->client->request('GET', $url);
+
+            $body = $res->getBody()->__toString();
+
+            $needle   = 'var rid = \'';
+            $startPos = strpos($body, $needle) + strlen($needle);
+
+            $body = substr($body, $startPos);
+
+            $length = strpos($body, '\'');
+
+            $this->token = substr($body, 0, $length);
+
+            if (empty($this->token)) {
+                throw new \Exception('Token is invalid');
+            }
+
+            $this->urlGenerator = new UrlGenerator($player, $this->token);
+        } catch (\Exception $exception) {
+            Log::error('Error during login process -> ' . json_encode(['message' => $exception->getMessage(), 'strace' => $exception->getTraceAsString()]));
+
+            $this->loggedIn = false;
+
+            return false;
         }
+        $this->loggedIn = true;
 
-        $url = substr($responseBody, 4, strlen($responseBody) - 6);
+        return true;
+    }
 
-        $url = str_replace('\\', '', $url);
-
-        $res = $this->client->request('GET', $url);
-
-        $body = $res->getBody()->__toString();
-
-        $needle   = 'var rid = \'';
-        $startPos = strpos($body, $needle) + strlen($needle);
-
-        $body = substr($body, $startPos);
-
-        $length = strpos($body, '\'');
-
-        $this->token = substr($body, 0, $length);
-
-        if (empty($this->token)) {
-            throw new \Exception('Token is invalid');
-        }
-
-        $this->urlGenerator = new UrlGenerator($player, $this->token);
+    public function isLoggedIn()
+    {
+        return $this->loggedIn;
     }
 
     public function getDashboardData()
     {
-        $url          = $this->urlGenerator->getDashboardDataUrl();
+        $url          = $this->urlGenerator->getGetFarmUrl();
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to get dashboard data: url - ' . $url);
@@ -98,17 +114,23 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $responseData;
     }
 
-    public function getSpaceFields(Farmland $farmland)
+    public function cropGarden(Farmland $farmland)
     {
-        $allDataUrl = $this->urlGenerator->getSpaceFieldsUrl($farmland);
+        $allDataUrl = $this->urlGenerator->getCropGardenUrl($farmland);
         $res        = $this->client->request('GET', $allDataUrl);
 
         return json_decode($res->getBody()->__toString(), true);
     }
 
+    public function getFarmlandFields(Farmland $farmland)
+    {
+        $url = $this->urlGenerator->getGardenInitUrl($farmland);
+        return $this->callRequest($url);
+    }
+
     public function collect(Farmland $farmland, Field $field)
     {
-        $url          = $this->urlGenerator->getCollectUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenHarvestUrl($farmland, $field);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to collect field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
@@ -117,9 +139,9 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $responseData;
     }
 
-    public function seed(Farmland $farmland, Field $field)
+    public function seed(Farmland $farmland, SingleBunchOfFields $singleBunchOfFields, Product $product)
     {
-        $url          = $this->urlGenerator->getSeedUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenPlantUrl($farmland, $singleBunchOfFields, $product);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to seed field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
@@ -158,7 +180,7 @@ class WolniFarmerzyConnector implements ConnectorInterface
 
     public function waterField(Farmland $farmland, Field $field)
     {
-        $url          = $this->urlGenerator->getWaterUrl($farmland, $field);
+        $url          = $this->urlGenerator->getGardenWaterUrl($farmland, $field);
         $responseData = $this->callRequest($url);
         if (!$responseData) {
             Log::alert('Failed to water field: farmland - ' . serialize($farmland) . ', field - ' . serialize($field) . $url);
@@ -167,17 +189,36 @@ class WolniFarmerzyConnector implements ConnectorInterface
         return $responseData;
     }
 
-    private function callRequest($url)
+    public function initHovel(Hovel $hovel)
     {
-        try {
-            // small delay before each call
-            sleep(mt_rand(3, 7) / 10);
-            $res = $this->client->request('GET', $url);
-
-            return json_decode($res->getBody()->__toString(), true);
-        } catch (\Exception $exception) {
-            return false;
+        $url          = $this->urlGenerator->getLoadHovelDataUrl($hovel);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to get hovel data: url - ' . $url);
         }
+
+        return $responseData;
+    }
+
+    public function collectEggs(Hovel $hovel)
+    {
+        $url          = $this->urlGenerator->getCollectEggsUrl($hovel);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to collect eggs from hovel data: url - ' . $url);
+        }
+
+        return $responseData;    }
+
+    public function feedChickens(Hovel $hovel, Product $product)
+    {
+        $url          = $this->urlGenerator->getFeedChickensUrl($hovel, $product);
+        $responseData = $this->callRequest($url);
+        if (!$responseData) {
+            Log::alert('Failed to feed chickens data: url - ' . $url);
+        }
+
+        return $responseData;
     }
 
     //remove weed

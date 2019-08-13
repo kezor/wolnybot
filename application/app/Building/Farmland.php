@@ -2,55 +2,96 @@
 
 namespace App\Building;
 
-use App\Connector\ConnectorInterface;
+use App\Farm;
 use App\Field;
-use App\Product;
-use App\ProductCategoryMapper;
+use App\Repository\FieldRepository;
+use App\Space;
+use Illuminate\Support\Collection;
 
-class Farmland extends AbstractBuilding
+/**
+ * Class Farmland
+ * @package App\Building
+ * @property Field[] fields
+ */
+class Farmland extends Space
 {
-    private $usedSeeds = [];
+
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class, 'space_id');
+    }
+
+    protected $table = 'spaces';
+//
+//    public function fillInFields()
+//    {
+//        for ($i = 1; $i <= 120; $i++) {
+//            $field = FieldRepository::getField($i, $this);
+//            $this->fields[$i] = $field;
+//        }
+//
+//        return $this;
+//    }
+
+    public function farm()
+    {
+        return $this->belongsTo(Farm::class);
+    }
 
     /**
-     * @var Field[]
+     * @return Collection
      */
-    private $fields;
-
-    public function __construct($spaceData, $player)
+    public function getEmptyFields()
     {
-        parent::__construct($spaceData, $player);
-        for ($i = 1; $i <= 120; $i++) {
-            $this->fields[$i] = new Field($i);
+        $fieldsToSeed = new Collection();
+        $fields       = $this->fields()->orderBy('index')->get();
+
+        foreach ($fields as $field) {
+            if ($field->canSeed()) {
+                $fieldsToSeed->put($field->index, $field);
+            }
         }
+
+        return $fieldsToSeed;
     }
 
-    public function process()
+    public function clearFields($updatedIndexed)
     {
-        $this->collectReady();
-        $this->seed();
-        $this->water();
-    }
-
-    private function drawFields()
-    {
+        /** @var Field $field */
         foreach ($this->fields as $field) {
-            echo '[' . $field->getProductPid() . ']';
-            if ($field->getIndex() % 12 == 0) {
-                echo PHP_EOL;
+            if (!in_array($field->index, $updatedIndexed)) {
+                $field->removeProduct();
             }
         }
     }
 
-    private function collectReady()
+    public function updateField($fieldData)
     {
+        $index              = $fieldData['teil_nr'];
+        $field              = $this->getFieldAtIndex($index);
+        $field->product_pid = $fieldData['inhalt'];
+        $field->offset_x    = $fieldData['x'];
+        $field->offset_y    = $fieldData['y'];
+        $field->phase       = $fieldData['phase'];
+        $field->planted     = $fieldData['gepflanzt'];
+        $field->time        = $fieldData['zeit'];
+        $field->water       = (bool)$fieldData['iswater'];
+    }
+
+    public function getFieldsReadyToCollect()
+    {
+        $fieldsReadyToCollect = [];
         /** @var Field $finalFieldToReset */
         foreach ($this->fields as $finalFieldToReset) {
-            if ($finalFieldToReset->canCollect()) {
+            if ($finalFieldToReset->isReadyToCrop()) {
                 $this->resetRelatedFields($finalFieldToReset);
-                $this->connector->collect($this, $finalFieldToReset);
-                $finalFieldToReset->removeProduct();
+
+                $fieldsReadyToCollect[$finalFieldToReset->index] = $finalFieldToReset;
             }
         }
+
+        return $fieldsReadyToCollect;
     }
 
     private function resetRelatedFields(Field $field)
@@ -59,178 +100,48 @@ class Farmland extends AbstractBuilding
             for ($j = 0; $j < $field->getOffsetY(); $j++) {
                 $indexToRemove = $i + $field->getIndex() + ($j * 12);
                 if ($indexToRemove !== $field->getIndex()) {
-                    $this->fields[$indexToRemove]->removeProduct();
+                    $this->getFieldAtIndex($indexToRemove)->removeProduct();
                 }
             }
         }
     }
 
-    private function seed()
+    public function getFieldAtIndex($index)
     {
-        $fieldsToSeed = $this->getFieldsToSeed();
-
-        while (!empty($fieldsToSeed)) {
-            reset($fieldsToSeed);
-            /** @var Field[] $fieldsToSeed */
-            foreach ($fieldsToSeed as $field) {
-                $this->connector->seed($this, $field);
-                $this->updateField([
-                    'teil_nr' => $field->getIndex(),
-                    'inhalt' => $field->getProduct()->getPid(),
-                    'x' => $field->getProduct()->getLength(),
-                    'y' => $field->getProduct()->getHeight(),
-                    'phase' => Product::PLANT_PHASE_BEGIN,
-                    'gepflanzt' => time(),
-                    'zeit' => time(),
-                    'iswater' => false,
-                ]);
+        foreach ($this->fields as $field) {
+            if ($field->index === $index) {
+                return $field;
             }
-
-            $fieldsToSeed = $this->getFieldsToSeed();
         }
+
+        return $this->fields[] = FieldRepository::getField($index, $this);
     }
 
-    private function getFieldsToSeed()
+    /**
+     * @return bool
+     */
+    public function isReadyToCrop()
     {
-        do {
-            $productToSeed = $this->getProductToSeed();
-            if (!$productToSeed) {
-                return false;
+        foreach ($this->fields as $field) {
+            if ($field->isReadyToCrop()) {
+                return true;
             }
-            $emptyFields = $this->getEmptyFields();
+        }
 
-            $fieldsToSeed = $this->selectFields($emptyFields, $productToSeed);
-        } while (empty($fieldsToSeed));
-
-        return $fieldsToSeed;
+        return false;
     }
 
-    private function getEmptyFields()
+    /**
+     * @return bool
+     */
+    public function hasFieldsRadyToSeed()
     {
-        $fieldsToSeed = [];
-
         foreach ($this->fields as $field) {
             if ($field->canSeed()) {
-                $fieldsToSeed[$field->getIndex()] = $field;
+                return true;
             }
         }
 
-        return $fieldsToSeed;
-    }
-
-    private function selectFields($fields, Product $product)
-    {
-        reset($fields);
-        $index = key($fields);
-
-        $finalFieldsAvailableToSeed = [];
-
-        while (isset($fields[$index])) {
-            $availableToSeed = true;
-
-            for ($xIndex = 0; $xIndex < $product->getLength(); $xIndex++) {
-                for ($yIndex = 0; $yIndex < $product->getHeight(); $yIndex++) {
-                    $checkingIndex = $index + $xIndex + ($yIndex * 12);
-                    if (!isset($fields[$checkingIndex]) || $this->isNextIndexInNextRow($index, $checkingIndex)) {
-                        $availableToSeed = false;
-                    }
-                }
-            }
-
-            if (!$availableToSeed) {
-                unset($fields[$index]);
-            } else {
-                $finalFieldsAvailableToSeed[$index] = clone $fields[$index];
-                $indexesToRemove = $this->getIndexesToRemove($index, $product);
-                foreach ($indexesToRemove as $indexToRemove) {
-                    unset($fields[$indexToRemove]);
-                }
-                if ($product->getAmount() <= count($finalFieldsAvailableToSeed)) {
-                    break;
-                }
-            }
-            reset($fields);
-            $index = key($fields);
-        }
-
-        /** @var Field $field */
-        foreach ($finalFieldsAvailableToSeed as $field) {
-            $field->setProduct($product);
-        }
-
-        return $finalFieldsAvailableToSeed;
-    }
-
-    private function getIndexesToRemove($currentIndex, Product $plant)
-    {
-        $indexes = [];
-
-        for ($i = 0; $i < $plant->getLength(); $i++) {
-            for ($j = 0; $j < $plant->getHeight(); $j++) {
-                $indexToRemove = $currentIndex + $i + (12 * $j);
-                $indexes[$indexToRemove] = $indexToRemove;
-            }
-        }
-
-        return $indexes;
-    }
-
-    protected function isNextIndexInNextRow($index, $nextIndex)
-    {
-        $currentColumn = $this->getColumn($index);
-        $nextColumn = $this->getColumn($nextIndex);
-
-        return $nextColumn < $currentColumn;
-    }
-
-    protected function getColumn($index)
-    {
-        $column = $index % 12;
-        if ($column == 0) {
-            $column = 12;
-        }
-
-        return $column;
-    }
-
-    private function getProductToSeed()
-    {
-        /** @var Product $stockProduct */
-        $stockProduct = Product::where('player', $this->player->id)
-            ->where('amount', '>', 0)
-            ->whereIn('pid', ProductCategoryMapper::getVegetablesPids())
-            ->whereNotIn('pid', $this->usedSeeds)
-            ->orderBy('amount', 'ASC')
-            ->first();
-        if (!$stockProduct) {
-            return null;
-        }
-
-        $this->usedSeeds[] = $stockProduct->pid;
-
-        return $stockProduct;
-    }
-
-    private function water()
-    {
-        /** @var Field $field */
-        foreach ($this->fields as $field) {
-            if ($field->canWater()) {
-                $this->connector->waterField($this, $field);
-            }
-        }
-    }
-
-    public function updateField($fieldData)
-    {
-        $field = $this->fields[$fieldData['teil_nr']];
-        $field->setProductPid($fieldData['inhalt']);
-        $field->setOffsetX($fieldData['x']);
-        $field->setOffsetY($fieldData['y']);
-        $field->setPhase($fieldData['phase']);
-        $field->setPlanted($fieldData['gepflanzt']);
-        $field->setTime($fieldData['zeit']);
-        $field->setWater($fieldData['iswater']);
-        return $this;
+        return false;
     }
 }
