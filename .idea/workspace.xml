@@ -1,151 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="974c34a2-88ba-43f3-8407-0b25cc092b93" name="Default Changelist" comment="after merge">
+    <list default="true" id="974c34a2-88ba-43f3-8407-0b25cc092b93" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/application/_ide_helper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/BunchesCollection.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Connector/BaseConnector.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Console/Commands/GameProcess.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Facades/ActivitiesService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Http/Controllers/FarmlandsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Http/Controllers/PlayersController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Http/Controllers/SpacesController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Http/Controllers/TasksController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Models/Activity.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Models/BaseModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Repository/FarmRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Repository/FarmlandRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Repository/FieldRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Repository/PlayerRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Repository/SpaceRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Repository/TaskRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Service/ActivitiesService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Service/BuildingsService/FarmlandService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/SingleBunchOfFields.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/SlackClient.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Space.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/SpaceMapper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Task.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Tasks/AbstractTask.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/app/Tasks/CollectPlants.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/config/log-viewer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/config/logging.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/config/notification.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_05_22_000000_create_users_table_2.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_05_22_100000_create_password_resets_table_2.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_05_23_131155_add_user_column_to_player_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_05_27_205525_add_farm_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_06_05_210617_create_jobs_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_06_06_145718_space_table_add_remain_columnt.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_06_26_174353_create_tasks_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_06_27_135847_task_table_add_status_column.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_07_01_144628_fields_table_add_water_column.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_07_02_090713_create_activities_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/database/migrations/2018_07_20_165018_task_table_add_nextrun_column.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ar/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ar/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/bg/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/bg/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/de/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/de/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/en/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/en/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/es/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/es/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/et/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/et/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/fa/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/fa/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/fr/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/fr/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/hu/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/hu/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/hy/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/hy/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/id/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/id/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/it/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/it/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ja/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ja/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ko/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ko/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/nl/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/nl/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/pl/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/pl/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/pt-BR/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/pt-BR/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ro/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ro/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ru/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/ru/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/sv/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/sv/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/th/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/th/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/tr/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/tr/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/zh-TW/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/zh-TW/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/zh/general.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/lang/vendor/log-viewer/zh/levels.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/auth/login.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/auth/passwords/email.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/auth/passwords/reset.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/auth/register.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/activities.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/farm.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/space.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/spaces/farmland.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/spaces/space_not_in_use.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/storage.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/common/tasks.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/home.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/player/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/player/show.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/_partials/menu.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/_template/footer.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/_template/master.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/_template/navigation.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/_template/style.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-3/_master.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-3/dashboard.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-3/logs.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-3/show.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-4/_master.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-4/dashboard.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-4/logs.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/bootstrap-4/show.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/dashboard.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/logs.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/resources/views/vendor/log-viewer/show.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/storage/debugbar/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Feature/Buildings/HovelTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/FieldTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/Service/BuildingService/FarmlandServiceTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/UrlGeneratorTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/WolniFarmerzyConnectorTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/getHovelInitData.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/getHovelInitData2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_cropgarden.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_gardenInit.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_garden_plant-few.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_garden_plant-one.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_garden_water-many.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_garden_water.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/Unit/jsonData/raw/farm_getFarm.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/tests/requests_urls.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile/nginx.Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile/php.Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile/vhost.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/BunchesCollection.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Connector/BaseConnector.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GameProcess.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Facades/ActivitiesService.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FarmlandsController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PlayersController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SpacesController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TasksController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Activity.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/BaseModel.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repository/FarmRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repository/FarmlandRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repository/FieldRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repository/PlayerRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repository/SpaceRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repository/TaskRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Service/ActivitiesService.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Service/BuildingsService/FarmlandService.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/SingleBunchOfFields.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/SlackClient.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Space.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/SpaceMapper.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Task.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Tasks/AbstractTask.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Tasks/CollectPlants.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/application/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/application/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/application/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/log-viewer.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/logging.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/notification.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_05_22_000000_create_users_table_2.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_05_22_100000_create_password_resets_table_2.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_05_23_131155_add_user_column_to_player_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_05_27_205525_add_farm_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_06_05_210617_create_jobs_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_06_06_145718_space_table_add_remain_columnt.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_06_26_174353_create_tasks_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_06_27_135847_task_table_add_status_column.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_07_01_144628_fields_table_add_water_column.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_07_02_090713_create_activities_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2018_07_20_165018_task_table_add_nextrun_column.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ar/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ar/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/bg/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/bg/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/de/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/de/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/en/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/en/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/es/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/es/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/et/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/et/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/fa/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/fa/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/fr/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/fr/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/hu/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/hu/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/hy/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/hy/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/id/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/id/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/it/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/it/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ja/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ja/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ko/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ko/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/nl/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/nl/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/pl/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/pl/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/pt-BR/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/pt-BR/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ro/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ro/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ru/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/ru/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/sv/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/sv/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/th/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/th/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/tr/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/tr/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/zh-TW/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/zh-TW/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/zh/general.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/vendor/log-viewer/zh/levels.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/activities.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/farm.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/space.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/spaces/farmland.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/spaces/space_not_in_use.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/storage.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/common/tasks.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/player/create.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/player/show.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/_partials/menu.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/_template/footer.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/_template/master.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/_template/navigation.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/_template/style.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-3/_master.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-3/dashboard.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-3/logs.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-3/show.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-4/_master.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-4/dashboard.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-4/logs.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/bootstrap-4/show.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/dashboard.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/logs.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/log-viewer/show.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/debugbar/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/Buildings/HovelTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/FieldTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/Service/BuildingService/FarmlandServiceTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/UrlGeneratorTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/WolniFarmerzyConnectorTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/getHovelInitData.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/getHovelInitData2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_cropgarden.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_gardenInit.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_garden_plant-few.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_garden_plant-one.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_garden_water-many.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_garden_water.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/jsonData/raw/farm_getFarm.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/requests_urls.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -159,62 +155,48 @@
       <executable />
     </execution>
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="docker: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/application/package.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/application/composer.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/application/.env">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="22" selection-start-line="2" selection-end-line="3" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/application/.env.example">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" selection-start-line="3" selection-end-line="3" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
-                  <caret line="22" column="40" lean-forward="true" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/app/Http/Kernel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -334,6 +316,44 @@
               <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="wolnybot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wolnybot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wolnybot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wolnybot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wolnybot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wolnybot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wolnybot" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -349,6 +369,8 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/application" />
+      <recent name="$PROJECT_DIR$/application/database" />
+      <recent name="$PROJECT_DIR$/application/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/application" />
@@ -376,7 +398,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565687596769</updated>
-      <workItem from="1565687600040" duration="2402000" />
+      <workItem from="1565687600040" duration="2925000" />
     </task>
     <task id="LOCAL-00001" summary="after merge">
       <created>1565687889074</created>
@@ -385,15 +407,21 @@
       <option name="project" value="LOCAL" />
       <updated>1565687889074</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix all and cleanup">
+      <created>1565698626053</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1565698626053</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2402000" />
+    <option name="totallyTimeSpent" value="2925000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="2493" height="1415" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2496935" />
@@ -411,7 +439,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Database" visible="true" weight="0.32979158" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -424,34 +452,14 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="after merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="after merge" />
+    <MESSAGE value="fix all and cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix all and cleanup" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/application/app/Console/Commands/GameProcess.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="26" column="61" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="40" lean-forward="true" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -464,8 +472,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/.env.example">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="345">
+          <caret line="23" column="19" lean-forward="true" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="12" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="30" lean-forward="true" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/database/migrations/2018_05_27_205525_add_farm_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="17" column="39" lean-forward="true" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/resources/views/auth/passwords/email.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
         </state>
       </provider>
     </entry>

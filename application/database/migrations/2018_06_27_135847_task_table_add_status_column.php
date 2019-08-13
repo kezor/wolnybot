@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class TaskTableAddStatusColumn extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('tasks', function($table) {
+            $table->integer('status');
+            $table->integer('space_id');
+            $table->string('job_name');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('tasks', function($table) {
+            $table->dropColumn('status');
+            $table->dropColumn('job_name');
+            $table->dropColumn('space_id');
+        });
+    }
+}
